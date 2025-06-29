@@ -15,6 +15,14 @@ CREATE TABLE Manager (
     FOREIGN KEY (ManagerID) REFERENCES Employee(EmployeeID)
 );
 
+CREATE TABLE Itinerary (
+    ItineraryID INT PRIMARY KEY,
+    RouteDestination VARCHAR(255),
+    RouteStart VARCHAR(255),
+    RouteDistance DECIMAL(10,2),
+    Price DECIMAL(10,2)
+);
+
 CREATE TABLE Customer (
     CustomerID INT PRIMARY KEY,
     ItineraryID INT,
@@ -44,14 +52,6 @@ CREATE TABLE Van (
     PassengerCapacity INT,
     FOREIGN KEY (DriverID) REFERENCES Driver(DriverID),
     FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
-);
-
-CREATE TABLE Itinerary (
-    ItineraryID INT PRIMARY KEY,
-    RouteDestination VARCHAR(255),
-    RouteStart VARCHAR(255),
-    RouteDistance DECIMAL(10,2),
-    Price DECIMAL(10,2)
 );
 
 CREATE TABLE Payment (

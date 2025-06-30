@@ -1,7 +1,9 @@
 CREATE TABLE Person (
-    PersonID INT PRIMARY KEY,
+    PersonID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     Name VARCHAR(100),
-    ContactDetails VARCHAR(255)
+    Password VARCHAR(256),
+    Email VARCHAR(100),
+    ContactNumber VARCHAR(12)
 );
 
 CREATE TABLE Employee (
@@ -16,7 +18,7 @@ CREATE TABLE Manager (
 );
 
 CREATE TABLE Itinerary (
-    ItineraryID INT PRIMARY KEY,
+    ItineraryID INT PRIMARY KEY AUTO_INCREMENT,
     RouteDestination VARCHAR(255),
     RouteStart VARCHAR(255),
     RouteDistance DECIMAL(10,2),
@@ -55,14 +57,14 @@ CREATE TABLE Van (
 );
 
 CREATE TABLE Payment (
-    PaymentID INT PRIMARY KEY,
+    PaymentID INT PRIMARY KEY AUTO_INCREMENT,
     PaymentMethod VARCHAR(50),
     DownPayment DECIMAL(10,2),
     PaymentStatus VARCHAR(50)
 );
 
 CREATE TABLE OrderDetails (
-    OrderID INT PRIMARY KEY,
+    OrderID INT PRIMARY KEY AUTO_INCREMENT,
     DriverID INT,
     CustomerID INT,
     ItineraryID INT,

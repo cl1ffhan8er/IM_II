@@ -2,7 +2,7 @@
     return [
         'host' => 'localhost',
         // change these based sa inyo pagconfig locally
-        'user' => 'user',
-        'password' => 'password',
-        'database' => 'businessdb'
+        'user' => 'root',          // 👈 change if needed
+        'password' => '',
+        'database' => ' businessdb'
     ];

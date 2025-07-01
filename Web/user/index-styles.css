@@ -1,0 +1,26 @@
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav {
+    float: left;
+    margin-right: 30px;
+}
+
+.packages {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.package-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.package-card:hover {
+    border: 5px solid #000;
+}

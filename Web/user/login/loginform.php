@@ -1,6 +1,7 @@
 <?php
 
 include '../../include/connect.php';
+session_start();
 
 // handling for registration form
 if (isset($_POST['register'])) {
@@ -39,7 +40,7 @@ if (isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = md5($_POST['password']); // hashing the password
 
-    $sql = "SELECT * FROM Person WHERE Name = '$username' AND Password = '$password'";
+    $sql = "SELECT * FROM person WHERE Name = '$username' AND Password = '$password'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {

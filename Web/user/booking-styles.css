@@ -1,0 +1,22 @@
+
+.location {
+    border: 1px solid black;
+    display: flex;
+    max-width: 500px;
+    margin: 5px;
+    padding: 5px;
+}
+
+.location-selector, .selected-locations {
+    width: 40%;
+    max-height: 200px; 
+    overflow-y: auto;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.locations {
+    display: flex;
+    gap: 20px;
+}

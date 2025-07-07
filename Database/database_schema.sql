@@ -93,6 +93,8 @@ CREATE TABLE Order_Details (
     date_of_travel DATE,
     time_for_pickup TIME,
     time_for_dropoff TIME,
+    status ENUM('ACCEPTED', 'REJECTED', 'IN MODIFICATION','PENDING') DEFAULT 'PENDING',
+    date_of_transaction DATE DEFAULT CURRENT_DATE,
     FOREIGN KEY (driver_ID) REFERENCES Driver(driver_ID),
     FOREIGN KEY (customer_ID) REFERENCES Customer(customer_ID),
     FOREIGN KEY (itinerary_ID) REFERENCES Itinerary(itinerary_ID),

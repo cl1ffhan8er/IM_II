@@ -1,0 +1,15 @@
+.nav {
+    list-style: none;    
+    margin: 0;
+    padding: 0;
+    display: flex;           
+    gap: 20px;              
+    padding: 10px 20px;
+}
+
+.nav a {
+    text-decoration: none;  
+    color: #333;             
+    font-weight: bold;
+    transition: color 0.2s ease;
+}

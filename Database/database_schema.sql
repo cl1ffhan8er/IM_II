@@ -1,4 +1,4 @@
-CREATE TABLE Person (
+CCREATE TABLE Person (
     person_ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     name VARCHAR(255),
     password VARCHAR(255),
@@ -11,16 +11,9 @@ CREATE TABLE Employee (
     FOREIGN KEY (employee_ID) REFERENCES Person(person_ID)
 );
 
-CREATE TABLE Manager (
-    manager_ID INT PRIMARY KEY, 
-    FOREIGN KEY (manager_ID) REFERENCES Employee(employee_ID)
-);
-
-CREATE TABLE Driver (
-    driver_ID INT PRIMARY KEY,
-    plate_number VARCHAR(20),
-    Availability BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (driver_ID) REFERENCES Employee(employee_ID)
+CREATE TABLE Itinerary (
+    itinerary_ID INT PRIMARY KEY AUTO_INCREMENT,
+    price DECIMAL(10,2)
 );
 
 CREATE TABLE Locations (
@@ -30,19 +23,19 @@ CREATE TABLE Locations (
     is_custom_made BOOLEAN DEFAULT FALSE
 );
 
-CREATE TABLE Itinerary (
-    itinerary_ID INT PRIMARY KEY AUTO_INCREMENT,
-    price DECIMAL(10,2)
-);
-
 CREATE TABLE Itinerary_Stops (
     stop_ID INT PRIMARY KEY AUTO_INCREMENT,
     itinerary_ID INT,
+    stop_order INT,
     location_ID INT,
     FOREIGN KEY (itinerary_ID) REFERENCES Itinerary(itinerary_ID),
     FOREIGN KEY (location_ID) REFERENCES Locations(location_ID)
 );
 
+CREATE TABLE Manager (
+    manager_ID INT PRIMARY KEY, 
+    FOREIGN KEY (manager_ID) REFERENCES Employee(employee_ID)
+);
 
 CREATE TABLE Payment (
     payment_ID INT PRIMARY KEY AUTO_INCREMENT,
@@ -55,16 +48,22 @@ CREATE TABLE Customer (
     customer_ID INT PRIMARY KEY,
     itinerary_ID INT,
     payment_ID INT,
-    customer_name VARCHAR(255),
     passenger_count INT CHECK (passenger_count BETWEEN 1 AND 10),
-    pickup_date DATE,
+    date_of_arrival DATE,
     number_of_luggage INT,
-    pickup_location VARCHAR(255),
+    pick_up_location VARCHAR(255),
     pickup_time TIME,
-    ID_picture BLOB,
+    ID_Picture BLOB,
     FOREIGN KEY (customer_ID) REFERENCES Person(person_ID),
     FOREIGN KEY (itinerary_ID) REFERENCES Itinerary(itinerary_ID),
     FOREIGN KEY (payment_ID) REFERENCES Payment(payment_ID)
+);
+
+CREATE TABLE Driver (
+    driver_ID INT PRIMARY KEY,
+    plate_number VARCHAR(20),
+    Availability BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (driver_ID) REFERENCES Employee(employee_ID)
 );
 
 CREATE TABLE Van (
@@ -74,6 +73,14 @@ CREATE TABLE Van (
     passenger_capacity INT,
     FOREIGN KEY (driver_ID) REFERENCES Driver(driver_ID),
     FOREIGN KEY (customer_ID) REFERENCES Customer(customer_ID)
+);
+
+CREATE TABLE Package (
+    package_id int PRIMARY KEY AUTO_INCREMENT,
+    itinerary_ID int,
+    price DECIMAL(10,2),
+    description VARCHAR(255),
+    FOREIGN KEY (itinerary_ID) REFERENCES Itinerary(itinerary_ID)
 );
 
 CREATE TABLE Order_Details (
@@ -91,3 +98,4 @@ CREATE TABLE Order_Details (
     FOREIGN KEY (itinerary_ID) REFERENCES Itinerary(itinerary_ID),
     FOREIGN KEY (payment_ID) REFERENCES Payment(payment_ID)
 );
+

@@ -2,9 +2,7 @@
     return [
         'host' => 'localhost',
         // change these based sa inyo pagconfig locally
-        /*'user' => 's24100314_businessdb',         
-        'password' => 'iloysicliff',*/
-        'user' => 'root',         
-        'password' => '',
-        'database' => 's24100314_businessdb'
+        'user' => 'mikleo',         
+        'password' => 'gwapoko12345',
+        'database' => 'itinerary_system'
     ];

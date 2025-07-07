@@ -9,5 +9,7 @@
 <body>
     <h1>ADMIN DASHBOARD</h1>
     <a href = "../user/login/logout.php">Log Out</a>
+
+    <a href = "emails/emailtest.php">Send Email Test</a>
 </body>
 </html>

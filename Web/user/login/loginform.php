@@ -11,13 +11,13 @@ if (isset($_POST['register'])) {
     $contact = $_POST['contact'];
     $password = md5($password); // hashing the password
 
-    $emailExists = "SELECT * FROM person WHERE Email = '$email'";
+    $emailExists = "SELECT * FROM Person WHERE email = '$email'";
     $result = $conn->query($emailExists);
     if ($result->num_rows > 0) {
         echo "Email already exists.";
         exit();
     }
-    $userExists = "SELECT * FROM person WHERE Name = '$username'";
+    $userExists = "SELECT * FROM Person WHERE name = '$username'";
     $result = $conn->query($userExists);
     if ($result->num_rows > 0) {
         echo "Username already exists.";
@@ -25,7 +25,7 @@ if (isset($_POST['register'])) {
     }
 
     else {
-        $insertUser = "INSERT INTO person (Name, Password, Email, ContactNumber) 
+        $insertUser = "INSERT INTO Person (name, password, email, contact_number) 
         VALUES ('$username', '$password', '$email', '$contact')";
         if ($conn->query($insertUser) === TRUE) {
             header("Location: login.php");
@@ -40,20 +40,20 @@ if (isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = md5($_POST['password']); // hashing the password
 
-    $sql = "SELECT * FROM person WHERE Name = '$username' AND Password = '$password'";
+    $sql = "SELECT * FROM Person WHERE name = '$username' AND password = '$password'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
         $person = $result->fetch_assoc();
         $_SESSION['username'] = $username;
-        $_SESSION['personID'] = $person['PersonID'];
+        $_SESSION['person_ID'] = $person['person_ID'];
 
-        $personID = $person['PersonID'];
+        $personID = $person['person_ID'];
 
-        $isEmployee = "SELECT EmployeeID FROM employee WHERE EmployeeID = '$personID'";
+        $isEmployee = "SELECT employee_ID FROM Employee WHERE employee_ID = '$personID'";
         $employeeResult = $conn->query($isEmployee);
         if ($employeeResult->num_rows > 0) { // user is an employee
-            $isManager = "SELECT * FROM manager WHERE ManagerID = '$personID'";
+            $isManager = "SELECT * FROM Manager WHERE manager_ID = '$personID'";
             $managerResult = $conn->query($isManager);
             if ($managerResult->num_rows > 0) { // user is a manager
                 header("Location: ../../admin/manager_dashboard.php");
@@ -64,6 +64,7 @@ if (isset($_POST['login'])) {
             }
         } else { //client
            header("Location: ../index.php");
+           exit();
         }
     } else {
         echo "Invalid username or password.";

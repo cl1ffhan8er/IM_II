@@ -1,0 +1,39 @@
+
+.location {
+    border: 1px solid black;
+    display: flex;
+    max-width: 500px;
+    margin: 5px;
+    padding: 5px;
+    overflow: hidden;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav {
+    float: left;
+    margin-right: 30px;
+}
+
+.location-selector, .selected-locations {
+    width: 40%;
+    max-height: 300px; 
+    overflow-y: auto;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.locations {
+    display: flex;
+    gap: 20px;
+}
+
+.bookingp2 {
+    display: flex;
+    float: left;
+}

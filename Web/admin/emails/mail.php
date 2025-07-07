@@ -23,8 +23,7 @@ if (isset($_POST["send"])) {
 
         // Recipients
         $mail->setFrom('alissamay071006@gmail.com', 'SRVan Travels'); 
-        $mail->addAddress('alissamay071006@gmail.com');
-        $mail->addReplyTo($_POST["email"], $_POST["name"]);
+        $mail->addAddress($_POST["email"], $_POST["name"]);
 
         // --- TEMPLATE LOGIC ---
         $template_choice = $_POST['template'];

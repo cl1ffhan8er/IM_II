@@ -37,13 +37,6 @@
                     <option value="itinerary_approval">Itinerary Approval</option>
                 </select>
     </fieldset>
-
-      <fieldset>
-        <input placeholder="Type your subject line" type="text" name="subject" tabindex="4">
-      </fieldset>
-      <fieldset>
-        <textarea name="message" placeholder="Type your Message Details Here..." tabindex="5"></textarea>
-      </fieldset>
       <fieldset>
         <button type="submit" name="send" id="contact-submit">Submit Now</button>
       </fieldset>

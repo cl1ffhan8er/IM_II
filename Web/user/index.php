@@ -1,8 +1,7 @@
-
 <?php
     session_start();
     include '../include/connect.php';
-    $isLoggedIn = isset($_SESSION['personID']);
+    $isLoggedIn = isset($_SESSION['person_ID']);
 
     /* uncomment after package db is added
     $sql = "SELECT * FROM package ORDER BY RAND() LIMIT 4";
@@ -78,7 +77,7 @@
         <div>
             <h2>Want to be flexible? Book a custom 1D1N Itinerary With Us!</h2>
             <?php if ($isLoggedIn): ?>
-                <a href="custom-booking.php" class = "nav"><button>Book Now</button></a>
+                <a href="itinerary-booking/custom-booking.php" class = "nav"><button>Book Now</button></a>
             <?php else: ?>
                 <a href="login/login.php" class = "nav"><button>Book Now</button></a>
             <?php endif; ?>

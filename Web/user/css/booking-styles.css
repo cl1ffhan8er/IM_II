@@ -21,7 +21,7 @@ ul {
 
 .location-selector, .selected-locations {
     width: 40%;
-    max-height: 700px; 
+    max-height: 300px; 
     overflow-y: auto;
     background: #f9f9f9;
     border: 1px solid #ccc;

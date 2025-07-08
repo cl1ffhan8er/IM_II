@@ -24,7 +24,10 @@ CREATE TABLE Itinerary (
 
 CREATE TABLE Package_Itinerary (
     package_id int PRIMARY KEY AUTO_INCREMENT,
+    package_name VARCHAR(255),
     is_made_by_manager int,
+    is_available BOOLEAN DEFAULT TRUE,
+    package_picture VARCHAR(255),
     description VARCHAR(255),
     FOREIGN KEY (package_id) REFERENCES Itinerary(itinerary_ID),
     FOREIGN KEY (is_made_by_manager) REFERENCES Manager(manager_ID)

@@ -12,6 +12,18 @@ if (isset($_GET['order_ID'])) {
     $stmt->execute();
     $orderDetails = $stmt->get_result()->fetch_assoc();
 }
+
+// Get today’s date
+$today = date("Y-m-d");
+
+// Count pending bookings
+$pendingCountResult = $conn->query("SELECT COUNT(*) AS count FROM order_details WHERE status = 'pending'");
+$pendingCount = $pendingCountResult->fetch_assoc()['count'] ?? 0;
+
+// Count available drivers
+$driverCountResult = $conn->query("SELECT COUNT(*) AS count FROM driver WHERE availability = TRUE");
+$driverCount = $driverCountResult->fetch_assoc()['count'] ?? 0;
+
 ?>
 
 <!DOCTYPE html>
@@ -23,32 +35,61 @@ if (isset($_GET['order_ID'])) {
     <title>Manager Home</title>
 </head>
 <body>
-    <h1>Manager Dashboard — Pending Submissions</h1>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="nav-top">
+            <h3>Admin Menu</h3>
+            <a href="home.php">🏠 Bookings</a>
+            <a href="add_package.php">📦 Plans</a>
+        </div>
 
-    <nav class="nav">
-        <a href="home.php">Home</a> | 
-        <a href="add_package.php">Add Packages</a> | 
-        <a href="../../user/login/logout.php">Log Out</a>
-    </nav>
+        <div class="nav-bottom">
+            <a href="../../user/login/logout.php">🚪 Log Out</a>
+        </div>
+    </div>
 
-    <hr>
 
-    <h2>Pending Requests</h2>
-    <table>
-        <tr>
-            <th>Order ID</th>
-            <th>Date of Transaction</th>
-            <th>Pending</th>
-            <th>View</th>
-        </tr>
-        <?php while ($row = $orders->fetch_assoc()): ?>
-        <tr>
-            <td><?= $row['order_ID'] ?></td>
-            <td><?= $row['date_of_transaction'] ?></td>
-            <td><?= $row['status'] ?? '—' ?></td>
-            <td><a href="view_order.php?order_ID=<?= $row['order_ID'] ?>">Process Order</a></td>
-        </tr>
-        <?php endwhile; ?>
-    </table>
+    <!-- Main content area -->
+    <div class="content">
+        <h1>Manager Dashboard — Pending Submissions</h1>
+
+        <h2>Pending Requests</h2>
+        <div class="summary">
+            <div class="date">
+                <p>Date Today</p>
+                <?= $today ?>
+            </div>
+            <div class="pending">
+                <p>Pending Bookings</p>
+                <?= $pendingCount ?>
+            </div>
+            <div class="drivers">
+                <p>Drivers Available</p>
+                <?= $driverCount ?>
+            </div>
+        </div>
+        <table>
+            <tr>
+                <th>Order ID</th>
+                <th>Date of Transaction</th>
+                <th>Status</th>
+                <th>View</th>
+            </tr>
+            <?php while ($row = $orders->fetch_assoc()): ?>
+            <tr>
+                <td><?= $row['order_ID'] ?></td>
+                <td><?= $row['date_of_transaction'] ?></td>
+                <td>
+                    <?php
+                        if ($row['status'] === 'returned') echo "📨 Returned";
+                        elseif ($row['status'] === 'inquiry') echo "❓ Inquiry";
+                        else echo ""; 
+                    ?>
+                </td>
+                <td><a href="view_order.php?order_ID=<?= $row['order_ID'] ?>">👁️</a></td>
+            </tr>
+            <?php endwhile; ?>
+        </table>
+    </div>
 </body>
 </html>

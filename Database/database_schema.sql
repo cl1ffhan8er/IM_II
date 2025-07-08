@@ -1,4 +1,4 @@
-CCREATE TABLE Person (
+CREATE TABLE Person (
     person_ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     name VARCHAR(255),
     password VARCHAR(255),
@@ -11,9 +11,30 @@ CREATE TABLE Employee (
     FOREIGN KEY (employee_ID) REFERENCES Person(person_ID)
 );
 
+CREATE TABLE Manager (
+    manager_ID INT PRIMARY KEY, 
+    FOREIGN KEY (manager_ID) REFERENCES Employee(employee_ID)
+); 
+
 CREATE TABLE Itinerary (
     itinerary_ID INT PRIMARY KEY AUTO_INCREMENT,
-    price DECIMAL(10,2)
+    price DECIMAL(10,2),
+    type ENUM('PACKAGE', 'CUSTOM') NOT NULL
+);
+
+CREATE TABLE Package_Itinerary (
+    package_id int PRIMARY KEY AUTO_INCREMENT,
+    is_made_by_manager int,
+    description VARCHAR(255),
+    FOREIGN KEY (package_id) REFERENCES Itinerary(itinerary_ID),
+    FOREIGN KEY (is_made_by_manager) REFERENCES Manager(manager_ID)
+);
+
+CREATE TABLE Custom_Itinerary (
+    custom_ID INT PRIMARY KEY AUTO_INCREMENT,
+    is_made_by_customer INT,
+    FOREIGN KEY (custom_id) REFERENCES Itinerary(itinerary_ID),
+    FOREIGN KEY (is_made_by_customer) REFERENCES Manager(manager_ID)
 );
 
 CREATE TABLE Locations (
@@ -25,16 +46,11 @@ CREATE TABLE Locations (
 
 CREATE TABLE Itinerary_Stops (
     stop_ID INT PRIMARY KEY AUTO_INCREMENT,
-    itinerary_ID INT,
+    custom_id INT,
     stop_order INT,
     location_ID INT,
-    FOREIGN KEY (itinerary_ID) REFERENCES Itinerary(itinerary_ID),
+    FOREIGN KEY (custom_id) REFERENCES Itinerary(itinerary_ID),
     FOREIGN KEY (location_ID) REFERENCES Locations(location_ID)
-);
-
-CREATE TABLE Manager (
-    manager_ID INT PRIMARY KEY, 
-    FOREIGN KEY (manager_ID) REFERENCES Employee(employee_ID)
 );
 
 CREATE TABLE Payment (
@@ -73,14 +89,6 @@ CREATE TABLE Van (
     passenger_capacity INT,
     FOREIGN KEY (driver_ID) REFERENCES Driver(driver_ID),
     FOREIGN KEY (customer_ID) REFERENCES Customer(customer_ID)
-);
-
-CREATE TABLE Package (
-    package_id int PRIMARY KEY AUTO_INCREMENT,
-    itinerary_ID int,
-    price DECIMAL(10,2),
-    description VARCHAR(255),
-    FOREIGN KEY (itinerary_ID) REFERENCES Itinerary(itinerary_ID)
 );
 
 CREATE TABLE Order_Details (

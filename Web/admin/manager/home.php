@@ -46,19 +46,9 @@ if (isset($_GET['order_ID'])) {
             <td><?= $row['order_ID'] ?></td>
             <td><?= $row['date_of_transaction'] ?></td>
             <td><?= $row['status'] ?? '—' ?></td>
-            <td><a href="home.php?order_ID=<?= $row['order_ID'] ?>">👁️</a></td>
+            <td><a href="view_order.php?order_ID=<?= $row['order_ID'] ?>">Process Order</a></td>
         </tr>
         <?php endwhile; ?>
     </table>
-
-    <?php if ($orderDetails): ?>
-        <hr>
-        <h2>Details for Order #<?= $orderDetails['order_ID'] ?></h2>
-        <p><strong>Customer Name:</strong> <?= $orderDetails['customer_name'] ?? 'N/A' ?></p>
-        <p><strong>Package ID:</strong> <?= $orderDetails['package_ID'] ?? 'N/A' ?></p>
-        <p><strong>Status:</strong> <?= $orderDetails['status'] ?></p>
-        <p><strong>Acceptance:</strong> <?= $orderDetails['acceptance'] ?? 'Pending' ?></p>
-        <p><strong>Submitted On:</strong> <?= $orderDetails['submission_date'] ?? '—' ?></p>
-    <?php endif; ?>
 </body>
 </html>

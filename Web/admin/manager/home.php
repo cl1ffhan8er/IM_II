@@ -2,7 +2,12 @@
 require_once '../../include/connect.php';
 
 // Get all pending requests
-$orders = $conn->query("SELECT order_ID, date_of_transaction, status FROM order_details WHERE status = 'pending'");
+$orders = $conn->query("
+    SELECT od.order_ID, od.date_of_transaction, od.status, i.type 
+    FROM order_details od
+    JOIN Itinerary i ON od.itinerary_ID = i.itinerary_ID
+    WHERE od.status = 'pending' or od.status = 'IN MODIFICATION'
+");
 
 // If a specific order is clicked
 $orderDetails = null;
@@ -72,6 +77,7 @@ $driverCount = $driverCountResult->fetch_assoc()['count'] ?? 0;
             <tr>
                 <th>Order ID</th>
                 <th>Date of Transaction</th>
+                <th>Type</th>
                 <th>Status</th>
                 <th>View</th>
             </tr>
@@ -79,11 +85,12 @@ $driverCount = $driverCountResult->fetch_assoc()['count'] ?? 0;
             <tr>
                 <td><?= $row['order_ID'] ?></td>
                 <td><?= $row['date_of_transaction'] ?></td>
+                <td><?= $row['type'] ?></td>
                 <td>
                     <?php
                         if ($row['status'] === 'returned') echo "📨 Returned";
                         elseif ($row['status'] === 'inquiry') echo "❓ Inquiry";
-                        else echo ""; 
+                        else echo "🕓 Pending";
                     ?>
                 </td>
                 <td><a href="view_order.php?order_ID=<?= $row['order_ID'] ?>">👁️</a></td>

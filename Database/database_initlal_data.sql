@@ -26,3 +26,45 @@ INSERT INTO Locations (location_name, location_address) VALUES
 ('Sirao Flower Farm', 'Cebu City, Cebu'),
 ('Tops Lookout', 'Cebu City, Cebu'),
 ('Lapu-Lapu Shrine', 'Lapu-Lapu City, Cebu');
+
+-- 1. Insert a Person (basic user info)
+INSERT INTO Person (name, password, email, contact_number)
+VALUES ('Juan Dela Cruz', 'securepass123', '24101922@usc.edu.ph', '09171234567');
+
+-- 2. Insert a Payment (you can add more details if needed)
+INSERT INTO Payment (payment_method, down_payment, payment_status)
+VALUES ('GCash', 500.00, TRUE);
+
+-- 3. Insert an Itinerary
+INSERT INTO Itinerary (price, type)
+VALUES (1500.00, 'PACKAGE');
+
+-- 4. Insert a Customer using the person_ID and payment_ID
+-- Assume person_ID = 1 and payment_ID = 1 from above inserts
+INSERT INTO Customer (
+    customer_ID, itinerary_ID, payment_ID, passenger_count, date_of_arrival,
+    number_of_luggage, pick_up_location, pickup_time, ID_Picture
+)
+VALUES (
+    1, 1, 1, 3, '2025-08-01', 2, '123 Main St, Manila', '10:00:00', NULL
+);
+
+-- 5. Insert a Driver
+INSERT INTO Person (name, password, email, contact_number)
+VALUES ('Pedro Driver', 'driverpass', 'driver@example.com', '09998887777');
+
+INSERT INTO Employee (employee_ID)
+VALUES (2);
+
+INSERT INTO Driver (driver_ID, plate_number, availability)
+VALUES (2, 'ABC1234', TRUE);
+
+-- 6. Insert an Order_Details entry
+INSERT INTO Order_Details (
+    driver_ID, customer_ID, itinerary_ID, payment_ID, number_of_PAX,
+    date_of_travel, time_for_pickup, time_for_dropoff, status
+)
+VALUES (
+    2, 1, 1, 1, 3,
+    '2025-08-01', '10:00:00', '12:30:00', 'PENDING'
+);

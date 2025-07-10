@@ -52,14 +52,10 @@
                 <button type="button" onclick="history.back()">Back</button>
             </form>
         </div>
-        <div class = "selected-locations">
-            <p>CHOSEN PIT STOPS</p>
-            <div id="selected-locations-part2"></div>
-        </div>
     </div>
 
-    <script>
-        const selectedLocations = <?php echo json_encode($booking_itinerary); ?>;
+    <!-- <script>
+        const selectedLocations = <?//php echo json_encode($booking_itinerary); ?>;
 
         function updateDisplay() {
             const container = document.getElementById("selected-locations-part2");
@@ -80,6 +76,6 @@
             });
         }
         document.addEventListener('DOMContentLoaded', updateDisplay);
-    </script>
+    </script> !-->
 </body>
 </html>

@@ -56,10 +56,10 @@ if (isset($_POST['login'])) {
             $isManager = "SELECT * FROM Manager WHERE manager_ID = '$personID'";
             $managerResult = $conn->query($isManager);
             if ($managerResult->num_rows > 0) { // user is a manager
-                header("Location: ../../admin/manager_dashboard.php");
+                header("Location: ../../admin/manager/home.php");
                 exit();
             } else {
-                header("Location: ../../admin/driver_dashboard.php");
+                header("Location: ../../admin/driverdriver_dashboard.php");
                 exit();
             }
         } else { //client

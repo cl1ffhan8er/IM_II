@@ -10,7 +10,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($_POST['selected-l'])) {
         $selectedLocationsJSON = $_POST['selected-l']; 
-        $decodedLocations = json_decode($selectedLocationsJSON);
+
+        $decodedLocations = json_decode($selectedLocationsJSON, true); 
 
         if (json_last_error() === JSON_ERROR_NONE) {
             $_SESSION['booking_itinerary'] = $decodedLocations;

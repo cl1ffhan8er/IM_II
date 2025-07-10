@@ -1,4 +1,4 @@
-/includes/Web/include/config.php
+Web/include/config.php
 
 .env
 *.log

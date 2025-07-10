@@ -1,8 +1,10 @@
 <?php
     return [
         'host' => 'localhost',
-        // change these based sa inyo pagconfig locally
-        'user' => 'mikleo',         
-        'password' => 'gwapoko12345',
-        'database' => 'itinerary_system'
+        /*'user' => 's24100314_businessdb',         
+        'password' => 'iloysicliff',*/
+
+        'user' => 'root',
+        'password' => '',
+        'database' => 's24100314_businessdb'
     ];

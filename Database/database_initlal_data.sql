@@ -68,3 +68,21 @@ VALUES (
     2, 1, 1, 1, 3,
     '2025-08-01', '10:00:00', '12:30:00', 'PENDING'
 );
+
+-- 1. Insert a Person
+INSERT INTO Person (name, password, email, contact_number)
+VALUES ('Manager One', 'pass123', 'manager1@example.com', '09171234567');
+
+-- 2. Make that Person an Employee
+INSERT INTO Employee (employee_ID)
+SELECT person_ID FROM Person WHERE email = 'manager1@example.com';
+
+-- 3. Make that Employee a Manager
+INSERT INTO Manager (manager_ID)
+SELECT employee_ID FROM Employee WHERE employee_ID = (
+    SELECT person_ID FROM Person WHERE email = 'manager1@example.com'
+);
+
+-- 4. Insert corresponding Itinerary rows (type = 'PACKAGE')
+INSERT INTO Itinerary (price, type) VALUES (4999.99, 'PACKAGE');
+INSERT INTO Itinerary (price, type) VALUES (7499.00, 'PACKAGE');

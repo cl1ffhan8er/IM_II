@@ -26,7 +26,7 @@ CREATE TABLE Package_Itinerary (
     package_id int PRIMARY KEY AUTO_INCREMENT,
     package_name VARCHAR(255),
     inclusions VARCHAR(255),
-    passenger_count int,
+    passenger_count INT,
     description VARCHAR(255),
     is_made_by_manager int,
     is_available BOOLEAN DEFAULT FALSE,

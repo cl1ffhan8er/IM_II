@@ -29,7 +29,7 @@ if (isset($_POST['register'])) {
         VALUES ('$username', '$password', '$email', '$contact')";
         if ($conn->query($insertUser) === TRUE) {
             header("Location: login.php");
-            echo "Registration successful!";
+            exit();
         } else {
             echo "Error: " . $conn->error;
         }
@@ -56,10 +56,11 @@ if (isset($_POST['login'])) {
             $isManager = "SELECT * FROM Manager WHERE manager_ID = '$personID'";
             $managerResult = $conn->query($isManager);
             if ($managerResult->num_rows > 0) { // user is a manager
-                header("Location: ../../admin/manager_dashboard.php");
+                header("Location: ../../admin/manager/manager_dashboard.php");
                 exit();
             } else {
-                header("Location: ../../admin/driver_dashboard.php");
+                $_SESSION['driver_ID'] = $personID;
+                header("Location: ../../admin/driver/driver_dashboard.php");
                 exit();
             }
         } else { //client

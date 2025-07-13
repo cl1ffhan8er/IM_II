@@ -3,89 +3,116 @@
     include '../include/connect.php';
     $isLoggedIn = isset($_SESSION['person_ID']);
 
-    if ($isLoggedIn):
+    if ($isLoggedIn) {
         $username = $_SESSION['username'];
-    endif;
+    }
 
     $sql = "SELECT
-            pi.package_id,
-            pi.package_name,
-            pi.description,
-            pi.package_picture,
-            i.price
-        FROM
-            Package_Itinerary pi
-        INNER JOIN
-            Itinerary i ON pi.package_id = i.itinerary_ID
-        WHERE
-            i.type = 'PACKAGE' AND pi.is_available = TRUE
-        ORDER BY
-            i.price
-        LIMIT 4";
+                pi.package_id,
+                pi.package_name,
+                pi.description,
+                pi.package_picture,
+                i.price
+            FROM
+                Package_Itinerary pi
+            INNER JOIN
+                Itinerary i ON pi.package_id = i.itinerary_ID
+            WHERE
+                i.type = 'PACKAGE' AND pi.is_available = TRUE
+            ORDER BY
+                i.price
+            LIMIT 4";
 
-        $result = $conn->query($sql);
+    $result = $conn->query($sql);
 
-        $packages = [];
-        if ($result) {
-            while ($package = $result->fetch_assoc()) {
-                $packages[] = $package;
-            }
+    $packages = [];
+    if ($result) {
+        while ($package = $result->fetch_assoc()) {
+            $packages[] = $package;
         }
-        $conn->close();
+    }
 
+    $conn->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel = "stylesheet" href="css/index-styles.css">
-        <title>SR Van Travels</title>
-    </head>
-    <body>
-        <h1>HOMEPAGE</h1>
-        <ul>
-            <li class = "nav">Home</li>
-            <?php if ($isLoggedIn): ?>
-                <a href="packages.php" class = "nav"><button>Book a Package</button></a>
-            <?php else: ?>
-                <a href="login/login.php" class = "nav"><button>Book a Package</button></a>
-            <?php endif; ?>
-            <li class = "nav">Help</li>
-            <li class = "nav">About Us</li>
-            <?php if ($isLoggedIn): ?>
-                <a href="login/logout.php" class = "nav">Log Out</a>
-            <?php else: ?>
-                <a href="login/login.php" class = "nav">Log In</a>
-            <?php endif; ?>
-            <li class = "nav"></li>
-            <li class = "nav"></li>
-            <!-- profile page !-->
-            <?php if ($isLoggedIn): ?>
-                <a href = "profile.php" class = "nav"><?php echo htmlspecialchars($username); ?></a>
-            <?php endif; ?>
-        </ul>
-        <br>
-        <hr>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SR Van Travels</title>
 
-        <h1>PACKAGES</h1>
-        <div class="packages-grid">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/shared.css?v=1">
+    <link rel="stylesheet" href="css/index-styles.css?v=1">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <div class="navbar-logo">
+                <img src="https://placehold.co/109x107" alt="Logo">
+            </div>
+            <div class="navbar-links">
+                <a href="#" class="nav-item">Home</a>
+
+                <?php if ($isLoggedIn): ?>
+                    <a href="packages.php" class="nav-item">Book</a>
+                <?php else: ?>
+                    <a href="login/login.php" class="nav-item">Book</a>
+                <?php endif; ?>
+
+                <a href="#" class="nav-item">Help</a>
+                <a href="#" class="nav-item">About Us</a>
+
+                <?php if ($isLoggedIn): ?>
+                    <a href="login/logout.php" class="nav-item">Log Out</a>
+                    <a href="profile.php" class="nav-item"><?php echo htmlspecialchars($username); ?></a>
+                <?php else: ?>
+                    <a href="login/login.php" class="nav-item">Log In</a>
+                <?php endif; ?>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <div class="hero-overlay">
+            <h1 class="explore-heading">EXPLORE CEBU</h1>
+            <p class="explore-subheading">Book Your Cebu Travel and Adventure Trip with Us</p>
+        </div>
+
+        <div class="scrolling-text">
+            <div class="scrolling-track">
+                <div class="scrolling-content">
+                    <span class="white">SR VAN TRAVELS&nbsp;</span>
+                    <span class="yellow">SR VAN TRAVELS&nbsp;</span>
+                    <span class="white">SR VAN TRAVELS&nbsp;</span>
+                    <span class="yellow">SR VAN TRAVELS&nbsp;</span>
+                    <span class="white">SR VAN TRAVELS&nbsp;</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="background">
+        <div class="header">Select from our various promos and pre-made plans!</div>
+
+        <div class="packages">
             <?php if (empty($packages)): ?>
-                
-                <p>No packages are available at this time.</p>
-
+                <p class="no-packages">No packages are available at this time.</p>
             <?php else: ?>
-                
                 <?php foreach ($packages as $package): ?>
                     <form class="package-card" method="POST" action="package-booking/packagebook-p1-back.php">
-                        <div class="package-content">
-                            <h2><?php echo htmlspecialchars($package['package_name']); ?></h2>
+                        <div class="package-details">
+                            <div class="package-title-price">
+                                <div class="package-title"><?php echo htmlspecialchars($package['package_name']); ?></div>
+                                <div class="package-price">₱<?php echo number_format($package['price'], 2); ?></div>
+                            </div>
                             <p><?php echo htmlspecialchars($package['description']); ?></p>
-                            <p class="price">Price: ₱<?php echo number_format($package['price'], 2); ?></p>
-                            
+
                             <input type="hidden" name="package_id" value="<?php echo $package['package_id']; ?>">
-                            
                             <input type="hidden" name="package_name" value="<?php echo htmlspecialchars($package['package_name']); ?>">
                             <input type="hidden" name="package_price" value="<?php echo htmlspecialchars($package['price']); ?>">
 
@@ -93,30 +120,46 @@
                         </div>
                     </form>
                 <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
 
-            <?php endif; ?>
+        <?php if ($isLoggedIn): ?>
+            <a href="itinerary-booking/custom-booking.php" class="see-more-btn">SEE MORE</a>
+        <?php else: ?>
+            <a href="login/login.php" class="see-more-btn">SEE MORE</a>
+        <?php endif; ?>
+
+        <h2 class="custom-title">Don’t see a plan you like?</h2>
+        <p class="custom-subtitle">Book a custom 1Day-1Night Itinerary With Us!</p>
+
+        <?php if ($isLoggedIn): ?>
+            <a href="itinerary-booking/custom-booking.php" class="custom-btn">Book Now</a>
+        <?php else: ?>
+            <a href="login/login.php" class="custom-btn">MAKE A CUSTOM PLAN</a>
+        <?php endif; ?>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-text">SR Van Travels 2025 ©. All Rights Reserved</div>
+            <div class="footer-icons">
+                <a href="mailto:srvantravels@gmail.com" class="footer-icon-link" aria-label="Email">
+                    <img src="svg-icons/email.svg" alt="Email Icon" class="footer-icon">
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=61569662235289" target="_blank" rel="noopener noreferrer" class="footer-icon-link" aria-label="Facebook">
+                    <img src="svg-icons/facebook.svg" alt="Facebook Icon" class="footer-icon">
+                </a>
+            </div>
         </div>
-        <br><br>
-        <hr>
-        
-        <div>
-            <h2>Want to be flexible? Book a custom 1D1N Itinerary With Us!</h2>
-            <?php if ($isLoggedIn): ?>
-                <a href="itinerary-booking/custom-booking.php" class = "nav"><button>Book Now</button></a>
-            <?php else: ?>
-                <a href="login/login.php" class = "nav"><button>Book Now</button></a>
-            <?php endif; ?>
-        </div>
-        
-        <!--<script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const cards = document.querySelectorAll('.package-card');
-                cards.forEach(function(card) {
-                    card.addEventListener('click', function () {
-                        window.location.href = 'package-booking/packagebook-p1.php'; 
-                    });
-                });
-            });
-        </script>
-    </body>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const track = document.querySelector('.scrolling-track');
+            const content = document.querySelector('.scrolling-content');
+            const clone = content.cloneNode(true);
+            track.appendChild(clone);
+        });
+    </script>
+</body>
 </html>

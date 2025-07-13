@@ -24,23 +24,13 @@ $availabilityResult = $conn->query("SELECT Availability FROM Driver WHERE driver
 $availability = $availabilityResult->fetch_assoc()['Availability'];
 
 // Fetch assigned orders
-$sql = "SELECT
-            od.*,
-            p.name AS customer_name,
-            i.type AS itinerary_type
-        FROM
-            Order_Details od
-        JOIN
-            Customer c ON od.customer_ID = c.customer_ID AND od.payment_ID = c.payment_ID
-        JOIN
-            Person p ON od.customer_ID = p.person_ID
-        JOIN
-            Itinerary i ON c.itinerary_ID = i.itinerary_ID
-        WHERE
-            od.driver_ID = $driverID
-        ORDER BY
-            od.date_of_travel ASC;";
-
+$sql = "SELECT od.*, c.name AS customer_name, i.type AS itinerary_type
+        FROM Order_Details od
+        JOIN Customer cust ON od.customer_ID = cust.customer_ID
+        JOIN Person c ON cust.customer_ID = c.person_ID
+        JOIN Itinerary i ON od.itinerary_ID = i.itinerary_ID
+        WHERE od.driver_ID = $driverID
+        ORDER BY od.date_of_travel ASC";
 
 $orders = $conn->query($sql);
 ?>
@@ -60,7 +50,7 @@ $orders = $conn->query($sql);
 </head>
 <body>
     <h1>Driver Dashboard</h1>
-    <a href="../../user/login/logout.php">Log Out</a>
+    <a href="../user/login/logout.php">Log Out</a>
 
     <form method="POST">
         <input type="hidden" name="current_availability" value="<?= $availability ?>">

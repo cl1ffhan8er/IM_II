@@ -1,22 +1,15 @@
 <?php
 require_once '../../include/connect.php';
 
+// Get all pending requests
 $orders = $conn->query("
-    SELECT 
-    od.order_ID, 
-    od.date_of_transaction, 
-    od.status, 
-    i.type 
-    FROM 
-        Order_Details od
-    JOIN 
-        Customer c ON od.customer_ID = c.customer_ID AND od.payment_ID = c.payment_ID
-    JOIN 
-        Itinerary i ON c.itinerary_ID = i.itinerary_ID
-    WHERE 
-        od.status = 'PENDING' OR od.status = 'IN MODIFICATION'
+    SELECT od.order_ID, od.date_of_transaction, od.status, i.type 
+    FROM order_details od
+    JOIN Itinerary i ON od.itinerary_ID = i.itinerary_ID
+    WHERE od.status = 'pending' or od.status = 'IN MODIFICATION'
 ");
 
+// If a specific order is clicked
 $orderDetails = null;
 if (isset($_GET['order_ID'])) {
     $stmt = $conn->prepare("SELECT * FROM order_details WHERE order_ID = ?");
@@ -80,7 +73,6 @@ $driverCount = $driverCountResult->fetch_assoc()['count'] ?? 0;
                 <?= $driverCount ?>
             </div>
         </div>
-        <a href = "../emails/emailtest.php">Send Email Test</a>
         <table>
             <tr>
                 <th>Order ID</th>

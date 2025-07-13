@@ -1,16 +1,45 @@
-
 CREATE TABLE Person (
     person_ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    contact_number VARCHAR(20) UNIQUE NOT NULL
+    name VARCHAR(255),
+    password VARCHAR(255),
+    email VARCHAR(255) UNIQUE,
+    contact_number VARCHAR(12) UNIQUE
 );
+
+CREATE TABLE Employee (
+    employee_ID INT PRIMARY KEY,
+    FOREIGN KEY (employee_ID) REFERENCES Person(person_ID)
+);
+
+CREATE TABLE Manager (
+    manager_ID INT PRIMARY KEY, 
+    FOREIGN KEY (manager_ID) REFERENCES Employee(employee_ID)
+); 
 
 CREATE TABLE Itinerary (
     itinerary_ID INT PRIMARY KEY AUTO_INCREMENT,
     price DECIMAL(10,2),
     type ENUM('PACKAGE', 'CUSTOM') NOT NULL
+);
+
+CREATE TABLE Package_Itinerary (
+    package_id int PRIMARY KEY AUTO_INCREMENT,
+    package_name VARCHAR(255),
+    inclusions VARCHAR(255),
+    passenger_count INT,
+    description VARCHAR(255),
+    is_made_by_manager int,
+    is_available BOOLEAN DEFAULT FALSE,
+    package_picture VARCHAR(255),
+    FOREIGN KEY (package_id) REFERENCES Itinerary(itinerary_ID),
+    FOREIGN KEY (is_made_by_manager) REFERENCES Manager(manager_ID)
+);
+
+CREATE TABLE Custom_Itinerary (
+    custom_ID INT PRIMARY KEY AUTO_INCREMENT,
+    is_made_by_customer INT,
+    FOREIGN KEY (custom_id) REFERENCES Itinerary(itinerary_ID),
+    FOREIGN KEY (is_made_by_customer) REFERENCES Manager(manager_ID)
 );
 
 CREATE TABLE Locations (
@@ -48,17 +77,23 @@ CREATE TABLE Custom_Itinerary (
 
 CREATE TABLE Itinerary_Stops (
     stop_ID INT PRIMARY KEY AUTO_INCREMENT,
-    itinerary_ID INT,
+    custom_ID INT,
     stop_order INT,
     location_ID INT,
-    FOREIGN KEY (itinerary_ID) REFERENCES Itinerary(itinerary_ID),
+    FOREIGN KEY (custom_ID) REFERENCES Itinerary(itinerary_ID),
     FOREIGN KEY (location_ID) REFERENCES Locations(location_ID)
 );
 
-CREATE TABLE Booking (
-    booking_ID INT PRIMARY KEY AUTO_INCREMENT,
-    customer_ID INT NOT NULL,
-    itinerary_ID INT NOT NULL,
+CREATE TABLE Payment (
+    payment_ID INT PRIMARY KEY AUTO_INCREMENT,
+    payment_method VARCHAR(50),
+    down_payment DECIMAL(10,2),
+    payment_status BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE Customer (
+    customer_ID INT PRIMARY KEY,
+    itinerary_ID INT,
     payment_ID INT,
     customer_name VARCHAR(255),
     passenger_count INT CHECK (passenger_count BETWEEN 1 AND 10),
@@ -78,7 +113,7 @@ CREATE TABLE Van (
     booking_ID INT,
     passenger_capacity INT,
     FOREIGN KEY (driver_ID) REFERENCES Driver(driver_ID),
-    FOREIGN KEY (booking_ID) REFERENCES Booking(booking_ID)
+    FOREIGN KEY (customer_ID) REFERENCES Customer(customer_ID)
 );
 
 CREATE TABLE Order_Details (

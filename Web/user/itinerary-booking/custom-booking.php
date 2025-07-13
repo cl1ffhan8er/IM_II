@@ -156,6 +156,20 @@ $locations_result = $conn->query("SELECT location_name, location_address FROM Lo
     <input type="submit" value="Next" />
   </form>
 
+  <footer class="site-footer">
+      <div class="footer-container">
+          <div class="footer-text">SR Van Travels 2025 ©. All Rights Reserved</div>
+          <div class="footer-icons">
+              <a href="mailto:srvantravels@gmail.com" class="footer-icon-link" aria-label="Email">
+                  <img src="../svg-icons/email.svg" alt="Email Icon" class="footer-icon">
+              </a>
+              <a href="https://www.facebook.com/profile.php?id=61569662235289" target="_blank" rel="noopener noreferrer" class="footer-icon-link" aria-label="Facebook">
+                  <img src="../svg-icons/facebook.svg" alt="Facebook Icon" class="footer-icon">
+              </a>
+          </div>
+      </div>
+  </footer>
+
   <script>
     const initialLocations = <?php echo json_encode($existing_itinerary); ?>;
 

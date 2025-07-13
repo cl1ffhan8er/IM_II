@@ -47,20 +47,26 @@ function updateSelectedLocationsDisplay() {
     container.innerHTML = '';
 
     if (selectedLocations.length === 0) {
-        container.innerHTML = '<p>No locations selected yet.</p>';
+        container.innerHTML = '<p class="no-locations-msg">No locations selected yet.</p>';
     } else {
         selectedLocations.forEach((loc, index) => {
             const div = document.createElement('div');
-            div.className = 'selected-location-item';
-            
-            const customIndicator = loc.isCustom ? ' <span class="custom-tag">(Custom)</span>' : '';
-            
+            div.className = 'selected-location-item' + (loc.isCustom ? ' custom-location' : '');
+            div.setAttribute('data-index', index);
+
+            const customIndicator = loc.isCustom ? ' <span class="custom-tag"></span>' : '';
+
             div.innerHTML = `
-                <span><b>${loc.name}</b>${customIndicator} - ${loc.address}</span>
-                <button type="button" class="remove-btn" onclick="removeLocation(${index})">Remove</button>
+                <img src="../svg-icons/drag.svg" alt="Drag" class="drag-handle" draggable="true">
+                <p class="location-text"><b>${loc.name}</b>${customIndicator} ${loc.address}</p>
+                <button type="button" class="remove-btn" onclick="removeLocation(${index})">
+                    <img src="../svg-icons/cancel.svg" alt="Remove" class="remove-icon">
+                </button>
             `;
+
             container.appendChild(div);
         });
+        setupDragEvents();
     }
     saveToStorage();
 }
@@ -111,3 +117,42 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+function setupDragEvents() {
+    const items = document.querySelectorAll('.selected-location-item');
+
+    let draggedIndex = null;
+
+    items.forEach(item => {
+        const handle = item.querySelector('.drag-handle');
+
+        // Allow drag only from handle
+        handle.addEventListener('dragstart', (e) => {
+            draggedIndex = parseInt(item.dataset.index);
+            item.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        });
+
+        handle.addEventListener('dragend', () => {
+            item.classList.remove('dragging');
+        });
+
+        item.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            item.classList.add('drag-over');
+        });
+
+        item.addEventListener('dragleave', () => {
+            item.classList.remove('drag-over');
+        });
+
+        item.addEventListener('drop', () => {
+            const dropIndex = parseInt(item.dataset.index);
+            if (draggedIndex !== null && draggedIndex !== dropIndex) {
+                const moved = selectedLocations.splice(draggedIndex, 1)[0];
+                selectedLocations.splice(dropIndex, 0, moved);
+                updateSelectedLocationsDisplay();
+            }
+        });
+    });
+}

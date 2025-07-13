@@ -12,7 +12,7 @@
         <p>Thank you for your booking. Your details have been submitted successfully.</p>
         
         <?php
-        // Get the order ID from the URL parameter
+
         $order_id = $_GET['order_id'] ?? 'N/A';
         ?>
         

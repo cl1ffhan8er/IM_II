@@ -8,7 +8,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['package_id'])) {
 
 $package_id = $_POST['package_id'];
 
-// Fetch package details
 $package_stmt = $conn->prepare(
     "SELECT pi.package_name, pi.description, pi.package_picture, i.price
      FROM Package_Itinerary pi

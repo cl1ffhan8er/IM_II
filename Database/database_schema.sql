@@ -101,6 +101,7 @@ CREATE TABLE Van (
 
 CREATE TABLE Order_Details (
     order_ID INT PRIMARY KEY AUTO_INCREMENT,
+    itinerary_ID INT,
     booking_ID INT,
     driver_ID INT,
     payment_ID INT,
@@ -113,4 +114,5 @@ CREATE TABLE Order_Details (
     FOREIGN KEY (booking_ID) REFERENCES Booking(booking_ID),
     FOREIGN KEY (driver_ID) REFERENCES Driver(driver_ID),
     FOREIGN KEY (payment_ID) REFERENCES Payment(payment_ID)
+    FOREIGN KEY (itinerary_ID) REFERENCES Itinerary(itinerary_ID)
 );

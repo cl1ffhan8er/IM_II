@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['package_id'])) {
-    header("Location: ../index.php"); // fallback if accessed directly
+    header("Location: ../index.php"); 
     exit;
 }
 

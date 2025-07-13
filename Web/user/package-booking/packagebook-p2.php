@@ -1,8 +1,6 @@
 <?php
 session_start();
 
-// Check if a package was selected in the previous step.
-// If not, redirect back to the packages page.
 
 ?>
 <!DOCTYPE html>

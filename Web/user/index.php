@@ -78,7 +78,7 @@
             <?php else: ?>
                 
                 <?php foreach ($packages as $package): ?>
-                    <form class="package-card" method="POST" action="package-booking/packagebook-p1.php">
+                    <form class="package-card" method="POST" action="package-booking/packagebook-p1-back.php">
                         <div class="package-content">
                             <h2><?php echo htmlspecialchars($package['package_name']); ?></h2>
                             <p><?php echo htmlspecialchars($package['description']); ?></p>

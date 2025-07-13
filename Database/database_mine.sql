@@ -15,7 +15,7 @@ CREATE TABLE Itinerary (
 CREATE TABLE Locations (
     location_ID INT AUTO_INCREMENT PRIMARY KEY,
     location_name VARCHAR(255),
-    location_address VARCHAR(255),
+    location_address VARCHAR(255)
 );
 
 CREATE TABLE Payment (

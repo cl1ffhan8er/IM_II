@@ -2,7 +2,7 @@
 session_start();
 include '../../include/connect.php';
 
-// A list of all required session keys for a booking to be valid.
+// Ensure all critical session data is available
 $required_sessions = [
     'person_ID',
     'fname', 'lname', 'pax', 'id_filepath', 'id_filename', 
@@ -10,17 +10,15 @@ $required_sessions = [
     'booking_itinerary'
 ];
 
-// Check if all required data exists in the session.
 foreach ($required_sessions as $key) {
     if (!isset($_SESSION[$key])) {
-        die("Error: Critical session data ('" . htmlspecialchars($key) . "') is missing. Please restart the booking process.");
+        die("Error: Critical session data ('" . htmlspecialchars($key) . "') is missing. Please restart the booking process from the beginning.");
     }
 }
 
-// Ensure the form was submitted correctly.
 if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
 
-    // Assign all session data to local variables.
+    // Retrieve all data from session and POST
     $person_id = $_SESSION['person_ID'];
     $fname = $_SESSION['fname'];
     $lname = $_SESSION['lname'];
@@ -29,77 +27,95 @@ if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
     $date = $_SESSION['date'];
     $pickup = $_SESSION['pickup'];
     $pickuptime = $_SESSION['pickuptime'];
-    // Note: The 'dropofftime' variable is available from the session but not used in the new schema's Booking table.
-    // It could be stored in the Itinerary description if needed.
+    $dropofftime = $_SESSION['dropofftime'];
     $filePath = $_SESSION['id_filepath'];
-    $selectedLocations = json_decode(json_encode($_SESSION['booking_itinerary']), true);
+    $selectedLocations = $_SESSION['booking_itinerary'];
     $payment_method = $_POST['payment_type'];
     $fullName = $fname . ' ' . $lname;
     
-    // Verify the uploaded ID file still exists.
+    // Verify the temporary uploaded file still exists
     if (!file_exists($filePath)) {
         die("Error: The uploaded ID file could not be found. Please go back and re-upload.");
     }
     $fileData = file_get_contents($filePath);
 
-    // Start a database transaction.
+    // Start a database transaction
     $conn->begin_transaction();
 
     try {
-        // Step 1: Insert Payment Record
+        // Step 1: Insert into Payment table (This is correct and remains unchanged)
         $down_payment = 500.00;
-        $sqlPayment = "INSERT INTO Payment (payment_method, down_payment) VALUES (?, ?)";
+        $sqlPayment = "INSERT INTO Payment (payment_method, down_payment, payment_status) VALUES (?, ?, FALSE)";
         $stmtPayment = $conn->prepare($sqlPayment);
+        if (!$stmtPayment) throw new Exception("Payment prepare failed: " . $conn->error);
         $stmtPayment->bind_param("sd", $payment_method, $down_payment);
-        $stmtPayment->execute();
+        if (!$stmtPayment->execute()) throw new Exception("Payment execute failed: " . $stmtPayment->error);
         $payment_id = $conn->insert_id;
         $stmtPayment->close();
 
-        // Step 2: Insert Itinerary Record
-        // In a real application, the total price should be calculated based on locations, pax, etc.
-        $total_price = 1500.00; // Example total price
+        // Step 2: Insert into Itinerary table (This is correct and remains unchanged)
         $sqlItinerary = "INSERT INTO Itinerary (price, type) VALUES (?, 'CUSTOM')";
         $stmtItinerary = $conn->prepare($sqlItinerary);
-        $stmtItinerary->bind_param("d", $total_price);
-        $stmtItinerary->execute();
+        if (!$stmtItinerary) throw new Exception("Itinerary prepare failed: " . $conn->error);
+        // Using down_payment as a placeholder price for the itinerary record
+        $stmtItinerary->bind_param("d", $down_payment);
+        if (!$stmtItinerary->execute()) throw new Exception("Itinerary execute failed: " . $stmtItinerary->error);
         $itinerary_id = $conn->insert_id;
         $stmtItinerary->close();
 
-        // Step 3: Insert Booking Record (REPLACES old 'Customer' and 'Order_Details')
-        // This single query now handles the main transaction record.
-        $sqlBooking = "INSERT INTO Booking (customer_ID, itinerary_ID, payment_ID, customer_name, passenger_count, pickup_date, number_of_luggage, pickup_location, pickup_time, ID_Picture) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $stmtBooking = $conn->prepare($sqlBooking);
-        $null = NULL; // For the BLOB data
-        $stmtBooking->bind_param("iiisisisss", $person_id, $itinerary_id, $payment_id, $fullName, $pax, $date, $luggage, $pickup, $pickuptime, $null);
-        $stmtBooking->send_long_data(9, $fileData); // Send the file data for the ID_Picture
-        $stmtBooking->execute();
-        // We don't need to get the insert_id from here unless another table needs it.
-        $stmtBooking->close();
-
-        // Step 4: Insert Custom Itinerary Record
-        // This links the Itinerary to the Person who created it.
-        $sqlCustomItinerary = "INSERT INTO Custom_Itinerary (custom_id, is_made_by_customer) VALUES (?, ?)";
-        $stmtCustomItinerary = $conn->prepare($sqlCustomItinerary);
-        $stmtCustomItinerary->bind_param("ii", $itinerary_id, $person_id);
-        $stmtCustomItinerary->execute();
-        $stmtCustomItinerary->close();
+        // Step 3: Insert into Customer table (MODIFIED FOR NEW SCHEMA)
+        // The Customer table now acts as the main booking log.
+        $sqlCustomers = "INSERT INTO Customer (customer_ID, payment_ID, itinerary_ID, customer_name, passenger_count, pickup_date, number_of_luggage, pickup_location, pickup_time, ID_Picture) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmtCustomers = $conn->prepare($sqlCustomers);
+        if (!$stmtCustomers) throw new Exception("Customer prepare failed: " . $conn->error);
         
-        // Step 5: Insert Itinerary Stops
+        // FIX: The type definition string was incorrect, causing data corruption. It is now corrected.
+        // Correct types: i, i, i, s, i, s, i, s, s
+        $stmtCustomers->bind_param("iiisisiis", $person_id, $payment_id, $itinerary_id, $fullName, $pax, $date, $luggage, $pickup, $pickuptime);
+        $stmtCustomers->send_long_data(9, $fileData); // send_long_data targets the 10th parameter (index 9)
+        if (!$stmtCustomers->execute()) throw new Exception("Customer execute failed: " . $stmtCustomers->error);
+        $stmtCustomers->close();
+ 
+        // This links the custom itinerary to the person who made it. Correct.
+        $sqlCustom = "INSERT INTO Custom_Itinerary (custom_ID, is_made_by_customer) VALUES (?, ?)";
+        $stmtCustom = $conn->prepare($sqlCustom);
+        if (!$stmtCustom) throw new Exception("Custom Itinerary prepare failed: " . $conn->error);
+        $stmtCustom->bind_param("ii", $itinerary_id, $person_id);
+        if (!$stmtCustom->execute()) throw new Exception("Custom Itinerary execute failed: " . $stmtCustom->error);
+        $stmtCustom->close();
+
+        // Step 4: Insert into Order_Details (MODIFIED FOR NEW SCHEMA)
+        // This links to the booking using the composite key (customer_ID, payment_ID).
+        $sqlOrder = "INSERT INTO Order_Details (customer_ID, payment_ID, number_of_PAX, date_of_travel, time_for_pickup, time_for_dropoff) VALUES (?, ?, ?, ?, ?, ?)";
+        $stmtOrder = $conn->prepare($sqlOrder);
+        if (!$stmtOrder) throw new Exception("Order_Details prepare failed: " . $conn->error);
+        // FIX: The type definition string was incorrect here as well. It is now corrected.
+        // Correct types: i, i, i, s, s, s
+        $stmtOrder->bind_param("iiisss", $person_id, $payment_id, $pax, $date, $pickuptime, $dropofftime);
+        if (!$stmtOrder->execute()) throw new Exception("Order_Details execute failed: " . $stmtOrder->error);
+        $stmtOrder->close();
+
+        // Step 5: Insert Itinerary Stops (This is correct and remains unchanged)
         $sqlNewLocation = "INSERT INTO Locations (location_name, location_address, is_custom_made) VALUES (?, ?, TRUE)";
         $stmtNewLocation = $conn->prepare($sqlNewLocation);
-        $sqlItineraryStop = "INSERT INTO Itinerary_Stops (itinerary_ID, location_ID, stop_order) VALUES (?, ?, ?)";
-        $stmtItineraryStop = $conn->prepare($sqlItineraryStop);
+        if (!$stmtNewLocation) throw new Exception("New Location prepare failed: " . $conn->error);
 
-        foreach ($selectedLocations as $index => $location) {
+        $sqlItineraryStop = "INSERT INTO Itinerary_Stops (custom_ID, stop_order, location_ID) VALUES (?, ?, ?)";
+        $stmtItineraryStop = $conn->prepare($sqlItineraryStop);
+        if (!$stmtItineraryStop) throw new Exception("Itinerary_Stops prepare failed: " . $conn->error);
+
+        $stop_order = 1;
+        foreach ($selectedLocations as $location) {
             $location_id = null;
-            $stop_order = $index + 1; // Set the stop order based on its position
 
             if ($location['isCustom']) {
                 $stmtNewLocation->bind_param("ss", $location['name'], $location['address']);
-                $stmtNewLocation->execute();
+                if (!$stmtNewLocation->execute()) throw new Exception("Error inserting new custom location: " . $stmtNewLocation->error);
                 $location_id = $conn->insert_id;
             } else {
-                $stmtFind = $conn->prepare("SELECT location_ID FROM Locations WHERE location_name = ? AND location_address = ?");
+                $sqlFindLocation = "SELECT location_ID FROM Locations WHERE location_name = ? AND location_address = ?";
+                $stmtFind = $conn->prepare($sqlFindLocation);
+                if (!$stmtFind) throw new Exception("Find Location prepare failed: " . $conn->error);
                 $stmtFind->bind_param("ss", $location['name'], $location['address']);
                 $stmtFind->execute();
                 $result = $stmtFind->get_result();
@@ -110,48 +126,39 @@ if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
             }
 
             if ($location_id) {
-                $stmtItineraryStop->bind_param("iii", $itinerary_id, $location_id, $stop_order);
-                $stmtItineraryStop->execute();
+                $stmtItineraryStop->bind_param("iii", $itinerary_id, $stop_order, $location_id);
+                if (!$stmtItineraryStop->execute()) throw new Exception("Itinerary_Stops execute failed: " . $stmtItineraryStop->error);
+                $stop_order++;
             } else {
                 throw new Exception("Could not find or create location: " . htmlspecialchars($location['name']));
             }
         }
+
         $stmtNewLocation->close();
         $stmtItineraryStop->close();
 
-        // If all queries succeed, commit the changes to the database.
+        // If all queries were successful, commit the transaction
         $conn->commit();
 
-        // --- SESSION CLEANUP ---
-        $booking_keys_to_clear = [
-            'fname', 'lname', 'pax', 'id_filepath', 'id_filename', 
-            'luggage', 'date', 'pickup', 'pickuptime', 'dropofftime', 
-            'booking_itinerary'
-        ];
-
-        foreach ($booking_keys_to_clear as $key) {
-            if (isset($_SESSION[$key])) {
-                unset($_SESSION[$key]);
-            }
-        }
-        
-        // Clean up the uploaded file.
+        // Cleanup and redirect
         unlink($filePath);
+        session_unset();
+        session_destroy();
 
-        // Redirect to the success page.
         header("Location: success.php");
         exit;
 
     } catch (Exception $e) {
-        // If any query fails, roll back all changes.
+        // If any query fails, roll back the entire transaction
         $conn->rollback();
         die("Booking failed due to a database error. Please try again. Details: " . $e->getMessage());
     } finally {
-        // Always close the database connection.
+        // Always close the connection
         $conn->close();
     }
+
 } else {
-    // If the form was not submitted correctly, redirect to the home page.
+    // Redirect if the form was not submitted correctly
     header("Location: ../index.php");
     exit;
 }

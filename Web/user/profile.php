@@ -19,28 +19,29 @@ $user = $user_result->fetch_assoc();
 $user_details_stmt->close();
 
 // 3. Fetch all bookings and their details.
-// The query is updated to get the itinerary type and package name.
+// FIX: This query is rebuilt to work with the composite key schema.
 $bookings = [];
 $itineraryIDs = [];
 
 $bookings_stmt = $conn->prepare(
     "SELECT
-        b.booking_ID,
-        b.itinerary_ID,
-        b.pickup_date,
-        b.pickup_time,
-        b.passenger_count,
-        b.ID_Picture,
+        c.itinerary_ID,
+        c.pickup_date,
+        c.pickup_time,
+        c.passenger_count,
+        c.ID_Picture,
         p.payment_method,
         p.payment_status,
         i.type,
-        pi.package_name
-    FROM Booking b
-    JOIN Payment p ON b.payment_ID = p.payment_ID
-    LEFT JOIN Itinerary i ON b.itinerary_ID = i.itinerary_ID
+        pi.package_name,
+        od.status AS order_status
+    FROM Customer c
+    JOIN Payment p ON c.payment_ID = p.payment_ID
+    JOIN Itinerary i ON c.itinerary_ID = i.itinerary_ID
+    JOIN Order_Details od ON c.customer_ID = od.customer_ID AND c.payment_ID = od.payment_ID
     LEFT JOIN Package_Itinerary pi ON i.itinerary_ID = pi.package_id
-    WHERE b.customer_ID = ?
-    ORDER BY b.pickup_date DESC"
+    WHERE c.customer_ID = ?
+    ORDER BY c.pickup_date DESC"
 );
 $bookings_stmt->bind_param("i", $person_id);
 $bookings_stmt->execute();
@@ -55,18 +56,20 @@ while ($booking = $bookings_result->fetch_assoc()) {
 $bookings_stmt->close();
 
 // 4. Fetch all stops for all the user's itineraries in a single query.
+// This part of the logic is correct as `Itinerary_Stops.custom_ID` is a FK to `Itinerary.itinerary_ID`.
 $stopsByItinerary = [];
 if (!empty($itineraryIDs)) {
     $placeholders = implode(',', array_fill(0, count($itineraryIDs), '?'));
     
     $stops_stmt = $conn->prepare(
-        "SELECT its.itinerary_ID, l.location_name, l.location_address
+        "SELECT its.custom_ID AS itinerary_ID, l.location_name, l.location_address
          FROM Itinerary_Stops its
          JOIN Locations l ON its.location_ID = l.location_ID
-         WHERE its.itinerary_ID IN ($placeholders)
+         WHERE its.custom_ID IN ($placeholders)
          ORDER BY its.stop_order ASC"
     );
-    $stops_stmt->bind_param(str_repeat('i', count($itineraryIDs)), ...$itineraryIDs);
+    $types = str_repeat('i', count($itineraryIDs));
+    $stops_stmt->bind_param($types, ...$itineraryIDs);
     $stops_stmt->execute();
     $stops_result = $stops_stmt->get_result();
 
@@ -117,7 +120,8 @@ $conn->close();
                             <div class="detail-item"><span>Pickup Time:</span> <?php echo date("g:i A", strtotime($booking['pickup_time'])); ?></div>
                             <div class="detail-item"><span>Passengers:</span> <?php echo htmlspecialchars($booking['passenger_count']); ?></div>
                             <div class="detail-item"><span>Payment Method:</span> <?php echo htmlspecialchars(ucfirst($booking['payment_method'])); ?></div>
-                            <div class="detail-item"><span>Payment Status:</span> <?php echo $booking['payment_status'] ? 'Paid' : 'Pending'; ?></div>
+                            <div class="detail-item"><span>Payment Status:</span> <?php echo $booking['payment_status'] ? 'Paid' : 'Pending Downpayment'; ?></div>
+                            <div class="detail-item"><span>Booking Status:</span> <?php echo htmlspecialchars(ucfirst(strtolower($booking['order_status']))); ?></div>
                         </div>
 
                         <?php if ($booking['type'] === 'CUSTOM' && !empty($booking['ID_Picture'])): ?>

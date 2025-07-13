@@ -52,11 +52,11 @@ if (isset($_POST['login'])) {
 
         $isEmployee = "SELECT employee_ID FROM Employee WHERE employee_ID = '$personID'";
         $employeeResult = $conn->query($isEmployee);
-        if ($employeeResult->num_rows > 0) { // user is an employee
+        if ($employeeResult->num_rows > 0) {
             $isManager = "SELECT * FROM Manager WHERE manager_ID = '$personID'";
             $managerResult = $conn->query($isManager);
-            if ($managerResult->num_rows > 0) { // user is a manager
-                header("Location: ../../admin/manager/manager_dashboard.php");
+            if ($managerResult->num_rows > 0) { 
+                header("Location: ../../admin/manager/home.php");
                 exit();
             } else {
                 $_SESSION['driver_ID'] = $personID;

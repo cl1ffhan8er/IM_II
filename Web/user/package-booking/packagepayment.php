@@ -1,12 +1,18 @@
 <?php
     session_start();
     include '../../include/connect.php';
-    $isLoggedIn = isset($_SESSION['person_ID']);
 
-    // Check if a package booking is in progress.
-    if (!isset($_SESSION['booking_type']) || $_SESSION['booking_type'] !== 'PACKAGE' || !isset($_SESSION['package_id'])) {
-        die("Error: No package booking in progress. Please select a package first.");
+    if (!isset($_SESSION['package_id'])) {
+        if (isset($_GET['package_id'])) {
+            // If missing from session but present in URL, restore it to the session
+            $_SESSION['package_id'] = $_GET['package_id'];
+        } else {
+            // If missing in both session and URL, the booking failed.
+            die("Error: No package booking in progress. Please select a package first.");
+        }
     }
+
+    $isLoggedIn = isset($_SESSION['person_ID']);
 
     $package_id = $_SESSION['package_id'];
     $package_stops = [];
@@ -14,7 +20,7 @@
         "SELECT l.location_name
          FROM Itinerary_Stops its
          JOIN Locations l ON its.location_ID = l.location_ID
-         WHERE its.itinerary_ID = ?
+         WHERE its.custom_ID = ?
          ORDER BY its.stop_order ASC"
     );
     $stops_stmt->bind_param("i", $package_id);

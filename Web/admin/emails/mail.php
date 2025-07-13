@@ -18,8 +18,8 @@ if (isset($_POST["send"])) {
         $mail->SMTPAuth   = true;
         $mail->Username   = 'alissamay071006@gmail.com';
         $mail->Password   = 'hfcr hemq fqwl vknx';
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-        $mail->Port       = 465;
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
 
         // Recipients
         $mail->setFrom('alissamay071006@gmail.com', 'SRVan Travels'); 

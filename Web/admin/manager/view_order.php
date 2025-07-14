@@ -9,10 +9,11 @@ if (!isset($_GET['order_ID'])) {
 $orderID = $_GET['order_ID'];
 
 // Get order info along with customer email and name
-$stmt = $conn->prepare("SELECT od.*, p.name AS customer_name, p.email AS customer_email 
+$stmt = $conn->prepare("SELECT od.*, p.name AS customer_name, p.email AS customer_email,  pi.package_ID, pi.package_name
                         FROM order_details od
                         JOIN customer c ON od.customer_ID = c.customer_ID
                         JOIN person p ON c.customer_ID = p.person_ID
+                        LEFT JOIN Package_Itinerary pi ON od.itinerary_ID = pi.package_ID
                         WHERE od.order_ID = ?");
 $stmt->bind_param("i", $orderID);
 $stmt->execute();
@@ -113,8 +114,8 @@ file_put_contents(
     <p><strong>Order ID:</strong> <?= $orderDetails['order_ID'] ?></p>
     <p><strong>Customer Name:</strong> <?= $orderDetails['customer_name'] ?? 'N/A' ?></p>
     <p><strong>Package ID:</strong> <?= $orderDetails['package_ID'] ?? 'N/A' ?></p>
+    <p><strong>Package:</strong> <?= $orderDetails['package_name'] ?? 'N/A' ?></p>
     <p><strong>Status:</strong> <?= $orderDetails['status'] ?></p>
-    <p><strong>Acceptance:</strong> <?= $orderDetails['acceptance'] ?? 'Pending' ?></p>
     <p><strong>Submitted On:</strong> <?= $orderDetails['submission_date'] ?? '—' ?></p>
 
     <hr>

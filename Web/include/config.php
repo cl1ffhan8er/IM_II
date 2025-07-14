@@ -6,5 +6,5 @@
 
         'user' => 'root',
         'password' => '',
-        'database' => 'itinerary_system'
+        'database' => 'srvan_db'
     ];

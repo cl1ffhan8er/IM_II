@@ -2,8 +2,15 @@
     session_start();
     include '../../include/connect.php';
     $isLoggedIn = isset($_SESSION['person_ID']);
+    $username = $_SESSION['username'] ?? '';
 
     $booking_itinerary = $_SESSION['booking_itinerary'] ?? [];
+
+    $date = $_SESSION['date'] ?? '';
+    $pickuptime = $_SESSION['pickuptime'] ?? '';
+    $dropofftime = $_SESSION['dropofftime'] ?? '';
+    $pickup = $_SESSION['pickup'] ?? '';
+
 ?>
 
 <!DOCTYPE html>
@@ -24,29 +31,30 @@
 
 <body>    
     <nav class="navbar">
-    <div class="navbar-inner">
-        <div class="navbar-logo">
-        <img src="../images/logo.png" alt="Logo" />
+        <div class="navbar-inner">
+            <div class="navbar-logo">
+                <img src="../images/srvanlogo.png" alt="Logo">
+            </div>
+            <div class="navbar-links">
+                <a href="../index.php" class="nav-item">Home</a>
+
+                <?php if ($isLoggedIn): ?>
+                    <a href="../packages.php" class="nav-item">Book</a>
+                <?php else: ?>
+                    <a href="login/login.php" class="nav-item">Book</a>
+                <?php endif; ?>
+
+                <a href="/IM_II-2/Web/user/minor/help.php" class="nav-item">Help</a>
+                <a href="/IM_II-2/Web/user/minor/about-us.php" class="nav-item">About Us</a>
+
+                <?php if ($isLoggedIn): ?>
+                    <a href="login/logout.php" class="nav-item">Log Out</a>
+                    <a href="../profile.php" class="nav-item"><?php echo htmlspecialchars($username); ?></a>
+                <?php else: ?>
+                    <a href="login/login.php" class="nav-item">Log In</a>
+                <?php endif; ?>
+            </div>
         </div>
-        <div class="navbar-links">
-        <a href="clear-booking-session.php?redirect_to=../index.php" class="nav-item">Home</a>
-
-        <?php if ($isLoggedIn): ?>
-            <a href="clear-booking-session.php?redirect_to=../packages.php" class="nav-item">Book</a>
-        <?php else: ?>
-            <a href="clear-booking-session.php?redirect_to=../login/login.php" class="nav-item">Book</a>
-        <?php endif; ?>
-
-        <a href="clear-booking-session.php?redirect_to=../help.php" class="nav-item">Help</a>
-        <a href="clear-booking-session.php?redirect_to=../about.php" class="nav-item">About Us</a>
-
-        <?php if ($isLoggedIn): ?>
-            <a onclick="logout()" class="nav-item" style="cursor:pointer;">Log Out</a>
-        <?php else: ?>
-            <a href="../login/login.php" class="nav-item">Log In</a>
-        <?php endif; ?>
-        </div>
-    </div>
     </nav>
 
     <div class="booking-container">
@@ -99,7 +107,6 @@
             <div class="pit-stop">
               <p><strong><?= htmlspecialchars($stop['name']) ?></strong></p>
               <p><?= htmlspecialchars($stop['address']) ?></p>
-              <button type="button" class="remove-stop">✖</button>
             </div>
           <?php endforeach; ?>
         </div>
@@ -118,8 +125,8 @@
     </div>
 
     <div class="form-buttons">
-        <button type="submit" class="nav-button submit-button">Submit</button>
-        <button type="button" class="nav-button back-button" onclick="history.back()">Back</button>
+    <button type="button" class="nav-button action-button cancel-button" onclick="history.back()">CANCEL</button>
+    <button type="submit" class="nav-button action-button submit-button">SUBMIT</button>
     </div>
 
   </form>

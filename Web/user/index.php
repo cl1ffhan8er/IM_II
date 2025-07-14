@@ -124,7 +124,7 @@
         </div>
 
         <?php if ($isLoggedIn): ?>
-            <a href="itinerary-booking/custom-booking.php" class="see-more-btn">SEE MORE</a>
+            <a href="packages.php" class="see-more-btn">SEE MORE</a>
         <?php else: ?>
             <a href="login/login.php" class="see-more-btn">SEE MORE</a>
         <?php endif; ?>

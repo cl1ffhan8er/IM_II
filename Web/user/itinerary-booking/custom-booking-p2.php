@@ -12,47 +12,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel = "stylesheet" href = "../css/booking-styles.css">
+    <link rel="stylesheet" href="../css/shared.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+
     <script src = "scripts/main.js"></script>
     <title>CUSTOM BOOKING - STEP 2</title>
 </head>
-<body>
-    <h1>Book A Custom One-Day Itinerary</h1>
-    <ul>
-            <li class="nav"><a href="clear-booking-session.php?redirect_to=../index.php">Home</a></li>
-            <li class="nav"><a href="clear-booking-session.php?redirect_to=../help.php">Help</a></li>
-            <li class="nav"><a href="clear-booking-session.php?redirect_to=../about.php">About Us</a></li>
-            <?php if ($isLoggedIn): ?>
-                <li class="nav"><a onclick="logout()" style="cursor:pointer;">Log Out</a></li>
-            <?php else: ?>
-                <li class="nav"><a href="../login/login.php">Log In</a></li>
-            <?php endif; ?>
-    </ul>
-    <br><hr>
-    <div class = "locations">
-        <div class = "form2">
-            <form id = "bookingform2" action = "customform-p2.php" method="post" enctype="multipart/form-data">
-                <label for = "fname">First Name:</label>
-                <input type = "text" id = "fname" name = "fname" placeholder="First Name" value="<?php echo htmlspecialchars($_SESSION['fname'] ?? ''); ?>" required>
-                <label for = "lname">Last Name:</label>
-                <input type = "text" id = "lname" name = "lname" placeholder="Last Name" value="<?php echo htmlspecialchars($_SESSION['lname'] ?? ''); ?>" required>
-                <br>
-                <label for = "pax">Number of Party Members</label>
-                <input type = "number" id = "pax" name = "pax" placeholder="Number of Party Members" value="<?php echo htmlspecialchars($_SESSION['pax'] ?? ''); ?>" required>
-                <br>
-                <label for = "luggage">Number of Luggage:</label>
-                <input type = "number" id = "luggage" name = "luggage" placeholder="Number of Luggage" value="<?php echo htmlspecialchars($_SESSION['luggage'] ?? ''); ?>" required>
-                <br><br>
-                <label for = "comments">Comments/Others: </label>
-                <input type = "text" id = "comments" name = "comments" placeholder="Comments/Others" value="<?php echo htmlspecialchars($_SESSION['comments'] ?? ''); ?>">
-                <br>
-                <label for = "id">Attach Official ID (jpg / png): </label>
-                <input type="file" name="id" accept=".jpg, .jpeg, .png" required>
-                <br><br>
-                <button type="submit">Submit</button>
-                <button type="button" onclick="history.back()">Back</button>
-            </form>
+
+<body>    
+    <nav class="navbar">
+    <div class="navbar-inner">
+        <div class="navbar-logo">
+        <img src="../images/logo.png" alt="Logo" />
+        </div>
+        <div class="navbar-links">
+        <a href="clear-booking-session.php?redirect_to=../index.php" class="nav-item">Home</a>
+
+        <?php if ($isLoggedIn): ?>
+            <a href="clear-booking-session.php?redirect_to=../packages.php" class="nav-item">Book</a>
+        <?php else: ?>
+            <a href="clear-booking-session.php?redirect_to=../login/login.php" class="nav-item">Book</a>
+        <?php endif; ?>
+
+        <a href="clear-booking-session.php?redirect_to=../help.php" class="nav-item">Help</a>
+        <a href="clear-booking-session.php?redirect_to=../about.php" class="nav-item">About Us</a>
+
+        <?php if ($isLoggedIn): ?>
+            <a onclick="logout()" class="nav-item" style="cursor:pointer;">Log Out</a>
+        <?php else: ?>
+            <a href="../login/login.php" class="nav-item">Log In</a>
+        <?php endif; ?>
         </div>
     </div>
+    </nav>
+
+    <div class="booking-container">
+    <h1>BOOKING DETAILS</h1>
+
+    <form id="bookingform2" action="customform-p2.php" method="post" enctype="multipart/form-data" class="booking-form">
+
+       <div class="form2">
+  <form id="bookingform2" action="customform-p2.php" method="post" enctype="multipart/form-data">
+    <div class="form-flex">
+      <div class="form-left">
+        <div class="name-fields">
+          <div>
+            <label for="fname">First Name:</label>
+            <input type="text" id="fname" name="fname" placeholder="First Name" required>
+          </div>
+          <div>
+            <label for="lname">Last Name:</label>
+            <input type="text" id="lname" name="lname" placeholder="Last Name" required>
+          </div>
+        </div>
+
+        <label for="pax">Number of Party Members:</label>
+        <input type="number" id="pax" name="pax" placeholder="Number of Party Members" required>
+
+        <label for="pickup_date">Pick-up Date:</label>
+        <input type="date" id="pickup_date" name="pickup_date" required>
+
+        <label for="pickup_time">Pick-up Time:</label>
+        <input type="time" id="pickup_time" name="pickup_time" required>
+
+        <label for="pickup_address">Pick-up Address:</label>
+        <input type="text" id="pickup_address" name="pickup_address" placeholder="Pick-up Address" required>
+
+        <label for="luggage">Number of Luggage:</label>
+        <input type="number" id="luggage" name="luggage" placeholder="Number of Luggage" required>
+
+        <label for="comments">Comments/Others:</label>
+        <textarea id="comments" name="comments" placeholder="Comments or additional requests"></textarea>
+
+        <label for="id">Attach Official ID (jpg / png):</label>
+        <input type="file" name="id" accept=".jpg, .jpeg, .png" required>
+      </div>
+
+      <div class="form-right">
+        <h3>Chosen Pit Stops</h3>
+        <div class="pit-stops-box">
+          <?php foreach ($booking_itinerary as $stop): ?>
+            <div class="pit-stop">
+              <p><strong><?= htmlspecialchars($stop['name']) ?></strong></p>
+              <p><?= htmlspecialchars($stop['address']) ?></p>
+              <button type="button" class="remove-stop">✖</button>
+            </div>
+          <?php endforeach; ?>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-buttons">
+      <button type="submit">Submit</button>
+      <button type="button" onclick="history.back()">Back</button>
+    </div>
+  </form>
+</div>
 
     <!-- <script>
         const selectedLocations = <?//php echo json_encode($booking_itinerary); ?>;

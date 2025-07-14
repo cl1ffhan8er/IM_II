@@ -21,7 +21,6 @@ if (!$date_of_travel || !$time_for_pickup) {
     die("Error: Essential booking details (date or pickup time) are missing.");
 }
 
-
 $conn->begin_transaction();
 
 try {
@@ -48,7 +47,6 @@ try {
     );
     if (!$customer_insert_stmt) throw new Exception("Customer insert prepare failed: " . $conn->error);
     
-
     $pickup_location_placeholder = "Standard Package Pickup"; 
     
     $customer_insert_stmt->bind_param(
@@ -92,7 +90,6 @@ try {
     exit();
 
 } catch (Exception $e) {
-
     $conn->rollback();
     die("Error completing booking: " . $e->getMessage());
 } finally {

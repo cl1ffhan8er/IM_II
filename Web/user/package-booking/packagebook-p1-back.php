@@ -36,6 +36,5 @@ $_SESSION['package_picture'] = $package['package_picture'];
 
 session_write_close();
 
-// 🔁 Redirect to page that displays the booking form
 header("Location: packagebook-p1.php");
 exit;

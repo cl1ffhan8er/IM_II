@@ -65,12 +65,12 @@ try {
     $customer_insert_stmt->close();
 
     $order_stmt = $conn->prepare(
-        "INSERT INTO Order_Details (customer_ID, payment_ID, number_of_PAX, date_of_travel, time_for_pickup, time_for_dropoff, status) 
-         VALUES (?, ?, ?, ?, ?, ?, 'PENDING')"
+        "INSERT INTO Order_Details (customer_ID, payment_ID, itinerary_ID, number_of_PAX, date_of_travel, time_for_pickup, time_for_dropoff, status) 
+         VALUES (?, ?, ?, ?, ?, ?, ?, 'PENDING')"
     );
     if (!$order_stmt) throw new Exception("Order_Details prepare failed: " . $conn->error);
     
-    $order_stmt->bind_param("iiisss", $customer_id, $payment_id, $pax, $date_of_travel, $time_for_pickup, $time_for_dropoff);
+    $order_stmt->bind_param("iiiisss", $customer_id, $payment_id, $itinerary_id, $pax, $date_of_travel, $time_for_pickup, $time_for_dropoff);
     $order_stmt->execute();
     $order_id = $conn->insert_id; 
     $order_stmt->close();

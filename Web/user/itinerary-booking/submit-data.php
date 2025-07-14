@@ -74,10 +74,10 @@ if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
         if (!$stmtCustom->execute()) throw new Exception("Custom Itinerary execute failed: " . $stmtCustom->error);
         $stmtCustom->close();
 
-        $sqlOrder = "INSERT INTO Order_Details (customer_ID, payment_ID, number_of_PAX, date_of_travel, time_for_pickup, time_for_dropoff) VALUES (?, ?, ?, ?, ?, ?)";
+        $sqlOrder = "INSERT INTO Order_Details (customer_ID, payment_ID, itinerary_ID, number_of_PAX, date_of_travel, time_for_pickup, time_for_dropoff) VALUES (?, ?, ?, ?, ?, ?)";
         $stmtOrder = $conn->prepare($sqlOrder);
         if (!$stmtOrder) throw new Exception("Order_Details prepare failed: " . $conn->error);
-        $stmtOrder->bind_param("iiisss", $person_id, $payment_id, $pax, $date, $pickuptime, $dropofftime);
+        $stmtOrder->bind_param("iiiisss", $person_id, $payment_id, $itinerary_id, $pax, $date, $pickuptime, $dropofftime);
         if (!$stmtOrder->execute()) throw new Exception("Order_Details execute failed: " . $stmtOrder->error);
         $stmtOrder->close();
 

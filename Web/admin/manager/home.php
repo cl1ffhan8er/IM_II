@@ -46,6 +46,7 @@ $driverCount = $driverCountResult->fetch_assoc()['count'] ?? 0;
             <h3>Admin Menu</h3>
             <a href="home.php">🏠 Bookings</a>
             <a href="add_package.php">📦 Plans</a>
+            <a href="add_locations.php">📍 Locations</a>
         </div>
 
         <div class="nav-bottom">

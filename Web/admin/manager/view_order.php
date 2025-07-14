@@ -119,20 +119,7 @@ file_put_contents(
 
     <hr>
 
-    <form method="POST">
-        <button name="approve" style="background: green; color: white;">✅ Approve</button>
-        <button name="reject" style="background: red; color: white;">❌ Reject</button>
-        <button type="button" onclick="openModal()" style="background: orange; color: white;">✏️ Request Modifications</button>
-    </form>
-
-    <script>
-        function openModal() {
-            document.getElementById("modModal").style.display = "flex";
-        }
-        function closeModal() {
-            document.getElementById("modModal").style.display = "none";
-        }
-    </script>
+    <a href="emails/emailtest.php">Send an Email</a>
 
 </body>
 </html>

@@ -50,7 +50,7 @@ $orders = $conn->query($sql);
 </head>
 <body>
     <h1>Driver Dashboard</h1>
-    <a href="../user/login/logout.php">Log Out</a>
+    <a href="../../user/login/logout.php">Log Out</a>
 
     <form method="POST">
         <input type="hidden" name="current_availability" value="<?= $availability ?>">

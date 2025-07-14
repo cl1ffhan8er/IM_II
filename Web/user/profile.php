@@ -2,7 +2,6 @@
 session_start();
 include '../include/connect.php';
 
-// 1. Check if the user is logged in.
 if (!isset($_SESSION['person_ID'])) {
     header("Location: login/login.php");
     exit();
@@ -10,7 +9,6 @@ if (!isset($_SESSION['person_ID'])) {
 
 $person_id = $_SESSION['person_ID'];
 
-// 2. Fetch the user's personal details.
 $user_details_stmt = $conn->prepare("SELECT name, email FROM Person WHERE person_ID = ?");
 $user_details_stmt->bind_param("i", $person_id);
 $user_details_stmt->execute();
@@ -18,8 +16,6 @@ $user_result = $user_details_stmt->get_result();
 $user = $user_result->fetch_assoc();
 $user_details_stmt->close();
 
-// 3. Fetch all bookings and their details.
-// FIX: This query is rebuilt to work with the composite key schema.
 $bookings = [];
 $itineraryIDs = [];
 

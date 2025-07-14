@@ -60,6 +60,7 @@ $results = $conn->query("SELECT pi.*, i.price FROM Package_Itinerary pi JOIN Iti
             <h3>Admin Menu</h3>
             <a href="home.php">🏠 Bookings</a>
             <a href="add_package.php">📦 Plans</a>
+            <a href="add_locations.php">📍 Locations</a>
         </div>
         <div class="nav-bottom">
             <a href="../../user/login/logout.php">🚪 Log Out</a>

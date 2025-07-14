@@ -1,7 +1,5 @@
 <?php
     session_start();
-    // Check if the user is still logged in after the booking process.
-    // If submit-data.php worked correctly, this should be true.
     $isLoggedIn = isset($_SESSION['person_ID']);
 ?>
 <!DOCTYPE html>

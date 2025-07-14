@@ -71,18 +71,36 @@ $isLoggedIn = isset($_SESSION['person_ID']);
       </p>
       <p class="slogan">Your journey matters. Let SR Van Travels drive you to unforgettable destinations.</p>
 
-      <h2>CONTACTS:</h2>
-      <br>
-      <ul class="contact-info">
-        <li><strong>Facebook:</strong> SR Van Travels</li>
-        <li><strong>Email:</strong> srvantravels@gmail.com</li>
-        <li><strong>Contact Number:</strong><li>09452866649</li>
-            <li>09478196739</li>
-            <li>09166240642</li>
-            <li>09166629657</li>
-            <li>0916660527</li>
-            <li>09569430826</li>
-        <li><strong>Location:</strong> Jugan, Consolacion, Cebu City, Philippines</li>
+<h2>CONTACTS:</h2>
+<div class="contact-grid">
+  <div class="contact-card">
+    <h3>Facebook</h3>
+    <p>SR Van Travels</p>
+  </div>
+
+  <div class="contact-card">
+    <h3>Email</h3>
+    <p>srvantravels@gmail.com</p>
+  </div>
+
+  <div class="contact-card">
+    <h3>Phone Numbers</h3>
+    <ul class="phone-grid">
+      <li>09452866649</li>
+      <li>09478196739</li>
+      <li>09166240642</li>
+      <li>09166629657</li>
+      <li>0916660527</li>
+      <li>09569430826</li>
+    </ul>
+  </div>
+
+  <div class="contact-card">
+    <h3>Location</h3>
+    <p>Jugan, Consolacion, Cebu City, Philippines</p>
+  </div>
+</div>
+
       </ul>
     </div>
   </div>

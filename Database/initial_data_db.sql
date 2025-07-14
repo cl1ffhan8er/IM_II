@@ -4,7 +4,7 @@
 
 -- Insert initial users (Admin, Driver, Basic User)
 INSERT INTO Person (person_ID, name, password, email, contact_number) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', '24100314@usc.edu.ph', '09991258600'),
+(1, 'manager', '21232f297a57a5a743894a0e4a801fc3', '24100314@usc.edu.ph', '09991258600'),
 (2, 'driver', 'e2d45d57c7e2941b65c6ccd64af4223e', 'alissamay071006@gmail.com', '09991458600'),
 (3, 'user', 'ee11cbb19052e40b07aac0ca060c23ee', 'nexieplays@gmail.com', '09991558601');
 

@@ -62,7 +62,7 @@ if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
         $stmtCustomers = $conn->prepare($sqlCustomers);
         if (!$stmtCustomers) throw new Exception("Customer prepare failed: " . $conn->error);
         
-        $stmtCustomers->bind_param("iiisisiis", $person_id, $payment_id, $itinerary_id, $fullName, $pax, $date, $luggage, $pickup, $pickuptime);
+        $stmtCustomers->bind_param("iiisisiiss", $person_id, $payment_id, $itinerary_id, $fullName, $pax, $date, $luggage, $pickup, $pickuptime, $null);
         $stmtCustomers->send_long_data(9, $fileData); 
         if (!$stmtCustomers->execute()) throw new Exception("Customer execute failed: " . $stmtCustomers->error);
         $stmtCustomers->close();
@@ -124,9 +124,21 @@ if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
 
         $conn->commit();
 
-        unlink($filePath);
-        session_unset();
-        session_destroy();
+        if (isset($_SESSION['id_filepath']) && file_exists($_SESSION['id_filepath'])) {
+            unlink($_SESSION['id_filepath']);
+        }
+        
+        $booking_keys_to_clear = [
+            'booking_type', 'package_id', 'package_name', 'package_price',
+            'booking_itinerary', 'fname', 'lname', 'pax', 'date', 'pickup',
+            'pickuptime', 'dropofftime', 'luggage', 'comments', 
+            'id_filepath', 'id_filename'
+        ];
+        foreach ($booking_keys_to_clear as $key) {
+            if (isset($_SESSION[$key])) {
+                unset($_SESSION[$key]);
+            }
+        }
 
         header("Location: success.php");
         exit;

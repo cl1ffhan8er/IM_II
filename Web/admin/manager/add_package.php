@@ -60,6 +60,7 @@ $results = $conn->query("SELECT pi.*, i.price FROM Package_Itinerary pi JOIN Iti
             <h3>Admin Menu</h3>
             <a href="home.php">🏠 Bookings</a>
             <a href="add_package.php">📦 Plans</a>
+            <a href="add_locations.php">📍 Locations</a>
         </div>
         <div class="nav-bottom">
             <a href="../../user/login/logout.php">🚪 Log Out</a>
@@ -106,7 +107,7 @@ $results = $conn->query("SELECT pi.*, i.price FROM Package_Itinerary pi JOIN Iti
         <div class="card-container">
             <?php while ($row = $results->fetch_assoc()): ?>
                 <div class="package-card-wrapper">
-                    <a href="view_edit_package.php?package_id=<?= $row['package_id'] ?>" class="package-card-link">
+                    <a href="view_edit_package.php?package_id=<?= $row['package_ID'] ?>" class="package-card-link">
                         <div class="package-card">
                             <div class="card-image">
                                 <?php if (!empty($row['package_picture'])): ?>
@@ -122,7 +123,7 @@ $results = $conn->query("SELECT pi.*, i.price FROM Package_Itinerary pi JOIN Iti
                         </div>
                     </a>
                     <form method="post" class="toggle-form">
-                        <input type="hidden" name="toggle_id" value="<?= $row['package_id'] ?>">
+                        <input type="hidden" name="toggle_id" value="<?= $row['package_ID'] ?>">
                         <button type="submit" name="toggle_status" class="toggle-btn <?= $row['is_available'] ? 'active' : 'inactive' ?>">
                             <?= $row['is_available'] ? ' Available' : ' Unavailable' ?>
                         </button>

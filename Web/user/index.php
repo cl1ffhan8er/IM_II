@@ -53,7 +53,7 @@
     <nav class="navbar">
         <div class="navbar-inner">
             <div class="navbar-logo">
-                <img src="https://placehold.co/109x107" alt="Logo">
+                <img src="images/srvanlogo.png" alt="Logo">
             </div>
             <div class="navbar-links">
                 <a href="#" class="nav-item">Home</a>
@@ -64,8 +64,8 @@
                     <a href="login/login.php" class="nav-item">Book</a>
                 <?php endif; ?>
 
-                <a href="#" class="nav-item">Help</a>
-                <a href="#" class="nav-item">About Us</a>
+                <a href="minor/help.php" class="nav-item">Help</a>
+                <a href="minor/about-us.php" class="nav-item">About Us</a>
 
                 <?php if ($isLoggedIn): ?>
                     <a href="login/logout.php" class="nav-item">Log Out</a>

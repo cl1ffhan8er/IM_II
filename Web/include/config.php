@@ -6,5 +6,5 @@
 
         'user' => 'root',
         'password' => '',
-        'database' => 's24100314_businessdb'
+        'database' => 'srvan_db'
     ];

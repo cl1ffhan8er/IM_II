@@ -123,7 +123,7 @@ $locations_result = $conn->query("SELECT location_name, location_address FROM Lo
                   $name = htmlspecialchars($row['location_name']);
                   $address = htmlspecialchars($row['location_address']);
                   echo "<div class='location' data-name='{$name}' data-address='{$address}' onclick='addLocation(\"{$name}\", \"{$address}\")'>";
-                  echo "<p><b>{$name}</b> - {$address}</p>";
+                  echo "<p><b>{$name}</b> {$address}</p>";
                   echo "</div>";
               }
           } else {

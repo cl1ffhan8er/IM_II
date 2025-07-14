@@ -68,10 +68,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $package_id_redirect = $_SESSION['package_id'];
     session_regenerate_id(true);
 
-    // Force PHP to save the session data to the file immediately.
     session_write_close();
 
-    // Now, with the data saved, it's safe to redirect.
     header("Location: packagepayment.php?package_id=" . urlencode($package_id_redirect)); 
     exit();
 

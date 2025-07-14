@@ -64,7 +64,7 @@
                     <a href="login/login.php" class="nav-item">Book</a>
                 <?php endif; ?>
 
-                <a href="#" class="nav-item">Help</a>
+                <a href="minor/help.php" class="nav-item">Help</a>
                 <a href="#" class="nav-item">About Us</a>
 
                 <?php if ($isLoggedIn): ?>

@@ -1,0 +1,144 @@
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  
+    background-image: url("../images/bg7.jpg");
+    background-size: cover;
+    background-position: center;
+  
+    filter: blur(2px) brightness(0.7);
+    
+    z-index: -1;
+}
+
+.packages-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 40px 20px;
+    align-items: center;
+}
+
+.package-card {
+    position: relative;
+    width: 90%;
+    max-width: 900px;
+    height: 300px;
+    border: 2px solid #000;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.package-card:hover {
+    transform: translateY(-5px);
+}
+
+.package-content {
+    position: relative;
+    z-index: 2;
+    background-color: rgba(255, 255, 255, 0.75); 
+    color: #000;
+    padding: 20px;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.package-content p {
+    margin: 4px 0;
+    font-size: 16px;
+}
+
+.package-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.package-text {
+    padding: 16px;
+}
+
+.package-text h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.package-text p {
+    margin: 8px 0;
+}
+
+.price {
+    font-weight: bold;
+    color: #000;
+}
+
+.package-details {
+    padding: 16px;
+    width: 50%;
+}
+
+.package-details h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+}
+
+.package-details p.price {
+    font-weight: bold;
+    color: #1e90ff;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+
+.search-container form {
+    display: flex;
+    width: 100%;
+    max-width: 500px;
+}
+
+.search-bar {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid #ccc;
+    border-radius: 25px 0 0 25px;
+    font-size: 16px;
+    outline: none;
+}
+
+.search-button {
+    padding: 12px 20px;
+    background-color: #2e86de;
+    color: white;
+    font-weight: bold;
+    border: 2px solid #2e86de;
+    border-left: none;
+    border-radius: 0 25px 25px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+    background-color: #1b4f72;
+}

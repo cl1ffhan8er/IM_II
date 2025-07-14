@@ -50,24 +50,28 @@
     </nav>
 
     <div class="booking-container">
-    <h1>BOOKING DETAILS</h1>
-
+    <div class="title">
+        <h1>BOOKING DETAILS</h1>
+    </div>
+    
     <form id="bookingform2" action="customform-p2.php" method="post" enctype="multipart/form-data" class="booking-form">
 
        <div class="form2">
-  <form id="bookingform2" action="customform-p2.php" method="post" enctype="multipart/form-data">
-    <div class="form-flex">
-      <div class="form-left">
-        <div class="name-fields">
-          <div>
+    <form id="bookingform2" action="customform-p2.php" method="post" enctype="multipart/form-data">
+    
+    <div class="name-fields">
+        <div>
             <label for="fname">First Name:</label>
             <input type="text" id="fname" name="fname" placeholder="First Name" required>
-          </div>
-          <div>
+        </div>
+        <div>
             <label for="lname">Last Name:</label>
             <input type="text" id="lname" name="lname" placeholder="Last Name" required>
-          </div>
         </div>
+    </div>
+  
+    <div class="form-flex">
+      <div class="form-left">
 
         <label for="pax">Number of Party Members:</label>
         <input type="number" id="pax" name="pax" placeholder="Number of Party Members" required>
@@ -86,9 +90,6 @@
 
         <label for="comments">Comments/Others:</label>
         <textarea id="comments" name="comments" placeholder="Comments or additional requests"></textarea>
-
-        <label for="id">Attach Official ID (jpg / png):</label>
-        <input type="file" name="id" accept=".jpg, .jpeg, .png" required>
       </div>
 
       <div class="form-right">
@@ -105,10 +106,22 @@
       </div>
     </div>
 
-    <div class="form-buttons">
-      <button type="submit">Submit</button>
-      <button type="button" onclick="history.back()">Back</button>
+    <label for="id">Attach Official ID (jpg / png):</label>
+    <input type="file" name="id" accept=".jpg, .jpeg, .png" required>
+
+    <div class="form-field">
+    <label>
+        <input type="checkbox" name="pay_on_pickup" id="pay_on_pickup">
+        Pay on Pick-Up Date?
+        <small class="note">By choosing this, a downpayment is required.</small>
+    </label>
     </div>
+
+    <div class="form-buttons">
+        <button type="submit" class="nav-button submit-button">Submit</button>
+        <button type="button" class="nav-button back-button" onclick="history.back()">Back</button>
+    </div>
+
   </form>
 </div>
 

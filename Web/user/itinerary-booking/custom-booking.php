@@ -2,10 +2,12 @@
 session_start();
 include '../../include/connect.php'; 
 $isLoggedIn = isset($_SESSION['person_ID']);
+$username = $_SESSION['username'] ?? '';
 
 $existing_itinerary = $_SESSION['booking_itinerary'] ?? [];
 
 $locations_result = $conn->query("SELECT location_name, location_address FROM Locations WHERE is_custom_made = FALSE");
+
 ?>
 
 <!DOCTYPE html>
@@ -30,32 +32,33 @@ $locations_result = $conn->query("SELECT location_name, location_address FROM Lo
 <body data-is-logged-in="<?php echo $isLoggedIn ? 'true' : 'false'; ?>">
 
   <nav class="navbar">
-    <div class="navbar-inner">
-      <div class="navbar-logo">
-        <img src="https://placehold.co/109x107" alt="Logo" />
+      <div class="navbar-inner">
+          <div class="navbar-logo">
+              <img src="../images/srvanlogo.png" alt="Logo">
+          </div>
+          <div class="navbar-links">
+              <a href="../index.php" class="nav-item">Home</a>
+
+              <?php if ($isLoggedIn): ?>
+                  <a href="../packages.php" class="nav-item">Book</a>
+              <?php else: ?>
+                  <a href="login/login.php" class="nav-item">Book</a>
+              <?php endif; ?>
+
+              <a href="/IM_II-2/Web/user/minor/help.php" class="nav-item">Help</a>
+              <a href="/IM_II-2/Web/user/minor/about-us.php" class="nav-item">About Us</a>
+
+              <?php if ($isLoggedIn): ?>
+                  <a href="login/logout.php" class="nav-item">Log Out</a>
+                  <a href="../profile.php" class="nav-item"><?php echo htmlspecialchars($username); ?></a>
+              <?php else: ?>
+                  <a href="login/login.php" class="nav-item">Log In</a>
+              <?php endif; ?>
+          </div>
       </div>
-      <div class="navbar-links">
-        <a href="#" class="nav-item">Home</a>
-
-        <?php if ($isLoggedIn): ?>
-            <a href="packages.php" class="nav-item">Book</a>
-        <?php else: ?>
-            <a href="login/login.php" class="nav-item">Book</a>
-        <?php endif; ?>
-
-        <a href="#" class="nav-item">Help</a>
-        <a href="#" class="nav-item">About Us</a>
-
-        <?php if ($isLoggedIn): ?>
-            <a href="login/logout.php" class="nav-item">Log Out</a>
-        <?php else: ?>
-            <a href="login/login.php" class="nav-item">Log In</a>
-        <?php endif; ?>
-      </div>
-    </div>
   </nav>
 
-  <hr />
+  <hr/>
 
   <form id="bookingform" action="customform-p1.php" method="post">
 

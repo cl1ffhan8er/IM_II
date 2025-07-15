@@ -53,57 +53,87 @@ $results = $conn->query("SELECT pi.*, i.price FROM Package_Itinerary pi JOIN Iti
     <meta charset="UTF-8">
     <title>Add Package</title>
     <link rel="stylesheet" href="add_package_styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
 </head> 
 <body>
     <div class="sidebar">
         <div class="nav-top">
-            <h3>Admin Menu</h3>
-            <a href="home.php">🏠 Bookings</a>
-            <a href="add_package.php">📦 Plans</a>
-            <a href="add_locations.php">📍 Locations</a>
+            <a href="home.php">BOOKINGS</a>
+            <a href="add_package.php">PLANS</a>
+            <a href="add_locations.php">LOCATIONS</a>
         </div>
         <div class="nav-bottom">
-            <a href="../../user/login/logout.php">🚪 Log Out</a>
+            <a href="../../user/login/logout.php" class="logout">Log Out</a>
         </div>
     </div>
 
     <div class="content">
-        <h1>Add New Package</h1>
+        <h1>ADD NEW PACKAGE</h1>
 
+        <form method="POST" enctype="multipart/form-data" class="package-form">
         <?php if (isset($_GET['success'])): ?>
             <p style="color: green; font-weight: bold;">Package added successfully!</p>
         <?php endif; ?>
 
-        <form method="POST" enctype="multipart/form-data">
-            <label>Package Name:</label><br>
-            <input type="text" name="package_name" required><br><br>
+    <form method="POST" enctype="multipart/form-data" class="package-form">
+    
+        <!-- Row 1 -->
+        <div class="form-row">
+            <div class="form-group">
+                <label>Package Name:</label>
+                <input type="text" name="package_name" required>
+            </div>
+            <div class="form-group">
+                <label>Inclusions:</label>
+                <textarea name="inclusions" rows="3" required></textarea>
+            </div>
+        </div>
 
-            <label>Inclusions:</label><br>
-            <textarea name="inclusions" rows="3" required></textarea><br><br>
+        <!-- Row 2 -->
+        <div class="form-row">
+            <div class="form-group">
+                <label>Passenger Count:</label>
+                <div class="passenger-range">
+                    <input type="number" name="passenger_min" min="1" required>
+                    <span>TO</span>
+                    <input type="number" name="passenger_max" min="1" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Description:</label>
+                <textarea name="description" rows="3" required></textarea>
+            </div>
+        </div>
 
-            <label>Passenger Count:</label><br>
-            <input type="number" name="passenger_min" min="1" required>
-            <span style="margin: 0 10px; font-weight: bold;">TO</span>
-            <input type="number" name="passenger_max" min="1" required><br><br>
+        <!-- Row 3 -->
+        <div class="form-row">
+            <div class="form-group">
+                <label>Route:</label>
+                <textarea name="route" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label>Attach Package Image:</label>
+                <input type="file" name="image" accept="image/*" required>
+            </div>
+        </div>
 
-            <label>Description:</label><br>
-            <textarea name="description" rows="3" required></textarea><br><br>
+        <!-- Row 4 -->
+        <div class="form-row">
+            <div class="form-group">
+                <label>Price per PAX (₱):</label>
+                <input type="number" step="0.01" name="price" required>
+            </div>
+        </div>
 
-            <label>Route:</label><br>
-            <textarea name="description" rows="3" required></textarea><br><br>
+        <div class="form-button-container">
+            <button type="submit" name="add_package">SAVE</button>
+        </div>
+    </form>
 
-            <label>Price (₱):</label><br>
-            <input type="number" step="0.01" name="price" required><br><br>
-
-            <label>Upload Image:</label><br>
-            <input type="file" name="image" accept="image/*" required><br><br>
-
-            <button type="submit" name="add_package">Add Package</button>
-        </form>
 
         <hr>
 
-        <h2>Existing Packages</h2>
+        <h2>EXISTING PACKAGES</h2>
         <div class="card-container">
             <?php while ($row = $results->fetch_assoc()): ?>
                 <div class="package-card-wrapper">

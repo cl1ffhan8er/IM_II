@@ -37,20 +37,20 @@ $driverCount = $driverCountResult->fetch_assoc()['count'] ?? 0;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel = "stylesheet" href="home_styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
     <title>Manager Home</title>
 </head>
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="nav-top">
-            <h3>Admin Menu</h3>
-            <a href="home.php">🏠 Bookings</a>
-            <a href="add_package.php">📦 Plans</a>
-            <a href="add_locations.php">📍 Locations</a>
+            <a href="home.php">BOOKINGS</a>
+            <a href="add_package.php">PLANS</a>
+            <a href="add_locations.php">LOCATIONS</a>
         </div>
 
         <div class="nav-bottom">
-            <a href="../../user/login/logout.php">🚪 Log Out</a>
+            <a href="../../user/login/logout.php">Log Out</a>
         </div>
     </div>
 

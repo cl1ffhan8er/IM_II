@@ -45,7 +45,7 @@ JOIN Order_Details od ON c.customer_ID = od.customer_ID AND c.payment_ID = od.pa
 JOIN Itinerary i ON od.itinerary_ID = i.itinerary_ID
 LEFT JOIN Package_Itinerary pi ON i.itinerary_ID = pi.package_id
 WHERE c.customer_ID = ?
-ORDER BY c.date_of_travel DESC";
+ORDER BY c.date_of_travel ASC";
 
 $bookings_stmt = $conn->prepare($sql);
 if (!$bookings_stmt) {

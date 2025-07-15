@@ -128,9 +128,22 @@
     <button type="button" class="nav-button action-button cancel-button" onclick="history.back()">CANCEL</button>
     <button type="submit" class="nav-button action-button submit-button">SUBMIT</button>
     </div>
-
   </form>
 </div>
+
+  <footer class="site-footer">
+      <div class="footer-container">
+          <div class="footer-text">SR Van Travels 2025 ©. All Rights Reserved</div>
+          <div class="footer-icons">
+              <a href="mailto:srvantravels@gmail.com" class="footer-icon-link" aria-label="Email">
+                  <img src="../svg-icons/email.svg" alt="Email Icon" class="footer-icon">
+              </a>
+              <a href="https://www.facebook.com/profile.php?id=61569662235289" target="_blank" rel="noopener noreferrer" class="footer-icon-link" aria-label="Facebook">
+                  <img src="../svg-icons/facebook.svg" alt="Facebook Icon" class="footer-icon">
+              </a>
+          </div>
+      </div>
+  </footer>
 
     <!-- <script>
         const selectedLocations = <?//php echo json_encode($booking_itinerary); ?>;

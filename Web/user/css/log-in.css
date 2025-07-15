@@ -50,7 +50,7 @@ body, html {
 }
 
 .login-section form > div {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .login-section label {
@@ -178,3 +178,4 @@ h1 {
     margin-top: 10px;
     color: red;
 }
+

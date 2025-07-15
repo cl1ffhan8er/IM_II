@@ -50,7 +50,7 @@ INSERT INTO Package_Itinerary (
     'Experience the wonders of Southern Cebu with this all-in-one adventure! Enjoy whale watching and swimming with the gentle giants, explore the historic Cuartel Ruins and Boljoon Church, take an optional dip at the refreshing Tumalog Falls, and visit the iconic Simala Church. Cap off your trip with tasty pasalubong stops for Torta in Argao and Chicharon in Carcar—perfect souvenirs of an unforgettable journey!',
     1,
     TRUE,
-    '_______________'
+    'package-images/apple.png'
 ),
 (
     2,
@@ -61,7 +61,7 @@ INSERT INTO Package_Itinerary (
     'Experience the wonders of Southern Cebu with this all-in-one adventure! Enjoy whale watching and swimming with the gentle giants, explore the historic Cuartel Ruins and Boljoon Church, take an optional dip at the refreshing Tumalog Falls, and visit the iconic Simala Church. Cap off your trip with tasty pasalubong stops for Torta in Argao and Chicharon in Carcar—perfect souvenirs of an unforgettable journey!',
     2,
     TRUE,
-    '_______________'
+    'package-images/banana.png'
 ),
 (
     3,
@@ -72,7 +72,7 @@ INSERT INTO Package_Itinerary (
     'Experience the wonders of Southern Cebu with this all-in-one adventure! Enjoy whale watching and swimming with the gentle giants, explore the historic Cuartel Ruins and Boljoon Church, take an optional dip at the refreshing Tumalog Falls, and visit the iconic Simala Church. Cap off your trip with tasty pasalubong stops for Torta in Argao and Chicharon in Carcar—perfect souvenirs of an unforgettable journey!',
     3,
     TRUE,
-    '_______________'
+    'package-images/banana.png'
 );
 
 INSERT INTO Payment (payment_ID, payment_method, down_payment, payment_status) VALUES

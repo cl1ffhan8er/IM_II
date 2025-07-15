@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: "Roboto Condensed", sans-serif;
     display: flex;
     background-color: #E6E6E6;
 }
@@ -11,23 +11,63 @@ body {
     justify-content: space-between;
     height: 100vh;
     width: 200px;
-    background-color: #B5D7E6;
+    background-color: #36B9CB;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
     position: fixed;
+    font-family: "Roboto Condensed", sans-serif;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.sidebar-logo {
+    width: auto;
+    height: 60px;
+    object-fit: contain;
+}
+
+.admin-label {
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+}
+
+.nav-top {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.nav-bottom {
+    margin-bottom: 40px; /* lift it up a bit from bottom */
 }
 
 .sidebar a {
     display: block;
-    color: #333;
     text-decoration: none;
-    padding: 10px 0;
-    font-weight: bold;
+    padding: 10px 12px;
+    font-weight: 700;
+    color: white;
+    font-size: clamp(12px, 1.5vw, 16px);
+    font-weight: 700;
+    transition: all 0.3s ease; 
+    white-space: nowrap;
+    border-radius: 8px; 
 }
 
 .sidebar a:hover {
-    background-color: #ddd;
-    padding-left: 5px;
+    background-color: #8EC2D7;
+    padding-left: 17px; 
+    border-radius: 8px;  
+}
+
+.sidebar a.logout {
+    margin-top: 60px; 
 }
 
 .content {
@@ -43,17 +83,85 @@ body {
     margin-top: 20px;
 }
 
+.package-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: #f5f5f5;
+    padding: 20px 25px;
+    border-radius: 16px;
+}
+
+.package-form label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.package-form input[type="text"],
+.package-form input[type="number"],
+.package-form textarea,
+.package-form input[type="file"] {
+    padding: 8px 10px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    resize: vertical;
+}
+
+.package-form button {
+    background-color: #F4B63D;
+    color: white;
+    padding: 10px 32px;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    transition: background-color 0.3s ease;
+}
+
+.package-form button:hover {
+    background-color: #dfa42e;
+}
+
+.form-button-container {
+    flex-basis: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.passenger-range {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.passenger-range input {
+    width: 90px;
+}
+
+.passenger-range span {
+    font-weight: bold;
+    font-size: 12px;
+}
+
 .package-card {
-    width: 180px; /* fix card width */
-    border: 1px solid #ddd;
-    border-radius: 10px;
+    width: 200px;
+    border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     background-color: white;
+    transition: transform 0.2s ease;
 }
 
 .package-card:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .card-image {
@@ -63,12 +171,11 @@ body {
 }
 
 .card-image img {
+    border-bottom: 1px solid #eee;
+    border-radius: 14px 14px 0 0;
     width: 100%;
-    height: 100%;
-    object-fit: cover; /* fills the box */
-    display: block;
+    height: auto;
 }
-
 
 .no-image {
     width: 100%;
@@ -82,23 +189,34 @@ body {
 }
 
 .card-info {
-    padding: 10px;
-    text-align: center;
+    padding: 15px;
+    font-size: 14px;
 }
 
 .card-info h3 {
-    font-size: 14px;
-    margin: 6px 0;
-    color: #333;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 15px;
+    font-weight: 600;
+    margin: 8px 0 4px;
 }
 
 .card-info p {
     margin: 0;
     font-size: 13px;
     color: #666;
+}
+
+.card-info .status {
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.status.available {
+    color: green;
+}
+
+.status.unavailable {
+    color: red;
 }
 
 .toggle-btn {
@@ -118,4 +236,81 @@ body {
 .toggle-btn.inactive {
     background-color: #f8d7da;
     color: #721c24;
+}
+
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 900px;
+    margin: auto;
+}
+
+form label {
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.form-row {
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+form input[type="text"],
+form input[type="number"],
+form textarea {
+    margin-top: 6px;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    background-color: #fff;
+}
+
+form button {
+    grid-column: span 2;
+    margin: auto;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #F4B63D;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    box-shadow: 2px 4px 6px rgba(0,0,0,0.2);
+    cursor: pointer;
+    width: 180px;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #dfa42e;
+}
+
+.form-button-container {
+    flex-basis: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.form-left,
+.form-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* reduced gap between inputs */
+    min-width: 280px;
+}
+
+.form-group {
+    flex: 0 0 48%; /* ⬅ force it to stay roughly half width */
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }

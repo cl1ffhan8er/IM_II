@@ -1,6 +1,12 @@
 body {
-  background-image: url("../images/bg1.jpg");          
+  background-image: url("../images/bg1.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
 }
+
 
 .header {
   color: white;
@@ -15,19 +21,18 @@ body {
 }
 
 .packages {
-  display: flex;
-  flex-wrap: column;
-  gap: 30px;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px; /* ⬅️ was 30px */
   padding: 40px;
+  justify-items: center;
 }
 
 .packages-container {
-  max-width: 1351px;
+  max-width: 1100px;
   margin: 0 auto;
-  background: rgba(121, 198, 209, 0.52);
   border-radius: 35px;
-  padding: 60px 48px;
+  padding: 20px 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -84,7 +89,7 @@ body {
 .package-title-price {
   padding: 16px;
   display: flex;
-  gap: 9px;
+  gap: 5px;
   background-color: rgba(255, 255, 255, 0.85);
   justify-content: space-around;
   align-items: center;
@@ -93,7 +98,7 @@ body {
 
 .package-title {
   color: black;
-  font-size: 18px;
+  font-size: 15px;
   font-family: "Roboto Condensed", sans-serif;
   font-weight: 700;
   word-wrap: break-word;
@@ -101,7 +106,7 @@ body {
 
 .package-price {
   color: black;
-  font-size: 15px;
+  font-size: 13px;
   font-family: "Roboto Condensed", sans-serif;
   word-wrap: break-word;
 }
@@ -285,6 +290,41 @@ body {
 
 .yellow {
   color: #FFD700;
+}
+
+.package-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.package-card {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 16px;
+    overflow: hidden; /* ✅ ensures image and content stay inside rounded card */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.package-card img {
+    width: 100%;          /* ✅ full width of card */
+    height: 100%;        /* ✅ fixed height (adjust as needed) */
+    object-fit: cover;    /* ✅ crop to fill without distortion */
+    display: block;       /* ✅ removes extra whitespace */
+}
+
+.package-card {
+    transition: transform 0.2s ease;
+}
+
+.package-card-wrapper:hover .package-card {
+    transform: scale(1.02);
+}
+
+.package-card:hover {
+    transform: scale(1.02);
 }
 
 @keyframes scroll-left {

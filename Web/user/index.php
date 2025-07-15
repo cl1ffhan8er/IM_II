@@ -1,5 +1,9 @@
 <?php
-    session_start();
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+
+    session_start();    
     include '../include/connect.php';
     $isLoggedIn = isset($_SESSION['person_ID']);
 
@@ -8,7 +12,7 @@
     }
 
     $sql = "SELECT
-                pi.package_id,
+                pi.package_ID AS package_id,
                 pi.package_name,
                 pi.description,
                 pi.package_picture,
@@ -99,30 +103,35 @@
     <div class="background">
         <div class="header">Select from our various promos and pre-made plans!</div>
 
+    <div class="packages-container">
         <div class="packages">
+            
             <?php if (empty($packages)): ?>
                 <p class="no-packages">No packages are available at this time.</p>
             <?php else: ?>
                 <?php foreach ($packages as $package): ?>
-                    <form class="package-card" method="POST" action="package-booking/packagebook-p1-back.php">
-                        <img src="../<?php echo htmlspecialchars($package['package_picture']); ?>" alt="<?php echo htmlspecialchars($package['package_name']); ?>">
-                        <div class="package-details">
-                            <div class="package-title-price">
-                                <div class="package-title"><?php echo htmlspecialchars($package['package_name']); ?></div>
-                                <div class="package-price">₱<?php echo number_format($package['price'], 2); ?></div>
-                            </div>
-                            <p><?php echo htmlspecialchars($package['description']); ?></p>
+                    
+                    <div class="package-card-wrapper" onclick="submitPackageForm(<?php echo $package['package_id']; ?>)">
+                        <div class="package-card">
 
+                            <img src="../<?php echo htmlspecialchars($package['package_picture']); ?>" alt="<?php echo htmlspecialchars($package['package_name']); ?>">
+                            <div class="package-details">
+                                <div class="package-title-price">
+                                    <div class="package-title"><?php echo htmlspecialchars($package['package_name']); ?></div>
+                                    <div class="package-price">₱<?php echo number_format($package['price'], 2); ?></div>
+                                </div>
+                            </div>
+                        </div>
+                        <form id="package-form-<?php echo $package['package_id']; ?>" method="POST" action="package-booking/packagebook-p1-back.php" style="display: none;">
                             <input type="hidden" name="package_id" value="<?php echo $package['package_id']; ?>">
                             <input type="hidden" name="package_name" value="<?php echo htmlspecialchars($package['package_name']); ?>">
                             <input type="hidden" name="package_price" value="<?php echo htmlspecialchars($package['price']); ?>">
-
-                            <button type="submit" class="booking-button">View Details & Book</button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>
+    </div>
 
         <?php if ($isLoggedIn): ?>
             <a href="packages.php" class="see-more-btn">SEE MORE</a>
@@ -161,6 +170,13 @@
             const clone = content.cloneNode(true);
             track.appendChild(clone);
         });
+
+        function submitPackageForm(packageId) {
+        const form = document.getElementById(`package-form-${packageId}`);
+        if (form) {
+            form.submit();
+        }
+        }
     </script>
 </body>
 </html>

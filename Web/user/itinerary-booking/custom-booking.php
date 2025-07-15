@@ -2,10 +2,12 @@
 session_start();
 include '../../include/connect.php'; 
 $isLoggedIn = isset($_SESSION['person_ID']);
+$username = $_SESSION['username'] ?? '';
 
 $existing_itinerary = $_SESSION['booking_itinerary'] ?? [];
 
 $locations_result = $conn->query("SELECT location_name, location_address FROM Locations WHERE is_custom_made = FALSE");
+
 ?>
 
 <!DOCTYPE html>
@@ -30,32 +32,33 @@ $locations_result = $conn->query("SELECT location_name, location_address FROM Lo
 <body data-is-logged-in="<?php echo $isLoggedIn ? 'true' : 'false'; ?>">
 
   <nav class="navbar">
-    <div class="navbar-inner">
-      <div class="navbar-logo">
-        <img src="https://placehold.co/109x107" alt="Logo" />
+      <div class="navbar-inner">
+          <div class="navbar-logo">
+              <img src="../images/srvanlogo.png" alt="Logo">
+          </div>
+          <div class="navbar-links">
+              <a href="../index.php" class="nav-item">Home</a>
+
+              <?php if ($isLoggedIn): ?>
+                  <a href="../packages.php" class="nav-item">Book</a>
+              <?php else: ?>
+                  <a href="login/login.php" class="nav-item">Book</a>
+              <?php endif; ?>
+
+              <a href="/IM_II-2/Web/user/minor/help.php" class="nav-item">Help</a>
+              <a href="/IM_II-2/Web/user/minor/about-us.php" class="nav-item">About Us</a>
+
+              <?php if ($isLoggedIn): ?>
+                  <a href="login/logout.php" class="nav-item">Log Out</a>
+                  <a href="../profile.php" class="nav-item"><?php echo htmlspecialchars($username); ?></a>
+              <?php else: ?>
+                  <a href="login/login.php" class="nav-item">Log In</a>
+              <?php endif; ?>
+          </div>
       </div>
-      <div class="navbar-links">
-        <a href="#" class="nav-item">Home</a>
-
-        <?php if ($isLoggedIn): ?>
-            <a href="packages.php" class="nav-item">Book</a>
-        <?php else: ?>
-            <a href="login/login.php" class="nav-item">Book</a>
-        <?php endif; ?>
-
-        <a href="#" class="nav-item">Help</a>
-        <a href="#" class="nav-item">About Us</a>
-
-        <?php if ($isLoggedIn): ?>
-            <a href="login/logout.php" class="nav-item">Log Out</a>
-        <?php else: ?>
-            <a href="login/login.php" class="nav-item">Log In</a>
-        <?php endif; ?>
-      </div>
-    </div>
   </nav>
 
-  <hr />
+  <hr/>
 
   <form id="bookingform" action="customform-p1.php" method="post">
 
@@ -64,11 +67,12 @@ $locations_result = $conn->query("SELECT location_name, location_address FROM Lo
         <div class="form-group">
           <label for="date">Select Date:</label>
           <input
-            type="date"
-            id="date"
-            name="date"
-            value="<?php echo htmlspecialchars($_SESSION['date'] ?? ''); ?>"
-            required
+              type="date"
+              id="date"
+              name="date"
+              min="<?php echo date('Y-m-d'); ?>"
+              value="<?php echo htmlspecialchars($_SESSION['date'] ?? ''); ?>"
+              required
           />
         </div>
 
@@ -179,6 +183,38 @@ $locations_result = $conn->query("SELECT location_name, location_address FROM Lo
         selectedLocations = savedData ? JSON.parse(savedData) : [];
       }
       updateSelectedLocationsDisplay();
+
+      const bookingForm = document.getElementById('bookingform');
+      bookingForm.addEventListener('submit', function(event) {
+        const dateInput = document.getElementById('date');
+        const pickupTimeInput = document.getElementById('pickuptime');
+        const dropoffTimeInput = document.getElementById('dropofftime');
+
+        const selectedDateStr = dateInput.value;
+        const pickupTimeStr = pickupTimeInput.value;
+        const dropoffTimeStr = dropoffTimeInput.value;
+
+        const now = new Date();
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+        const selectedDate = new Date(selectedDateStr + 'T00:00:00'); 
+
+        if (dropoffTimeStr <= pickupTimeStr) {
+          alert('Error: Drop-off time must be later than the pickup time.');
+          event.preventDefault();
+          return;
+        }
+
+        if (selectedDate.getTime() === today.getTime()) {
+          const currentTimeStr = now.toTimeString().slice(0, 5); 
+          if (pickupTimeStr < currentTimeStr) {
+            alert('Error: Pickup time for today cannot be in the past.');
+            event.preventDefault(); 
+            return;
+          }
+        }
+      });
+
     });
 
     let dragSrcEl = null;

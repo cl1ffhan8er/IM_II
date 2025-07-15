@@ -2,8 +2,15 @@
     session_start();
     include '../../include/connect.php';
     $isLoggedIn = isset($_SESSION['person_ID']);
+    $username = $_SESSION['username'] ?? '';
 
     $booking_itinerary = $_SESSION['booking_itinerary'] ?? [];
+
+    $date = $_SESSION['date'] ?? '';
+    $pickuptime = $_SESSION['pickuptime'] ?? '';
+    $dropofftime = $_SESSION['dropofftime'] ?? '';
+    $pickup = $_SESSION['pickup'] ?? '';
+
 ?>
 
 <!DOCTYPE html>
@@ -22,31 +29,32 @@
     <title>CUSTOM BOOKING - STEP 2</title>
 </head>
 
-<body>    
+<body>    
     <nav class="navbar">
-    <div class="navbar-inner">
-        <div class="navbar-logo">
-        <img src="../images/logo.png" alt="Logo" />
+        <div class="navbar-inner">
+            <div class="navbar-logo">
+                <img src="../images/srvanlogo.png" alt="Logo">
+            </div>
+            <div class="navbar-links">
+                <a href="../index.php" class="nav-item">Home</a>
+
+                <?php if ($isLoggedIn): ?>
+                    <a href="../packages.php" class="nav-item">Book</a>
+                <?php else: ?>
+                    <a href="login/login.php" class="nav-item">Book</a>
+                <?php endif; ?>
+
+                <a href="/IM_II-2/Web/user/minor/help.php" class="nav-item">Help</a>
+                <a href="/IM_II-2/Web/user/minor/about-us.php" class="nav-item">About Us</a>
+
+                <?php if ($isLoggedIn): ?>
+                    <a href="login/logout.php" class="nav-item">Log Out</a>
+                    <a href="../profile.php" class="nav-item"><?php echo htmlspecialchars($username); ?></a>
+                <?php else: ?>
+                    <a href="login/login.php" class="nav-item">Log In</a>
+                <?php endif; ?>
+            </div>
         </div>
-        <div class="navbar-links">
-        <a href="clear-booking-session.php?redirect_to=../index.php" class="nav-item">Home</a>
-
-        <?php if ($isLoggedIn): ?>
-            <a href="clear-booking-session.php?redirect_to=../packages.php" class="nav-item">Book</a>
-        <?php else: ?>
-            <a href="clear-booking-session.php?redirect_to=../login/login.php" class="nav-item">Book</a>
-        <?php endif; ?>
-
-        <a href="clear-booking-session.php?redirect_to=../help.php" class="nav-item">Help</a>
-        <a href="clear-booking-session.php?redirect_to=../about.php" class="nav-item">About Us</a>
-
-        <?php if ($isLoggedIn): ?>
-            <a onclick="logout()" class="nav-item" style="cursor:pointer;">Log Out</a>
-        <?php else: ?>
-            <a href="../login/login.php" class="nav-item">Log In</a>
-        <?php endif; ?>
-        </div>
-    </div>
     </nav>
 
     <div class="booking-container">
@@ -57,7 +65,6 @@
     <form id="bookingform2" action="customform-p2.php" method="post" enctype="multipart/form-data" class="booking-form">
 
        <div class="form2">
-    <form id="bookingform2" action="customform-p2.php" method="post" enctype="multipart/form-data">
     
     <div class="name-fields">
         <div>
@@ -69,7 +76,7 @@
             <input type="text" id="lname" name="lname" placeholder="Last Name" required>
         </div>
     </div>
-  
+ 
     <div class="form-flex">
       <div class="form-left">
 
@@ -77,13 +84,13 @@
         <input type="number" id="pax" name="pax" placeholder="Number of Party Members" required>
 
         <label for="pickup_date">Pick-up Date:</label>
-        <input type="date" id="pickup_date" name="pickup_date" required>
+        <input type="date" id="pickup_date" name="pickup_date" value="<?= htmlspecialchars($date) ?>" readonly required>
 
         <label for="pickup_time">Pick-up Time:</label>
-        <input type="time" id="pickup_time" name="pickup_time" required>
+        <input type="time" id="pickup_time" name="pickup_time" value="<?= htmlspecialchars($pickuptime) ?>" readonly required>
 
         <label for="pickup_address">Pick-up Address:</label>
-        <input type="text" id="pickup_address" name="pickup_address" placeholder="Pick-up Address" required>
+        <input type="text" id="pickup_address" name="pickup_address" value="<?= htmlspecialchars($pickup) ?>" readonly required>
 
         <label for="luggage">Number of Luggage:</label>
         <input type="number" id="luggage" name="luggage" placeholder="Number of Luggage" required>
@@ -99,7 +106,6 @@
             <div class="pit-stop">
               <p><strong><?= htmlspecialchars($stop['name']) ?></strong></p>
               <p><?= htmlspecialchars($stop['address']) ?></p>
-              <button type="button" class="remove-stop">✖</button>
             </div>
           <?php endforeach; ?>
         </div>
@@ -118,35 +124,26 @@
     </div>
 
     <div class="form-buttons">
-        <button type="submit" class="nav-button submit-button">Submit</button>
-        <button type="button" class="nav-button back-button" onclick="history.back()">Back</button>
+    <button type="button" class="nav-button action-button cancel-button" onclick="history.back()">CANCEL</button>
+    <button type="submit" class="nav-button action-button submit-button">SUBMIT</button>
     </div>
-
-  </form>
+  </div>
+</form>
 </div>
 
-    <!-- <script>
-        const selectedLocations = <?//php echo json_encode($booking_itinerary); ?>;
+  <footer class="site-footer">
+      <div class="footer-container">
+          <div class="footer-text">SR Van Travels 2025 ©. All Rights Reserved</div>
+          <div class="footer-icons">
+              <a href="mailto:srvantravels@gmail.com" class="footer-icon-link" aria-label="Email">
+                  <img src="../svg-icons/email.svg" alt="Email Icon" class="footer-icon">
+              </a>
+              <a href="https://www.facebook.com/profile.php?id=61569662235289" target="_blank" rel="noopener noreferrer" class="footer-icon-link" aria-label="Facebook">
+                  <img src="../svg-icons/facebook.svg" alt="Facebook Icon" class="footer-icon">
+              </a>
+          </div>
+      </div>
+  </footer>
 
-        function updateDisplay() {
-            const container = document.getElementById("selected-locations-part2");
-            if (!container) return;
-            container.innerHTML = '';
-
-            if (!selectedLocations || selectedLocations.length === 0) {
-                container.innerHTML = "<p>No locations were selected.</p>";
-                return;
-            }
-
-            selectedLocations.forEach(loc => {
-                const div = document.createElement("div");
-                div.className = "location"; 
-                const customIndicator = loc.isCustom ? ' <span style="color: #007bff; font-size: 0.9em;">(Custom)</span>' : '';
-                div.innerHTML = `<p><b>${loc.name}</b>${customIndicator} - ${loc.address}</p>`;
-                container.appendChild(div);
-            });
-        }
-        document.addEventListener('DOMContentLoaded', updateDisplay);
-    </script> !-->
 </body>
 </html>

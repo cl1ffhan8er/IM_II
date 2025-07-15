@@ -1,0 +1,148 @@
+/* Background with blur and dim */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../images/bg10.jpg");
+  background-size: cover;
+  background-position: center;
+  filter: blur(0.5px) brightness(0.75);
+  z-index: -1;
+}
+
+/* Basic body setup */
+body {
+  font-family: "Roboto Condensed", sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Page wrapper setup for sticky footer */
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Footer always at the bottom */
+.site-footer {
+  margin-top: auto;
+}
+
+/* Success message container */
+.success-container {
+  flex: 0 0 auto;
+  display: block;
+  max-width: 700px;
+  margin: 60px auto;
+  padding: 20px 25px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 18px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Heading */
+.success-container h1 {
+  font-size: 2.8rem;
+  color: rgb(0, 0, 0); /* or keep #fca00a if you want orange */
+  margin-bottom: 20px;
+}
+
+/* Paragraph under heading */
+.success-container p {
+  font-size: 1.2rem;
+  color: #222;
+  margin: 0;
+}
+
+/* Tagline under confirmation message */
+.success-container .help-tagline {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #333;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+.success-container .contact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 👈 always two columns */
+  gap: 20px;
+  max-width: 800px;
+  margin: 25px auto 5px auto; /* ↓ reduced bottom margin */
+  padding: 0 10px;
+}
+
+/* Contact card styling */
+.success-container .contact-card {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Contact card hover effect */
+.success-container .contact-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* Contact headings */
+.success-container .contact-card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #1b4d60;
+  font-size: 1.2rem;
+}
+
+/* Paragraphs and list items inside contact cards */
+.success-container .contact-card p,
+.success-container .contact-card li {
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Style for horizontal rule */
+.success-container hr {
+  border: none;
+  height: 2px; /* slightly thick, but not too much */
+  background-color: #36B9CB;
+  margin: 20px auto; /* smaller top & bottom space */
+  width: 100%;
+}
+
+/* Remove default list style */
+.success-container .contact-card ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+/* Phone number grid layout */
+.success-container .phone-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 16px;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 600px) {
+  .success-container h1 {
+    font-size: 2rem;
+  }
+
+  .success-container p {
+    font-size: 1rem;
+    padding: 16px 20px;
+  }
+}

@@ -57,7 +57,7 @@ $sql .= " ORDER BY i.price LIMIT 4";
     <nav class="navbar">
         <div class="navbar-inner">
             <div class="navbar-logo">
-                <img src="https://placehold.co/109x107" alt="Logo">
+                <img src="images/srvanlogo.png" alt="Logo">
             </div>
             <div class="navbar-links">
                 <a href="#" class="nav-item">Home</a>
@@ -68,8 +68,8 @@ $sql .= " ORDER BY i.price LIMIT 4";
                     <a href="login/login.php" class="nav-item">Book</a>
                 <?php endif; ?>
 
-                <a href="#" class="nav-item">Help</a>
-                <a href="#" class="nav-item">About Us</a>
+                <a href="minor/help.php" class="nav-item">Help</a>
+                <a href="minor/about-us.php" class="nav-item">About Us</a>
 
                 <?php if ($isLoggedIn): ?>
                     <a href="login/logout.php" class="nav-item">Log Out</a>
@@ -82,15 +82,9 @@ $sql .= " ORDER BY i.price LIMIT 4";
     </nav>
 
 <div class="search-container">
-    <form action="packages.php" method="GET">
-        <input
-            type="text"
-            name="search"
-            class="search-bar"
-            placeholder="Search packages..."
-            value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>"
-        >
-        <button type="submit" class="search-button">Search</button>
+    <form method="GET" action="packages.php">
+        <input type="text" name="search" placeholder="Search packages..." value="<?= htmlspecialchars($search) ?>">
+        <button type="submit">Search</button>
     </form>
 </div>
 
@@ -98,7 +92,7 @@ $sql .= " ORDER BY i.price LIMIT 4";
 <?php if (!empty($packages)): ?>
     <?php foreach ($packages as $package): ?>
         <div class="package-card" onclick="location.href='package-booking/packagebook-p1-back.php?package_id=<?= $package['package_id']; ?>'">
-            <img src="<?= htmlspecialchars($package['package_picture']) ?>" class="package-image" alt="Image of <?= htmlspecialchars($package['package_name']) ?>">
+            <img src="../<?= htmlspecialchars($package['package_picture']) ?>" class="package-image" alt="Image of <?= htmlspecialchars($package['package_name']) ?>">
             <div class="package-content">
                 <h2><?= htmlspecialchars($package['package_name']) ?></h2>
                 <p><?= htmlspecialchars($package['description']) ?></p>

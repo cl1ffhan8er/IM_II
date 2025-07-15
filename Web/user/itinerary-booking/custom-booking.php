@@ -67,11 +67,12 @@ $locations_result = $conn->query("SELECT location_name, location_address FROM Lo
         <div class="form-group">
           <label for="date">Select Date:</label>
           <input
-            type="date"
-            id="date"
-            name="date"
-            value="<?php echo htmlspecialchars($_SESSION['date'] ?? ''); ?>"
-            required
+              type="date"
+              id="date"
+              name="date"
+              min="<?php echo date('Y-m-d'); ?>"
+              value="<?php echo htmlspecialchars($_SESSION['date'] ?? ''); ?>"
+              required
           />
         </div>
 
@@ -182,6 +183,38 @@ $locations_result = $conn->query("SELECT location_name, location_address FROM Lo
         selectedLocations = savedData ? JSON.parse(savedData) : [];
       }
       updateSelectedLocationsDisplay();
+
+      const bookingForm = document.getElementById('bookingform');
+      bookingForm.addEventListener('submit', function(event) {
+        const dateInput = document.getElementById('date');
+        const pickupTimeInput = document.getElementById('pickuptime');
+        const dropoffTimeInput = document.getElementById('dropofftime');
+
+        const selectedDateStr = dateInput.value;
+        const pickupTimeStr = pickupTimeInput.value;
+        const dropoffTimeStr = dropoffTimeInput.value;
+
+        const now = new Date();
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+        const selectedDate = new Date(selectedDateStr + 'T00:00:00'); 
+
+        if (dropoffTimeStr <= pickupTimeStr) {
+          alert('Error: Drop-off time must be later than the pickup time.');
+          event.preventDefault();
+          return;
+        }
+
+        if (selectedDate.getTime() === today.getTime()) {
+          const currentTimeStr = now.toTimeString().slice(0, 5); 
+          if (pickupTimeStr < currentTimeStr) {
+            alert('Error: Pickup time for today cannot be in the past.');
+            event.preventDefault(); 
+            return;
+          }
+        }
+      });
+
     });
 
     let dragSrcEl = null;

@@ -11,7 +11,6 @@ session_start();
    // die("CAPTCHA failed. Try again.");
 // }
 
-// Check if critical session data is available before processing the form submission
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -20,8 +19,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION['pax'] = htmlspecialchars($_POST['pax']);
     $_SESSION['luggage'] = htmlspecialchars($_POST['luggage']);
     $_SESSION['comments'] = htmlspecialchars($_POST['comments']);
-    $_SESSION['date'] = htmlspecialchars($_POST['date'] ?? ''); // Added missing variables from Page 1
-    $_SESSION['pickuptime'] = htmlspecialchars($_POST['pickuptime'] ?? ''); // Added missing variables from Page 1
+    $_SESSION['date'] = htmlspecialchars($_POST['date'] ?? ''); 
+    $_SESSION['pickuptime'] = htmlspecialchars($_POST['pickuptime'] ?? ''); 
     $_SESSION['dropofftime'] = htmlspecialchars($_POST['dropofftime'] ?? '');
 
     if (isset($_SESSION['id_filepath']) && file_exists($_SESSION['id_filepath'])) {

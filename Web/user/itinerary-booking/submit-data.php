@@ -7,7 +7,6 @@ error_reporting(E_ALL);
 session_start();
 include '../../include/connect.php';
 
-// Ensure all critical session data is available
 $required_sessions = [
     'person_ID',
     'fname', 'lname', 'pax', 'id_filepath', 'id_filename', 
@@ -23,7 +22,6 @@ foreach ($required_sessions as $key) {
 
 if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
 
-    // Retrieve all data from session and POST
     $person_id = $_SESSION['person_ID'];
     $fname = $_SESSION['fname'];
     $lname = $_SESSION['lname'];
@@ -38,7 +36,6 @@ if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
     $payment_method = $_POST['payment_type'];
     $fullName = $fname . ' ' . $lname;
     
-    // Verify the temporary uploaded file still exists
     if (!file_exists($filePath)) {
         die("Error: The uploaded ID file could not be found. Please go back and re-upload.");
     }
@@ -47,6 +44,7 @@ if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
     $conn->begin_transaction();
 
     try {
+    
         $down_payment = 500.00;
         $payment_status = "NOT PAID";
 
@@ -62,7 +60,7 @@ if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
         $sqlItinerary = "INSERT INTO Itinerary (price, type) VALUES (?, 'CUSTOM')";
         $stmtItinerary = $conn->prepare($sqlItinerary);
         if (!$stmtItinerary) throw new Exception("Itinerary prepare failed: " . $conn->error);
-        // Using down_payment as a placeholder price for the itinerary record
+
         $stmtItinerary->bind_param("d", $down_payment);
         if (!$stmtItinerary->execute()) throw new Exception("Itinerary execute failed: " . $stmtItinerary->error);
         $itinerary_id = $conn->insert_id;
@@ -95,6 +93,7 @@ if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
         if (!$stmtCustomers->execute()) throw new Exception("Customer execute failed: " . $stmtCustomers->error);
         $stmtCustomers->close();
 
+
         $sqlCustom = "INSERT INTO Custom_Itinerary (custom_ID, is_made_by_customer) VALUES (?, ?)";
         $stmtCustom = $conn->prepare($sqlCustom);
         if (!$stmtCustom) throw new Exception("Custom Itinerary prepare failed: " . $conn->error);
@@ -102,12 +101,10 @@ if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
         if (!$stmtCustom->execute()) throw new Exception("Custom Itinerary execute failed: " . $stmtCustom->error);
         $stmtCustom->close();
 
-        $sqlOrder = "INSERT INTO Order_Details (customer_ID, payment_ID, number_of_PAX, date_of_travel, time_for_pickup, time_for_dropoff) VALUES (?, ?, ?, ?, ?, ?)";
+        $sqlOrder = "INSERT INTO Order_Details (customer_ID, payment_ID, itinerary_ID, number_of_PAX, date_of_travel, time_for_pickup, time_for_dropoff) VALUES (?, ?, ?, ?, ?, ?)";
         $stmtOrder = $conn->prepare($sqlOrder);
         if (!$stmtOrder) throw new Exception("Order_Details prepare failed: " . $conn->error);
-        // FIX: The type definition string was incorrect here as well. It is now corrected.
-        // Correct types: i, i, i, s, s, s
-        $stmtOrder->bind_param("iiisss", $person_id, $payment_id, $pax, $date, $pickuptime, $dropofftime);
+        $stmtOrder->bind_param("iiiisss", $person_id, $payment_id, $itinerary_id, $pax, $date, $pickuptime, $dropofftime);
         if (!$stmtOrder->execute()) throw new Exception("Order_Details execute failed: " . $stmtOrder->error);
         $stmtOrder->close();
 
@@ -155,25 +152,33 @@ if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
 
         $conn->commit();
 
-        // Cleanup and redirect
-        unlink($filePath);
-        session_unset();
-        session_destroy();
+        if (isset($_SESSION['id_filepath']) && file_exists($_SESSION['id_filepath'])) {
+            unlink($_SESSION['id_filepath']);
+        }
+        
+        $booking_keys_to_clear = [
+            'booking_type', 'package_id', 'package_name', 'package_price',
+            'booking_itinerary', 'fname', 'lname', 'pax', 'date', 'pickup',
+            'pickuptime', 'dropofftime', 'luggage', 'comments', 
+            'id_filepath', 'id_filename'
+        ];
+        foreach ($booking_keys_to_clear as $key) {
+            if (isset($_SESSION[$key])) {
+                unset($_SESSION[$key]);
+            }
+        }
 
         header("Location: success.php");
         exit;
 
     } catch (Exception $e) {
-        // If any query fails, roll back the entire transaction
         $conn->rollback();
         die("Booking failed due to a database error. Please try again. Details: " . $e->getMessage());
     } finally {
-        // Always close the connection
         $conn->close();
     }
 
 } else {
-    // Redirect if the form was not submitted correctly
     header("Location: ../index.php");
     exit;
 }

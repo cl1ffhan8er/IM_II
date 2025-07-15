@@ -60,8 +60,6 @@ while ($booking = $bookings_result->fetch_assoc()) {
 }
 $bookings_stmt->close();
 
-// 4. Fetch all stops for all the user's itineraries in a single query.
-// This part of the logic is correct as `Itinerary_Stops.custom_ID` is a FK to `Itinerary.itinerary_ID`.
 $stopsByItinerary = [];
 if (!empty($itineraryIDs)) {
     $placeholders = implode(',', array_fill(0, count($itineraryIDs), '?'));

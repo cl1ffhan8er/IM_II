@@ -92,7 +92,7 @@ $sql .= " ORDER BY i.price LIMIT 4";
 <?php if (!empty($packages)): ?>
     <?php foreach ($packages as $package): ?>
         <div class="package-card" onclick="location.href='package-booking/packagebook-p1-back.php?package_id=<?= $package['package_id']; ?>'">
-            <img src="<?= htmlspecialchars($package['package_picture']) ?>" class="package-image" alt="Image of <?= htmlspecialchars($package['package_name']) ?>">
+            <img src="../<?= htmlspecialchars($package['package_picture']) ?>" class="package-image" alt="Image of <?= htmlspecialchars($package['package_name']) ?>">
             <div class="package-content">
                 <h2><?= htmlspecialchars($package['package_name']) ?></h2>
                 <p><?= htmlspecialchars($package['description']) ?></p>

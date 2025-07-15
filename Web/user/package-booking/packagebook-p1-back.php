@@ -26,7 +26,6 @@ $package = $package_result->fetch_assoc();
 $package_stmt->close();
 $conn->close();
 
-// Save to session
 $_SESSION['booking_type'] = 'PACKAGE';
 $_SESSION['package_id'] = $package_id;
 $_SESSION['package_name'] = $package['package_name'];

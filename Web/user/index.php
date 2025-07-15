@@ -105,6 +105,7 @@
             <?php else: ?>
                 <?php foreach ($packages as $package): ?>
                     <form class="package-card" method="POST" action="package-booking/packagebook-p1-back.php">
+                        <img src="../<?php echo htmlspecialchars($package['package_picture']); ?>" alt="<?php echo htmlspecialchars($package['package_name']); ?>">
                         <div class="package-details">
                             <div class="package-title-price">
                                 <div class="package-title"><?php echo htmlspecialchars($package['package_name']); ?></div>

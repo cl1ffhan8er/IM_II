@@ -39,10 +39,10 @@ INSERT INTO Locations (location_name, location_address) VALUES
 INSERT INTO Itinerary (price, type) VALUES (1800.00, 'PACKAGE');
 SET @last_id = LAST_INSERT_ID();
 INSERT INTO Package_Itinerary (package_id, package_name, is_made_by_manager, description, package_picture) VALUES
-(@last_id, 'Cebu City Historical Journey', 1, 'A half-day tour of Cebu''s most iconic historical landmarks.', 'images/apple.png');
+(@last_id, 'Cebu City Historical Journey', 1, 'A half-day tour of Cebu''s most iconic historical landmarks.', 'package-images/package1.png');
 
 INSERT INTO Itinerary (price, type) VALUES (3500.00, 'PACKAGE');
 SET @last_id = LAST_INSERT_ID();
 INSERT INTO Package_Itinerary (package_id, package_name, is_made_by_manager, description, package_picture) VALUES
-(@last_id, 'Oslob Whale Shark Encounter', 1, 'An unforgettable day swimming with the gentle giants of Oslob.', 'images/apple.png');
+(@last_id, 'Oslob Whale Shark Encounter', 1, 'An unforgettable day swimming with the gentle giants of Oslob.', 'package-images/package2.png');
 

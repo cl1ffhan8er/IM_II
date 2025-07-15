@@ -106,6 +106,8 @@ if (isset($_POST['assign_driver'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="view_order_styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
     <title>Order #<?= $orderDetails['order_ID'] ?> Details</title>
 </head>
 <!-- Modal -->
@@ -121,6 +123,18 @@ if (isset($_POST['assign_driver'])) {
     </div>
 </div>
 <body>
+    <div class="sidebar">
+        <div class="nav-top">
+            <a href="home.php">BOOKINGS</a>
+            <a href="add_package.php">PLANS</a>
+            <a href="add_locations.php">LOCATIONS</a>
+        </div>
+
+        <div class="nav-bottom">
+            <a href="../../user/login/logout.php">Log Out</a>
+        </div>
+    </div>
+
     <h1>Order Details</h1>
     <a href="home.php">← Back to Home</a>
 

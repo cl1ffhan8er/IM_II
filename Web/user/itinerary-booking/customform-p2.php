@@ -32,7 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (in_array(strtolower($filetype), $allowed)) {
             $newFilename = uniqid('id_', true) . '.' . $filetype;
-            $destination = 'uploads/' . $newFilename;
+            $uploadDir = __DIR__ . '/uploads/';
+            $destination = $uploadDir . $newFilename;
             
             if (!is_dir('uploads')) {
                 mkdir('uploads', 0755, true);

@@ -1,0 +1,225 @@
+/* === GENERAL SETUP === */
+body {
+  position: relative;
+  min-height: 100vh;
+  font-family: "Roboto Condensed", sans-serif;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../images/bg3.jpg");
+  background-size: cover;
+  background-position: center;
+  filter: blur(2px) brightness(0.7);
+  z-index: -1;
+}
+
+h1 {
+  text-align: center;
+  font-weight: 700;
+  margin-top: 40px;
+  color: #000;
+  font-size: 2.5rem;
+}
+
+hr{
+    margin-bottom: 20px;
+}
+
+select#payment_type {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 5.646a.5.5 0 0 1 .708 0L8 11.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem;
+  border: 1.2px solid #000;
+  border-radius: 20px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* === BOOKING WRAPPER: MAIN LAYOUT === */
+.booking-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  margin: 40px auto;
+  width: 95%;
+  max-width: 1300px;
+  flex-wrap: wrap;
+}
+
+.qr-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.qr-image {
+  width: 200px;
+  height: 200px;
+  border: 1.5px solid #333;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* === BOOKING SUMMARY SECTION === */
+.booking-summary {
+  background-color: white;
+  border-radius: 30px;
+  border: 1.8px solid black;
+  padding: 40px;
+  flex: 1 1 60%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-inner {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  flex-wrap: nowrap;
+}
+
+.text-summary {
+  width: 100%;
+  max-width: 500px;
+}
+
+.location-summary {
+  width: 100%;
+  max-width: 500px;
+}
+
+.text-summary .field {
+  margin-bottom: 16px;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.text-summary b,
+.location-summary b {
+  font-family: 'Roboto Flex', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+/* === LOCATION DISPLAY BOX === */
+.location {
+  background: white;
+  border: 1.8px solid black;
+  border-radius: 20px;
+  padding: 15px 20px;
+  margin: 15px 0;
+  font-family: "Roboto Condensed", sans-serif;
+}
+
+/* === PAYMENT SECTION === */
+.payment {
+  background-color: white;
+  border-radius: 30px;
+  border: 1.8px solid black;
+  padding: 35px;
+  flex: 1 1 35%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.payment h1 {
+  font-size: 2rem;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 20px;
+  padding-top: 10px;
+}
+
+.payment p {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1rem;
+}
+
+.payment form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.payment select,
+.payment input[type="submit"],
+.payment button {
+  padding: 12px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: "Roboto Condensed", sans-serif;
+}
+
+.payment select {
+  width: 60%;
+  border: 1.2px solid #000;
+}
+
+.payment input[type="submit"] {
+  background-color: #ffd166;
+  color: #000;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.payment button {
+  background-color: #0b7890;
+  color: white;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.payment input[type="submit"]:hover {
+  background-color: #fcbf49;
+}
+
+.payment button:hover {
+  background-color: #055b6a;
+}
+
+/* === RESPONSIVE DESIGN === */
+@media screen and (max-width: 768px) {
+  .booking-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .booking-summary,
+  .payment {
+    width: 100%;
+    max-width: 700px;
+  }
+
+  .summary-inner {
+    flex-direction: column;
+  }
+
+  .text-summary,
+  .location-summary {
+    width: 100%;
+    max-width: none;
+  }
+
+  .payment select {
+    width: 90%;
+  }
+}

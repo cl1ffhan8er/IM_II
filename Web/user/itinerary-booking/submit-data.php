@@ -1,4 +1,9 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 include '../../include/connect.php';
 
@@ -43,10 +48,13 @@ if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
 
     try {
         $down_payment = 500.00;
-        $sqlPayment = "INSERT INTO Payment (payment_method, down_payment, payment_status) VALUES (?, ?, FALSE)";
+        $payment_status = "NOT PAID";
+
+        $sqlPayment = "INSERT INTO Payment (payment_method, down_payment, payment_status) VALUES (?, ?, ?)";
         $stmtPayment = $conn->prepare($sqlPayment);
         if (!$stmtPayment) throw new Exception("Payment prepare failed: " . $conn->error);
-        $stmtPayment->bind_param("sd", $payment_method, $down_payment);
+
+        $stmtPayment->bind_param("sds", $payment_method, $down_payment, $payment_status);
         if (!$stmtPayment->execute()) throw new Exception("Payment execute failed: " . $stmtPayment->error);
         $payment_id = $conn->insert_id;
         $stmtPayment->close();
@@ -59,15 +67,34 @@ if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
         if (!$stmtItinerary->execute()) throw new Exception("Itinerary execute failed: " . $stmtItinerary->error);
         $itinerary_id = $conn->insert_id;
         $stmtItinerary->close();
+        
+        $sqlCustomers = "INSERT INTO Customer (
+            customer_ID, payment_ID, itinerary_ID,
+            number_of_PAX, date_of_travel,
+            number_of_luggage, pickup_time, ID_Picture
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        $sqlCustomers = "INSERT INTO Customer (customer_ID, payment_ID, itinerary_ID, customer_name, passenger_count, pickup_date, number_of_luggage, pickup_location, pickup_time, ID_Picture) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmtCustomers = $conn->prepare($sqlCustomers);
         if (!$stmtCustomers) throw new Exception("Customer prepare failed: " . $conn->error);
-        
-        $stmtCustomers->bind_param("iiisisiis", $person_id, $payment_id, $itinerary_id, $fullName, $pax, $date, $luggage, $pickup, $pickuptime);
-        $stmtCustomers->send_long_data(9, $fileData); // send_long_data targets the 10th parameter (index 9)
+
+        // i = int, s = string, b = blob
+        $stmtCustomers->bind_param("iiissisb", 
+            $person_id, 
+            $payment_id, 
+            $itinerary_id, 
+            $pax, 
+            $date, 
+            $luggage, 
+            $pickuptime, 
+            $fileData
+        );
+
+        // send file data (the blob)
+        $stmtCustomers->send_long_data(7, $fileData); // Index 7 (zero-based) is 8th parameter (ID_Picture)
+
         if (!$stmtCustomers->execute()) throw new Exception("Customer execute failed: " . $stmtCustomers->error);
         $stmtCustomers->close();
+
         $sqlCustom = "INSERT INTO Custom_Itinerary (custom_ID, is_made_by_customer) VALUES (?, ?)";
         $stmtCustom = $conn->prepare($sqlCustom);
         if (!$stmtCustom) throw new Exception("Custom Itinerary prepare failed: " . $conn->error);
@@ -101,10 +128,11 @@ if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
                 if (!$stmtNewLocation->execute()) throw new Exception("Error inserting new custom location: " . $stmtNewLocation->error);
                 $location_id = $conn->insert_id;
             } else {
-                $sqlFindLocation = "SELECT location_ID FROM Locations WHERE location_name = ? AND location_address = ?";
+                $sqlFindLocation = "SELECT location_ID FROM Locations WHERE location_name = ?";
                 $stmtFind = $conn->prepare($sqlFindLocation);
                 if (!$stmtFind) throw new Exception("Find Location prepare failed: " . $conn->error);
-                $stmtFind->bind_param("ss", $location['name'], $location['address']);
+                $stmtFind->bind_param("s", $location['name']);
+
                 $stmtFind->execute();
                 $result = $stmtFind->get_result();
                 if ($row = $result->fetch_assoc()) {

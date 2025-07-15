@@ -1,0 +1,198 @@
+/* Background layer */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../images/bg10.jpg");
+  background-size: cover;
+  background-position: center;
+  filter: blur(2px) brightness(0.7);
+  z-index: -1;
+}
+
+/* Body setup */
+body {
+  font-family: "Roboto Condensed", sans-serif;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Centering and spacing for main content */
+main.container {
+  flex: 1;
+  margin: 30px auto;
+  padding: 0 20px;
+  max-width: 1200px;
+  width: 100%;
+}
+
+/* Centering for nav and footer content */
+.navbar-inner,
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Flex wrapper for profile sections */
+.profile-wrapper {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Welcome box */
+.welcome-box {
+  flex: 1 1 300px;
+  min-width: 250px;
+  max-width: 400px;
+  background: #f4fbfd;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.welcome-box .header h1 {
+  font-size: 2.2rem;
+  color: #0b7890;
+  margin-bottom: 10px;
+}
+
+.welcome-box .header p {
+  font-size: 2rem;
+  color: #333;
+}
+
+/* Bookings box */
+.bookings-box {
+  flex: 2 1 700px;
+  min-width: 400px;
+  background: #f4fbfd;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Section title */
+.bookings-section h2 {
+  font-size: 2rem;
+  color: #0b7890;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+/* Empty bookings style */
+.no-bookings {
+  text-align: center;
+  padding: 30px;
+  background-color: #fdf3d2;
+  border: 1px solid #f2e3a5;
+  border-radius: 12px;
+}
+
+.no-bookings a {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #0b7890;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.no-bookings a:hover {
+  background-color: #055b6a;
+}
+
+/* Booking card */
+.booking-card {
+  background-color: #eaf6f9;
+  border: 2px solid #b5e0eb;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.booking-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  color: #0b7890;
+}
+
+.booking-date {
+  font-style: italic;
+  margin-bottom: 15px;
+}
+
+/* Booking detail layout */
+.booking-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.detail-item {
+  flex: 1 1 200px;
+  padding: 8px 12px;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+/* ID picture section */
+.custom-id-section {
+  margin: 15px 0;
+  text-align: center;
+}
+
+.custom-id-section img {
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+/* Itinerary display */
+.itinerary-list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 10px;
+}
+
+.itinerary-list li {
+  background: #fff;
+  border-left: 5px solid #0b7890;
+  padding: 10px 15px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+  .profile-wrapper {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .welcome-box,
+  .bookings-box {
+    width: 100%;
+  }
+
+  .booking-details {
+    flex-direction: column;
+  }
+}

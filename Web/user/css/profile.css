@@ -31,14 +31,6 @@ main.container {
   width: 100%;
 }
 
-/* Centering for nav and footer content */
-.navbar-inner,
-.footer-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
 /* Flex wrapper for profile sections */
 .profile-wrapper {
   display: flex;

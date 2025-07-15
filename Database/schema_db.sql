@@ -53,14 +53,14 @@ CREATE TABLE Package_Itinerary (
     is_made_by_manager int,
     is_available BOOLEAN DEFAULT FALSE,
     package_picture VARCHAR(255),
-    FOREIGN KEY (package_id) REFERENCES Itinerary(itinerary_ID),
+    FOREIGN KEY (package_ID) REFERENCES Itinerary(itinerary_ID),
     FOREIGN KEY (is_made_by_manager) REFERENCES Manager(manager_ID)
 ); -- Done
 
 CREATE TABLE Custom_Itinerary (
     custom_ID INT PRIMARY KEY AUTO_INCREMENT,
     is_made_by_customer INT,
-    FOREIGN KEY (custom_id) REFERENCES Itinerary(itinerary_ID),
+    FOREIGN KEY (custom_ID) REFERENCES Itinerary(itinerary_ID),
     FOREIGN KEY (is_made_by_customer) REFERENCES Person(person_ID)
 ); -- NO NEED - Created by Customer
 
@@ -69,7 +69,7 @@ CREATE TABLE Itinerary_Stops (
     custom_ID INT,
     stop_order INT,
     location_ID INT,
-    FOREIGN KEY (custom_ID) REFERENCES Itinerary(itinerary_ID),
+    FOREIGN KEY (custom_ID) REFERENCES Custom_Itinerary(custom_ID),
     FOREIGN KEY (location_ID) REFERENCES Locations(location_ID)
 ); -- NO NEED - Created by Customer
 

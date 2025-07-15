@@ -80,14 +80,34 @@ file_put_contents(
     $stmt->execute();
     $orderDetails = $stmt->get_result()->fetch_assoc();
 }
+
+$driverQuery = $conn->query("SELECT d.driver_ID, p.name FROM driver d JOIN person p ON d.driver_ID = p.person_ID WHERE d.Availability = TRUE");
+
+if (isset($_POST['assign_driver'])) {
+    $driverID = $_POST['driver_ID'];
+
+    // Update the order with assigned driver
+    $stmt = $conn->prepare("UPDATE order_details SET driver_ID = ? WHERE order_ID = ?");
+    $stmt->bind_param("ii", $driverID, $orderID);
+    $stmt->execute();
+
+    // Mark driver as unavailable
+    $stmt = $conn->prepare("UPDATE driver SET Availability = 0 WHERE driver_ID = ?");
+    $stmt->bind_param("i", $driverID);
+    $stmt->execute();
+
+    $message = "🚐 Driver assigned successfully.";
+}
+
+
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="view_order_styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
     <title>Order #<?= $orderDetails['order_ID'] ?> Details</title>
 </head>
 <!-- Modal -->
@@ -103,8 +123,31 @@ file_put_contents(
     </div>
 </div>
 <body>
+    <div class="sidebar">
+        <div class="nav-top">
+            <a href="home.php">BOOKINGS</a>
+            <a href="add_package.php">PLANS</a>
+            <a href="add_locations.php">LOCATIONS</a>
+        </div>
+
+        <div class="nav-bottom">
+            <a href="../../user/login/logout.php">Log Out</a>
+        </div>
+    </div>
+
     <h1>Order Details</h1>
     <a href="home.php">← Back to Home</a>
+
+    <form method="POST" style="margin-top: 20px;">
+        <label for="driver_ID"><strong>Assign a Driver:</strong></label>
+        <select name="driver_ID" required>
+            <option value="" disabled selected>Select Driver</option>
+            <?php while ($driver = $driverQuery->fetch_assoc()): ?>
+                <option value="<?= $driver['driver_ID'] ?>"><?= $driver['name'] ?> (ID: <?= $driver['driver_ID'] ?>)</option>
+            <?php endwhile; ?>
+        </select>
+        <button type="submit" name="assign_driver">Assign</button>
+    </form>
     <hr>
 
     <?php if ($message): ?>
@@ -120,7 +163,8 @@ file_put_contents(
 
     <hr>
 
-    <a href="emails/emailtest.php">Send an Email</a>
+    <a href="emails/emailtest.php?order_ID=<?= $orderDetails['order_ID'] ?>">Send an Email</a>
+
 
 </body>
 </html>

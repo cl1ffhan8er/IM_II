@@ -13,6 +13,7 @@ if (isset($_SESSION['error_message'])) {
     unset($_SESSION['success_message']);
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -33,8 +33,8 @@ $username = $_SESSION['username'] ?? 'Guest';
                 <a href="login/login.php" class="nav-item">Book</a>
             <?php endif; ?>
 
-            <a href="/IM_II-2/Web/user/minor/help.php" class="nav-item">Help</a>
-            <a href="/IM_II-2/Web/user/minor/about-us.php" class="nav-item">About Us</a>
+            <a href="/IM_II/Web/user/minor/help.php" class="nav-item">Help</a>
+            <a href="/IM_II/Web/user/minor/about-us.php" class="nav-item">About Us</a>
 
             <?php if ($isLoggedIn): ?>
                 <a href="login/logout.php" class="nav-item">Log Out</a>

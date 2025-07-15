@@ -67,23 +67,21 @@ if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
         $stmtItinerary->close();
         
         $sqlCustomers = "INSERT INTO Customer (
-            customer_ID, payment_ID, itinerary_ID,
+            customer_ID, payment_ID,
             number_of_PAX, date_of_travel,
-            number_of_luggage, pickup_time, ID_Picture
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            number_of_luggage, ID_Picture
+        ) VALUES (?, ?, ?, ?, ?, ?)";
 
         $stmtCustomers = $conn->prepare($sqlCustomers);
         if (!$stmtCustomers) throw new Exception("Customer prepare failed: " . $conn->error);
 
         // i = int, s = string, b = blob
-        $stmtCustomers->bind_param("iiissisb", 
+        $stmtCustomers->bind_param("iiisib", 
             $person_id, 
             $payment_id, 
-            $itinerary_id, 
             $pax, 
             $date, 
             $luggage, 
-            $pickuptime, 
             $fileData
         );
 
@@ -101,10 +99,15 @@ if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
         if (!$stmtCustom->execute()) throw new Exception("Custom Itinerary execute failed: " . $stmtCustom->error);
         $stmtCustom->close();
 
-        $sqlOrder = "INSERT INTO Order_Details (customer_ID, payment_ID, itinerary_ID, number_of_PAX, date_of_travel, time_for_pickup, time_for_dropoff) VALUES (?, ?, ?, ?, ?, ?)";
+        $sqlOrder = "INSERT INTO Order_Details (
+            customer_ID, payment_ID, driver_ID,
+            itinerary_ID, number_of_PAX, date_of_travel,
+            time_for_pickup, time_for_dropoff
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmtOrder = $conn->prepare($sqlOrder);
         if (!$stmtOrder) throw new Exception("Order_Details prepare failed: " . $conn->error);
-        $stmtOrder->bind_param("iiiisss", $person_id, $payment_id, $itinerary_id, $pax, $date, $pickuptime, $dropofftime);
+        $driver_id = null;
+        $stmtOrder->bind_param("iiiissss", $person_id, $payment_id, $driver_id, $itinerary_id, $pax, $date, $pickuptime, $dropofftime);
         if (!$stmtOrder->execute()) throw new Exception("Order_Details execute failed: " . $stmtOrder->error);
         $stmtOrder->close();
 

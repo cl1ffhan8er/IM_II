@@ -46,10 +46,10 @@ CREATE TABLE Driver (
 CREATE TABLE Package_Itinerary (
     package_ID int PRIMARY KEY AUTO_INCREMENT,
     package_name VARCHAR(255),
-    inclusions VARCHAR(255),
+    inclusions VARCHAR(1024),
     number_of_PAX int,
-    route VARCHAR(255),
-    description VARCHAR(255),
+    route VARCHAR(1024),
+    description VARCHAR(1024),
     is_made_by_manager int,
     is_available BOOLEAN DEFAULT FALSE,
     package_picture VARCHAR(255),

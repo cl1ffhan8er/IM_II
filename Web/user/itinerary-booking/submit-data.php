@@ -1,3 +1,4 @@
+
 <?php
 
 ini_set('display_errors', 1);
@@ -99,15 +100,11 @@ if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
         if (!$stmtCustom->execute()) throw new Exception("Custom Itinerary execute failed: " . $stmtCustom->error);
         $stmtCustom->close();
 
-<<<<<<< HEAD
         $sqlOrder = "INSERT INTO Order_Details (
             customer_ID, payment_ID, driver_ID,
             itinerary_ID, number_of_PAX, date_of_travel,
             time_for_pickup, time_for_dropoff
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-=======
-        $sqlOrder = "INSERT INTO Order_Details (customer_ID, payment_ID, itinerary_ID, number_of_PAX, date_of_travel, time_for_pickup, time_for_dropoff) VALUES (?, ?, ?, ?, ?, ?, ?)";
->>>>>>> 9e6e92df28a2b40b57dc65abef6e674dd557a828
         $stmtOrder = $conn->prepare($sqlOrder);
         if (!$stmtOrder) throw new Exception("Order_Details prepare failed: " . $conn->error);
         $driver_id = null;

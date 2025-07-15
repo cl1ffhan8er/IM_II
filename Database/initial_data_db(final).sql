@@ -39,7 +39,7 @@ INSERT INTO Itinerary (itinerary_ID, price, type) VALUES
 (3, 1999, 'PACKAGE');
 
 INSERT INTO Package_Itinerary (
-    package_id, package_name, inclusions, number_of_PAX, route, description, is_made_by_manager, is_available, package_picture
+    package_ID, package_name, inclusions, number_of_PAX, route, description, is_made_by_manager, is_available, package_picture
 ) VALUES 
 (
     1,

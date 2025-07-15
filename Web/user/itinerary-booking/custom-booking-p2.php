@@ -29,7 +29,7 @@
     <title>CUSTOM BOOKING - STEP 2</title>
 </head>
 
-<body>    
+<body>
     <nav class="navbar">
         <div class="navbar-inner">
             <div class="navbar-logo">

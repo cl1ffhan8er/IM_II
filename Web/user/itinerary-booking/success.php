@@ -27,20 +27,20 @@
                 <img src="../images/srvanlogo.png" alt="Logo">
             </div>
             <div class="navbar-links">
-                <a href="#" class="nav-item">Home</a>
+                <a href="../index.php" class="nav-item">Home</a>
 
                 <?php if ($isLoggedIn): ?>
-                    <a href="packages.php" class="nav-item">Book</a>
+                    <a href="../packages.php" class="nav-item">Book</a>
                 <?php else: ?>
                     <a href="login/login.php" class="nav-item">Book</a>
                 <?php endif; ?>
 
-                <a href="minor/help.php" class="nav-item">Help</a>
-                <a href="minor/about-us.php" class="nav-item">About Us</a>
+                <a href="../minor/help.php" class="nav-item">Help</a>
+                <a href="../minor/about-us.php" class="nav-item">About Us</a>
 
                 <?php if ($isLoggedIn): ?>
                     <a href="login/logout.php" class="nav-item">Log Out</a>
-                    <a href="profile.php" class="nav-item"><?php echo htmlspecialchars($username); ?></a>
+                    <a href="../profile.php" class="nav-item"><?php echo htmlspecialchars($username); ?></a>
                 <?php else: ?>
                     <a href="login/login.php" class="nav-item">Log In</a>
                 <?php endif; ?>

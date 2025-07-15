@@ -44,9 +44,11 @@ $driverCount = $driverCountResult->fetch_assoc()['count'] ?? 0;
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="nav-top">
+            <h3>Admin Menu</h3>
             <a href="home.php">BOOKINGS</a>
             <a href="add_package.php">PLANS</a>
             <a href="add_locations.php">LOCATIONS</a>
+            <a href="monthly_summary.php">MONTHLY SUMMARY</a>
         </div>
 
         <div class="nav-bottom">

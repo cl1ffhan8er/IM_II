@@ -1,3 +1,5 @@
+<?php $orderID = $_GET['order_ID'] ?? null; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,6 +28,7 @@
                 <select id="template" name="template" tabindex="3" required>
                     <option value="itinerary_change">Itinerary Change</option>
                     <option value="itinerary_approval">Itinerary Approval</option>
+                    <option value="reject">Reject Booking</option>
                 </select>
             </fieldset>
 
@@ -40,6 +43,7 @@
             <fieldset>
                 <button type="submit" name="send" id="contact-submit">Submit Now</button>
             </fieldset>
+            <input type="hidden" name="order_ID" value="<?= $orderID ?>">
         </form>
     </div>
 </body>

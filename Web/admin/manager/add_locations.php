@@ -27,9 +27,11 @@ $locations = $conn->query("SELECT * FROM Locations WHERE is_custom_made = 0");
 <body>
 <div class="sidebar">
     <div class="nav-top">
+        <h3>Admin Menu</h3>
         <a href="home.php">BOOKINGS</a>
         <a href="add_package.php">PLANS</a>
         <a href="add_locations.php">LOCATIONS</a>
+        <a href="monthly_summary.php">MONTHLY SUMMARY </a>
     </div>
 
     <div class="nav-bottom">
@@ -40,12 +42,12 @@ $locations = $conn->query("SELECT * FROM Locations WHERE is_custom_made = 0");
 <div class="content">
     <h1>MANAGE LOCATIONS</h1>
 
-    <form method="POST">
-        <h3>Add New Location</h3>
-        <label>Name: <input type="text" name="location_name" required></label><br>
-        <label>Address: <input type="text" name="location_address" required></label><br>
-        <button type="submit">Add Location</button>
-    </form>
+        <form method="POST">
+            <h3>Add New Location</h3>
+            <label>Name: <input type="text" name="location_name" required></label><br>
+            <label>Address: <input type="text" name="location_address" required></label><br>
+            <button type="submit">Add Location</button>
+        </form>
 
     <h3>ALL LOCATIONS</h3>
     <table>

@@ -31,14 +31,6 @@ main.container {
   width: 100%;
 }
 
-/* Centering for nav and footer content */
-.navbar-inner,
-.footer-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
 /* Flex wrapper for profile sections */
 .profile-wrapper {
   display: flex;
@@ -58,8 +50,10 @@ main.container {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   text-align: center;
   display: flex;
+  border: 2px solid #000;
   flex-direction: column;
   justify-content: center;
+  align-self: flex-start; /* ✅ Add this line */
 }
 
 .welcome-box .header h1 {
@@ -77,16 +71,16 @@ main.container {
 .bookings-box {
   flex: 2 1 700px;
   min-width: 400px;
+  border: 2px solid #000;
   background: #f4fbfd;
   border-radius: 16px;
   padding: 30px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
-/* Section title */
 .bookings-section h2 {
   font-size: 2rem;
-  color: #0b7890;
+  color: #36B9CB;
   margin-bottom: 25px;
   text-align: center;
 }
@@ -95,8 +89,8 @@ main.container {
 .no-bookings {
   text-align: center;
   padding: 30px;
-  background-color: #fdf3d2;
-  border: 1px solid #f2e3a5;
+  background-color: #36B9CB;
+  border: 1px solid #0f6570;
   border-radius: 12px;
 }
 
@@ -104,7 +98,7 @@ main.container {
   display: inline-block;
   margin-top: 15px;
   padding: 10px 20px;
-  background-color: #0b7890;
+  background-color: #36B9CB;
   color: white;
   border-radius: 8px;
   text-decoration: none;
@@ -116,7 +110,18 @@ main.container {
   background-color: #055b6a;
 }
 
-/* Booking card */
+.location-name {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #36B9CB;
+}
+
+.location-address {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 2px;
+}
+
 .booking-card {
   background-color: #eaf6f9;
   border: 2px solid #b5e0eb;
@@ -128,41 +133,55 @@ main.container {
 .booking-card h3 {
   font-size: 1.4rem;
   margin-bottom: 10px;
-  color: #0b7890;
+  color: #36B9CB;
 }
 
 .booking-date {
-  font-style: italic;
+  font-weight: bold;
+  font-size: 1.4rem;
+  color: #36B9CB;
   margin-bottom: 15px;
+  text-align: center;
+}
+
+.booking-card hr {
+  border: none;
+  height: 2px;
+  background-color: #36B9CB;
+  margin: 15px 0 20px;
+  border-radius: 8px;
 }
 
 /* Booking detail layout */
 .booking-details {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
+  display: block;
   margin-bottom: 15px;
+  padding: 0;
 }
 
+
 .detail-item {
-  flex: 1 1 200px;
-  padding: 8px 12px;
-  background: #ffffff;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  margin: 4px 0;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 0;
+  font-size: 1rem;
+  color: #333;
 }
 
 /* ID picture section */
 .custom-id-section {
   margin: 15px 0;
-  text-align: center;
+  text-align: left; /* 🔄 change from center to left */
 }
 
 .custom-id-section img {
-  max-width: 100%;
-  height: auto;
-  margin-top: 10px;
+  display: block;
+  margin: 10px 0 0 0; /* top, right, bottom, left */
   border-radius: 10px;
+  max-width: 80%;
+  height: auto;
 }
 
 /* Itinerary display */
@@ -174,10 +193,36 @@ main.container {
 
 .itinerary-list li {
   background: #fff;
-  border-left: 5px solid #0b7890;
   padding: 10px 15px;
   margin-bottom: 8px;
-  border-radius: 6px;
+  border-radius: 10px;       /* Rounded corners */
+  border: 1px solid #000;    /* Black border */
+}
+
+/* Flex container for booking details and itinerary */
+.booking-content-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Keep booking details on the left */
+.booking-details {
+  flex: 1 1 300px;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Itinerary on the right */
+.itinerary-wrapper {
+  flex: 1 1 300px;
+  min-width: 250px;
+}
+
+.itinerary-wrapper h4 {
+  margin-bottom: 10px;
 }
 
 /* Responsive design */

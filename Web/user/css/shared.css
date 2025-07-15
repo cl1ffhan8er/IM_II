@@ -14,6 +14,21 @@ body {
   image-rendering: auto;              
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+body > * {
+  flex-shrink: 0;
+}
+
+.site-footer {
+  margin-top: auto;
+}
+
 .background {
   background-color: rgba(173, 216, 230, 0.5); /* Light blue with 50% opacity */
   border-radius: 30px;                       /* Optional: soften corners */

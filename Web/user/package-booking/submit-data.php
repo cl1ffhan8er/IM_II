@@ -88,6 +88,7 @@ try {
     );
     if (!$order_stmt) throw new Exception("Order_Details prepare failed: " . $conn->error);
     $order_stmt->bind_param("iiiisss", $customer_id, $payment_id, $itinerary_id, $pax, $date_of_travel, $time_for_pickup, $time_for_dropoff);
+    
     $order_stmt->execute();
     $order_id = $conn->insert_id; 
     $order_stmt->close();

@@ -34,11 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("i", $orderID);
         $stmt->execute();
 
-file_put_contents(
-    '../../logs/email_log.txt',
-    "TO: $customerEmail\nSUBJECT: Booking Approved\nBODY: Your booking (Order #$orderID) has been approved.\n\n",
-    FILE_APPEND
-);
         $message = "✅ Order approved and email sent.";
     }
 
@@ -47,11 +42,6 @@ file_put_contents(
         $stmt->bind_param("i", $orderID);
         $stmt->execute();
 
-file_put_contents(
-    '../../logs/email_log.txt',
-    "TO: $customerEmail\nSUBJECT: Booking Approved\nBODY: Your booking (Order #$orderID) has been approved.\n\n",
-    FILE_APPEND
-);
         $message = "❌ Order rejected and email sent.";
     }
 
@@ -62,11 +52,6 @@ file_put_contents(
         $stmt->bind_param("i", $orderID);
         $stmt->execute();
 
-file_put_contents(
-    '../logs/email_log.txt',
-    "TO: $customerEmail\nSUBJECT: Booking Approved\nBODY: Youre Gay (Order #$orderID) has been approved.\n\n",
-    FILE_APPEND
-);
         $message = "📝 Modification request sent.";
     }
 

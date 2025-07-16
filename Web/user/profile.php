@@ -40,6 +40,8 @@ SELECT
     p.payment_status,
     i.type,
     pi.package_name,
+    pi.route,
+    pi.inclusions,
     od.status AS order_status
 FROM Customer c
 JOIN Payment p ON c.payment_ID = p.payment_ID
@@ -148,47 +150,75 @@ $conn->close();
                 <?php else: ?>
                     <?php foreach ($bookings as $booking): ?>
                         <div class="booking-card">
+                            <div class="booking-header-row">
                             <?php if ($booking['type'] === 'PACKAGE'): ?>
                                 <h3>Package: <?php echo htmlspecialchars($booking['package_name']); ?></h3>
                             <?php else: ?>
                                 <h3>Custom Itinerary</h3>
                             <?php endif; ?>
-
                             <p class="booking-date">Travel Date: <?php echo date("F j, Y", strtotime($booking['pickup_date'])); ?></p>
-
-                                <div class="booking-info-wrapper">
-                                    <div class="booking-details">
-                                        <div class="detail-item"><span>Pickup Time:</span> 
-                                            <?php echo !empty($booking['time_for_pickup']) ? date("g:i A", strtotime($booking['time_for_pickup'])) : 'N/A'; ?>
-                                        </div>
-                                        <div class="detail-item"><span>Drop-off Time:</span> 
-                                            <?php echo !empty($booking['time_for_dropoff']) ? date("g:i A", strtotime($booking['time_for_dropoff'])) : 'N/A'; ?>
-                                        </div>
-                                        <div class="detail-item"><span>Passengers:</span> <?php echo htmlspecialchars($booking['number_of_PAX']); ?></div>
-                                        <div class="detail-item"><span>Payment Method:</span> <?php echo htmlspecialchars(ucfirst($booking['payment_method'])); ?></div>
-                                        <div class="detail-item"><span>Payment Status:</span> <?php echo htmlspecialchars($booking['payment_status']); ?></div>
-                                        <div class="detail-item"><span>Booking Status:</span> <?php echo htmlspecialchars(ucfirst(strtolower($booking['order_status']))); ?></div>
+                            </div>
+                            <hr>
+                            <div class="booking-info-wrapper">
+                                <!-- Booking Details -->
+                                <div class="booking-details">
+                                    <h4>Booking Details:</h4>
+                                    <div class="detail-item"><span>Pickup Time:</span> 
+                                        <?php echo !empty($booking['time_for_pickup']) ? date("g:i A", strtotime($booking['time_for_pickup'])) : 'N/A'; ?>
                                     </div>
-
-                                    <?php if ($booking['type'] === 'CUSTOM' && !empty($booking['ID_Picture'])): ?>
-                                        <div class="custom-id-section">
-                                            <h4>Uploaded ID for Verification:</h4>
-                                            <img src="data:image/jpeg;base64,<?php echo base64_encode($booking['ID_Picture']); ?>" alt="User Uploaded ID">
-                                        </div>
-                                    <?php endif; ?>
+                                    <div class="detail-item"><span>Drop-off Time:</span> 
+                                        <?php echo !empty($booking['time_for_dropoff']) ? date("g:i A", strtotime($booking['time_for_dropoff'])) : 'N/A'; ?>
+                                    </div>
+                                    <div class="detail-item"><span>Passengers:</span> <?php echo htmlspecialchars($booking['number_of_PAX']); ?></div>
+                                    <div class="detail-item"><span>Payment Method:</span> <?php echo htmlspecialchars(ucfirst($booking['payment_method'])); ?></div>
+                                    <div class="detail-item"><span>Payment Status:</span> <?php echo htmlspecialchars($booking['payment_status']); ?></div>
+                                    <div class="detail-item"><span>Booking Status:</span> <?php echo htmlspecialchars(ucfirst(strtolower($booking['order_status']))); ?></div>
                                 </div>
+                                <!-- Itinerary beside details -->
+                                <div class="itinerary-wrapper">
+                                <h4>Itinerary:</h4>
 
-                            <h4>Itinerary:</h4>
-                            <ul class="itinerary-list">
-                                <?php $current_stops = $stopsByItinerary[$booking['itinerary_ID']] ?? []; ?>
-                                <?php if (empty($current_stops)): ?>
-                                    <li>No stops listed for this itinerary.</li>
+                                <?php if ($booking['type'] === 'PACKAGE'): ?>
+                                    <div class="package-grid">
+                                        <!-- Inclusions on left -->
+                                        <div class="inclusions-box">
+                                            <h5>Inclusions</h5>
+                                            <?php 
+                                                $inclusions = explode(',', $booking['inclusions'] ?? '');
+                                                $cleanedInclusions = array_filter(array_map('trim', $inclusions));
+                                                if (!empty($cleanedInclusions)) {
+                                                    echo '<p>' . htmlspecialchars(implode(', ', $cleanedInclusions)) . '</p>';
+                                                } else {
+                                                    echo '<p>No inclusions listed.</p>';
+                                                }
+                                            ?>
+                                        </div>
+
+                                        <!-- Route on right -->
+                                        <div class="route-box">
+                                            <h5>Route</h5>
+                                            <p><?php echo nl2br(htmlspecialchars($booking['route'] ?? 'No route info available.')); ?></p>
+                                        </div>
+                                    </div>
                                 <?php else: ?>
-                                    <?php foreach ($current_stops as $stop): ?>
-                                        <li><strong><?php echo htmlspecialchars($stop['location_name']); ?></strong> - <?php echo htmlspecialchars($stop['location_address']); ?></li>
-                                    <?php endforeach; ?>
+                                    <ul class="itinerary-list">
+                                        <?php $current_stops = $stopsByItinerary[$booking['itinerary_ID']] ?? []; ?>
+                                        <?php if (empty($current_stops)): ?>
+                                            <li>No stops listed for this itinerary.</li>
+                                        <?php else: ?>
+                                            <?php foreach ($current_stops as $stop): ?>
+                                                <li>
+                                                    <div class="itinerary-stop">
+                                                        <div class="location-name"><?php echo htmlspecialchars($stop['location_name']); ?></div>
+                                                        <div class="location-address"><?php echo htmlspecialchars($stop['location_address']); ?></div>
+                                                    </div>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </ul>
                                 <?php endif; ?>
-                            </ul>
+                                </div>
+                            </div>
                         </div>
                     <?php endforeach; ?>
                 <?php endif; ?>

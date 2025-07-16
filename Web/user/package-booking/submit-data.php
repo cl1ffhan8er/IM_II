@@ -48,26 +48,27 @@ try {
         "INSERT INTO Customer (
             customer_ID, 
             payment_ID, 
-            itinerary_ID, 
-            customer_name, 
             number_of_PAX, 
             date_of_travel, 
             number_of_luggage, 
+            ID_Picture, 
+            itinerary_ID, 
             pickup_time, 
-            ID_Picture
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL)"
+            customer_name
+        ) VALUES (?, ?, ?, ?, ?, NULL, ?, ?, ?)"
     );
     if (!$customer_insert_stmt) throw new Exception("Customer insert prepare failed: " . $conn->error);
+
     $customer_insert_stmt->bind_param(
-        "iiisisss", 
+        "iiisiiss", 
         $customer_id, 
         $payment_id, 
-        $itinerary_id,
-        $customer_name,
         $pax, 
         $date_of_travel, 
         $luggage, 
-        $time_for_pickup
+        $itinerary_id, 
+        $time_for_pickup, 
+        $customer_name
     );
     $customer_insert_stmt->execute();
     $customer_insert_stmt->close();

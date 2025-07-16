@@ -1,12 +1,15 @@
 <?php
 session_start();
 include '../../include/connect.php';
+if (isset($_GET['package_id'])) {
+    $_SESSION['package_id'] = $_GET['package_id'];
+}
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['package_id'])) {
+if (!isset($_GET['package_id'])) {
     die("Error: No package selected. Please go back and choose a package.");
 }
 
-$package_id = $_POST['package_id'];
+$package_id = $_GET['package_id'];
 
 $package_stmt = $conn->prepare(
     "SELECT pi.package_name, pi.description, pi.package_picture, i.price
@@ -32,6 +35,13 @@ $_SESSION['package_name'] = $package['package_name'];
 $_SESSION['package_price'] = $package['price'];
 $_SESSION['package_description'] = $package['description'];
 $_SESSION['package_picture'] = $package['package_picture'];
+
+if (isset($_GET['package_name'])) {
+    $_SESSION['package_name'] = $_GET['package_name'];
+    $_SESSION['package_price'] = $_GET['package_price'];
+    $_SESSION['package_description'] = $_GET['package_description'];
+    $_SESSION['package_picture'] = $_GET['package_picture'];
+}
 
 session_write_close();
 

@@ -47,25 +47,31 @@ while ($row = $result->fetch_assoc()) {
     <meta charset="UTF-8">
     <title>Monthly Booking Summary</title>
     <link rel="stylesheet" href="monthly_summary_styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="sidebar">
+        <div class="sidebar-header">
+            <img src="../../user/images/srvanlogo.png" alt="Logo" class="sidebar-logo">
+            <span class="admin-label">Admin Menu</span>
+        </div>
+
         <div class="nav-top">
-            <h3>Admin Menu</h3>
-            <a href="home.php">🏠 Bookings</a>
-            <a href="add_package.php">📦 Plans</a>
-            <a href="add_locations.php">📍 Locations</a>
-            <a href="monthly_summary.php">📊 Monthly Summary</a>
+            <a href="home.php">BOOKINGS</a>
+            <a href="add_package.php">PLANS</a>
+            <a href="add_locations.php">LOCATIONS</a>
+            <a href="monthly_summary.php">MONTHLY SUMMARY</a>
         </div>
 
         <div class="nav-bottom">
-            <a href="../../user/login/logout.php">🚪 Log Out</a>
+            <a href="../../user/login/logout.php" class="logout">Log Out</a>
         </div>
     </div>
+
     <hr>
 
     <div class="content">
-        <h1>Manage Locations</h1>
+        <h1>MANAGE BOOKINGS</h1>
 
         <?php if (empty($bookings_by_month)): ?>
         <p>No bookings have been completed yet.</p>
@@ -75,11 +81,27 @@ while ($row = $result->fetch_assoc()) {
                     <h2><?= $month ?></h2>
                     <?php foreach ($entries as $entry): ?>
                         <details class="entry">
-                            <summary>• <?= $entry['day'] ?> | Completed</summary>
-                            <p>Customer: <?= htmlspecialchars($entry['customer_name']) ?></p>
-                            <p>Driver Assigned: <?= htmlspecialchars($entry['driver_name']) ?></p>
-                            <p>Payment Status: <?= htmlspecialchars($entry['payment_status']) ?></p>
-                            <p>Order ID: <?= $entry['order_ID'] ?></p>
+                            <summary><?= $entry['day'] ?> | Completed</summary>
+                            <div class="entry-content">
+                                <table class="entry-table">
+                                    <tr>
+                                        <th>Customer</th>
+                                        <td><?= htmlspecialchars($entry['customer_name']) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Driver</th>
+                                        <td><?= htmlspecialchars($entry['driver_name']) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Payment Status</th>
+                                        <td><?= htmlspecialchars($entry['payment_status']) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <td><?= $entry['order_ID'] ?></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </details>
                     <?php endforeach; ?>
                 </div>

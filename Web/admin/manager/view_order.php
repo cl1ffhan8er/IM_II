@@ -109,47 +109,59 @@ if (isset($_POST['assign_driver'])) {
 </div>
 <body>
     <div class="sidebar">
+        <div class="sidebar-header">
+            <img src="../../user/images/srvanlogo.png" alt="Logo" class="sidebar-logo">
+            <span class="admin-label">Admin Menu</span>
+        </div>
+
         <div class="nav-top">
             <a href="home.php">BOOKINGS</a>
             <a href="add_package.php">PLANS</a>
             <a href="add_locations.php">LOCATIONS</a>
+            <a href="monthly_summary.php">MONTHLY SUMMARY</a>
         </div>
 
         <div class="nav-bottom">
-            <a href="../../user/login/logout.php">Log Out</a>
+            <a href="../../user/login/logout.php" class="logout">Log Out</a>
         </div>
     </div>
 
-    <h1>Order Details</h1>
-    <a href="home.php">← Back to Home</a>
+    <div class="main-content">
+        <h1>Order Details</h1>
 
-    <form method="POST" style="margin-top: 20px;">
-        <label for="driver_ID"><strong>Assign a Driver:</strong></label>
-        <select name="driver_ID" required>
-            <option value="" disabled selected>Select Driver</option>
-            <?php while ($driver = $driverQuery->fetch_assoc()): ?>
-                <option value="<?= $driver['driver_ID'] ?>"><?= $driver['name'] ?> (ID: <?= $driver['driver_ID'] ?>)</option>
-            <?php endwhile; ?>
-        </select>
-        <button type="submit" name="assign_driver">Assign</button>
-    </form>
-    <hr>
+        <a href="home.php" class="button-link">Back to Home</a>
 
-    <?php if ($message): ?>
-        <p style="color: green; font-weight: bold;"><?= $message ?></p>
-    <?php endif; ?>
+        <div class="order-layout">
+            <!-- Left side: Assign Driver Form -->
+            <form method="POST" class="driver-form">
+                <label for="driver_ID"><strong>Assign a Driver:</strong></label>
+                <select name="driver_ID" required>
+                    <option value="" disabled selected>Select Driver</option>
+                    <?php while ($driver = $driverQuery->fetch_assoc()): ?>
+                        <option value="<?= $driver['driver_ID'] ?>"><?= $driver['name'] ?> (ID: <?= $driver['driver_ID'] ?>)</option>
+                    <?php endwhile; ?>
+                </select>
+                <button type="submit" name="assign_driver">Assign</button>
+            </form>
 
-    <p><strong>Order ID:</strong> <?= $orderDetails['order_ID'] ?></p>
-    <p><strong>Customer Name:</strong> <?= $orderDetails['customer_name'] ?? 'N/A' ?></p>
-    <p><strong>Package ID:</strong> <?= $orderDetails['package_ID'] ?? 'N/A' ?></p>
-    <p><strong>Package:</strong> <?= $orderDetails['package_name'] ?? 'N/A' ?></p>
-    <p><strong>Status:</strong> <?= $orderDetails['status'] ?></p>
-    <p><strong>Submitted On:</strong> <?= $orderDetails['submission_date'] ?? '—' ?></p>
+            <!-- Right side: Order Info -->
+            <div class="order-info">
+                <?php if ($message): ?>
+                    <p style="color: green; font-weight: bold;"><?= $message ?></p>
+                <?php endif; ?>
 
-    <hr>
+                <p><strong>Order ID:</strong> <?= $orderDetails['order_ID'] ?></p>
+                <p><strong>Customer Name:</strong> <?= $orderDetails['customer_name'] ?? 'N/A' ?></p>
+                <p><strong>Package ID:</strong> <?= $orderDetails['package_ID'] ?? 'N/A' ?></p>
+                <p><strong>Package:</strong> <?= $orderDetails['package_name'] ?? 'N/A' ?></p>
+                <p><strong>Status:</strong> <?= $orderDetails['status'] ?></p>
+                <p><strong>Submitted On:</strong> <?= $orderDetails['submission_date'] ?? '—' ?></p>
 
-    <a href="emails/emailtest.php?order_ID=<?= $orderDetails['order_ID'] ?>">Send an Email</a>
+                <hr>
 
-
+                <a href="emails/emailtest.php?order_ID=<?= $orderDetails['order_ID'] ?>" class="button-link-approval">SEND AN EMAIL</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

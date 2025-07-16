@@ -58,8 +58,6 @@ $locations_result = $conn->query("SELECT location_name, location_address FROM Lo
       </div>
   </nav>
 
-  <hr/>
-
   <form id="bookingform" action="customform-p1.php" method="post">
 
     <div class="form-group-container">

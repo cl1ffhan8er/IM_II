@@ -5,6 +5,17 @@
     $username = $_SESSION['username'] ?? '';
 
     $booking_itinerary = $_SESSION['booking_itinerary'] ?? [];
+
+    $total_price = 0;
+
+    foreach ($booking_itinerary as $item) {
+        if (!empty($item['isCustom'])) {
+            $total_price += 500;
+        } else {
+            $total_price += isset($item['price']) ? (int)$item['price'] : 0;
+        }
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -51,7 +62,7 @@
         </div>
     </nav>
 
-    <h1>BOOKING SUMMARY</h1>
+    <h1 style = "color: white">BOOKING SUMMARY</h1>
 
     <div class="booking-wrapper">
     <div class = "booking-summary">
@@ -85,7 +96,15 @@
             <?php if (isset($_SESSION['comments'])): ?>
                 <div class="field"><b>Comments:</b><br><?= nl2br(htmlspecialchars($_SESSION['comments'])) ?></div>
             <?php endif; ?>
+
+            <hr>
+
+            <div class="price-display">
+                <p><strong>Total Price:</strong> <span id="price-display">₱0</span></p>
+            </div>
+
         </div>
+
 
         <div class = "location-summary">
             <b>ITINERARY:</b>
@@ -96,19 +115,15 @@
     </div>
     <div class = "payment">
 
-        <h1>PAYMENT DETAILS</h1>
+        <h2>PAYMENT DETAILS</h2>
         <hr>
-        <div class="qr-wrapper">
-            <img src="../images/200x200.png" alt="GCash QR Code" class="qr-image">
-        </div>
 
         <form action="submit-data.php" method="post">
-            <label for = "payment_type">Payment Type:</label>
-            <select name="payment_type" id="payment_type" required>
-                <option value="gcash">GCash</option>
-                <option value="cash">Pay on Pick-up</option>
-            </select>
-            <input type = "submit" value = "COMPLETE BOOKING" name = "submit">
+            <p>Before paying the needed downpayment, the itinerary must undergo proper review. Once this form is submitted, it will undergo a review from the admin.</p>
+
+            <input type="hidden" name="payment_type" value="Pending">
+
+            <input type="submit" value="COMPLETE BOOKING" name="submit">
             <button type="button" onclick="history.back()">EDIT BOOKING</button>
         </form>
     </div>
@@ -150,6 +165,46 @@
             });
         }
         document.addEventListener('DOMContentLoaded', updateDisplay);
+
+        function updateDisplay() {
+            const container = document.getElementById("selected-locations-part2");
+            const priceDisplay = document.getElementById("price-display");
+            if (!container || !priceDisplay) return;
+
+            container.innerHTML = '';
+            let total = 0;
+
+            if (!selectedLocations || selectedLocations.length === 0) {
+                container.innerHTML = "<p>No locations were selected.</p>";
+                priceDisplay.textContent = "₱0";
+                return;
+            }
+
+            selectedLocations.forEach(loc => {
+                const div = document.createElement("div");
+                div.className = "location";
+                const customIndicator = loc.isCustom ? ' <span style="color: #007bff; font-size: 0.9em;">(Custom)</span>' : '';
+                div.innerHTML = `
+                    <p class="location-name">
+                        <b>${loc.name}</b>${customIndicator}
+                    </p>
+                    <p class="location-address">
+                        ${loc.address}
+                    </p>
+                `;
+                container.appendChild(div);
+
+                // Add to total
+                if (loc.isCustom) {
+                    total += 500;
+                } else if (loc.price) {
+                    total += parseFloat(loc.price);
+                }
+            });
+
+            priceDisplay.textContent = `₱${total}`;
+        }
+
     </script>
 </body>
 </html>

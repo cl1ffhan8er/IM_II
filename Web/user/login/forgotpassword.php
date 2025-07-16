@@ -1,33 +1,25 @@
 <?php
-// Include your database connection file
 include '../../include/connect.php';
 
-// --- FORM SUBMISSION HANDLING ---
-// Check if the form was submitted
 if (isset($_POST['change-password'])) {
 
-    // Get the email and new password from the form
     $email = trim($_POST['email_reset']);
     $newPassword = trim($_POST['new_password']);
 
-    // --- VALIDATION ---
     if (empty($email) || empty($newPassword)) {
         echo "Please fill in all fields.";
         exit;
     }
 
-    // --- CHECK IF EMAIL EXISTS using a PREPARED STATEMENT ---
     $stmt = $conn->prepare("SELECT email FROM Person WHERE email = ?");
     if ($stmt === false) {
         die("Prepare failed: " . $conn->error);
     }
     
-    // Bind the email parameter
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $stmt->store_result();
 
-    // Check if a user with that email exists
     if ($stmt->num_rows > 0) {
  
         $hashedPassword = md5($newPassword);
@@ -37,7 +29,6 @@ if (isset($_POST['change-password'])) {
             die("Prepare failed: " . $conn->error);
         }
         
-
         $updateStmt->bind_param("ss", $hashedPassword, $email);
 
         // Execute the update

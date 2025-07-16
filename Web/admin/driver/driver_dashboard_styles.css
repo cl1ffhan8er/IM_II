@@ -1,0 +1,181 @@
+body {
+    margin: 0;
+    font-family: "Roboto Condensed", sans-serif;
+    display: flex;
+    background-color: #E6E6E6;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100vh;
+    width: 200px;
+    background-color: #36B9CB;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    position: fixed;
+    font-family: "Roboto Condensed", sans-serif;
+    padding: 16px 20px 20px;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+    padding: 0;
+    line-height: 1;
+}
+
+.sidebar-logo {
+    margin: 0;
+    height: 48px;
+    padding: 0;
+}
+
+.sidebar-divider {
+    padding: 0;
+    border: none;
+    height: 1px;
+    background-color: #ffffff70; /* light white tint */
+    margin: 6px 0 10px 0;
+}
+
+.admin-label {
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+}
+
+.nav-top {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 6px;
+}
+
+.nav-bottom {
+    margin-top: 400px;
+}
+
+.sidebar a {
+    display: block;
+    text-decoration: none;
+    padding: 10px 12px;
+    font-weight: 700;
+    color: white;
+    font-size: clamp(12px, 1.5vw, 16px);
+    font-weight: 700;
+    transition: all 0.3s ease; 
+    white-space: nowrap;
+    border-radius: 8px; 
+    margin: 0;
+}
+
+.sidebar a:hover {
+    background-color: #8EC2D7;
+    padding-left: 17px; 
+    border-radius: 8px;  
+}
+
+.sidebar a.logout {
+    margin-top: 60px; 
+}
+
+/*End of Sidebar*/
+
+.content {
+    margin-left: 250px; /* leave space for sidebar */
+    padding: 40px 30px;
+    width: calc(100% - 250px);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    padding: 20px 24px;
+    background-color: #f9f9f9;
+    font-family: "Roboto Mono", sans-serif;
+    font-size: 14px;
+    border-radius: 12px;
+    max-width: 600px;
+    gap: 14px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+form button {
+    align-self: flex-start;
+    background-color: #F4B63D;
+    color: white;
+    padding: 10px 32px;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #dfa42e;
+}
+
+form p {
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+/* ===== Table Styling ===== */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+    font-size: 14px;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th {
+    padding: 12px 16px;
+    text-align: left;
+    border: 1px solid #ccc;
+    text-transform: uppercase;
+}
+
+td {
+    background-color: #d9d9d9;
+    color: #333;
+    font-weight: 900px;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* ===== Status Styles ===== */
+.status-text {
+    font-size: 30px;
+    font-weight: 700;
+    margin: 0 0 6px 0;
+}
+
+.status-available {
+    color: #2e7d32;
+    font-weight: 700;
+    margin-left: 5px;
+}
+
+.status-unavailable {
+    color: #c62828;
+    font-weight: 700;
+    margin-left: 5px;
+}

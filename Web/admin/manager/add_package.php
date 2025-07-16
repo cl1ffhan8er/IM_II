@@ -1,9 +1,14 @@
 <?php
 require_once '../../include/connect.php';
 
-$uploadDir = "uploads/";
-if (!is_dir($uploadDir)) {
-    mkdir($uploadDir, 0755, true);
+// Path for the server to find the folder (to save the file)
+$uploadDir_server = "../../package-images/";
+// Path to store in the database for the browser
+$uploadDir_db = "package-images/";
+
+// Create the directory if it doesn't exist, using the server path
+if (!is_dir($uploadDir_server)) {
+    mkdir($uploadDir_server, 0755, true);
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['add_package'])) {
@@ -12,6 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['add_package'])) {
     $passenger_count = $_POST['passenger_min'] . '-' . $_POST['passenger_max'];
     $desc = $_POST['description'];
     $price = $_POST['price'];
+    $route = $_POST['route']; 
     $manager_id = 1; // Replace with session value
 
     $stmt1 = $conn->prepare("INSERT INTO Itinerary (price, type) VALUES (?, 'PACKAGE')");
@@ -19,18 +25,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['add_package'])) {
     $stmt1->execute();
     $itineraryID = $conn->insert_id;
 
-    $imagePath = null;
+    $imagePath_for_db = null;
     if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
         $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
         $filename = uniqid("pkg_") . "." . $ext;
-        $targetPath = $uploadDir . $filename;
-        if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
-            $imagePath = $targetPath;
+        $targetPath_server = $uploadDir_server . $filename;
+        if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath_server)) {
+            $imagePath_for_db = $uploadDir_db . $filename;
         }
     }
-
-    $stmt2 = $conn->prepare("INSERT INTO Package_Itinerary (package_id, package_name, inclusions, passenger_count, description, is_made_by_manager, package_picture) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt2->bind_param("isssiss", $itineraryID, $name, $inclusions, $passenger_count, $desc, $manager_id, $imagePath);
+    
+    $stmt2 = $conn->prepare("INSERT INTO Package_Itinerary (package_id, package_name, inclusions, number_of_PAX, description, route, is_made_by_manager, package_picture) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt2->bind_param("isssssis", $itineraryID, $name, $inclusions, $passenger_count, $desc, $route, $manager_id, $imagePath_for_db);
     $stmt2->execute();
 
     header("Location: add_package.php?success=1");
@@ -57,13 +63,18 @@ $results = $conn->query("SELECT pi.*, i.price FROM Package_Itinerary pi JOIN Iti
 </head> 
 <body>
     <div class="sidebar">
+        <div class="sidebar-header">
+            <img src="../../user/images/srvanlogo.png" alt="Logo" class="sidebar-logo">
+            <span class="admin-label">Admin Menu</span>
+        </div>
+
         <div class="nav-top">
-            <h3>Admin Menu</h3>
             <a href="home.php">BOOKINGS</a>
             <a href="add_package.php">PLANS</a>
             <a href="add_locations.php">LOCATIONS</a>
             <a href="monthly_summary.php">MONTHLY SUMMARY</a>
         </div>
+
         <div class="nav-bottom">
             <a href="../../user/login/logout.php" class="logout">Log Out</a>
         </div>

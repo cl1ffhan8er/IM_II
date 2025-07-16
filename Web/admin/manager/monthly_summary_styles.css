@@ -1,38 +1,209 @@
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: "Roboto Condensed", sans-serif;
     display: flex;
-    background-color: rgb(228, 236, 244);
+    background-color: #E6E6E6;
 }
 
 .sidebar {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     height: 100vh;
     width: 200px;
-    background-color: #aaa6a6;
+    background-color: #36B9CB;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
     position: fixed;
+    font-family: "Roboto Condensed", sans-serif;
+    padding: 16px 20px 20px;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+    padding: 0;
+    line-height: 1;
+}
+
+.sidebar-logo {
+    margin: 0;
+    height: 48px;
+    padding: 0;
+}
+
+.admin-label {
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+}
+
+.nav-top {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 6px;
+}
+
+.nav-bottom {
+    margin-bottom: 40px; /* lift it up a bit from bottom */
 }
 
 .sidebar a {
     display: block;
-    color: #333;
     text-decoration: none;
-    padding: 10px 0;
-    font-weight: bold;
+    padding: 10px 12px;
+    font-weight: 700;
+    color: white;
+    font-size: clamp(12px, 1.5vw, 16px);
+    font-weight: 700;
+    transition: all 0.3s ease; 
+    white-space: nowrap;
+    border-radius: 8px; 
 }
 
 .sidebar a:hover {
-    background-color: #ddd;
-    padding-left: 5px;
+    background-color: #8EC2D7;
+    padding-left: 17px; 
+    border-radius: 8px;  
+}
+
+.sidebar a.logout {
+    margin-top: 60px; 
 }
 
 .content {
     margin-left: 250px; /* leave space for sidebar */
-    padding: 20px;
     width: 100%;
+    padding: 20px;
+    font-family: "Roboto Condensed", sans-serif;
 }
 
+.month-block {
+    background-color: #f9f9f9;
+    margin-bottom: 24px;
+    padding: 20px 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+}
+
+.month-block h2 {
+    font-size: 18px;
+    color: #36B9CB;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.entry {
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    padding: 12px 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s ease;
+}
+
+.entry-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+    opacity: 0;
+}
+
+.entry:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.entry summary {
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 15px;
+    color: #333;
+    margin-bottom: 6px;
+    list-style: none;
+}
+
+.entry summary {
+    list-style: none;
+    list-style-type: none;
+    position: relative;
+    padding-right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.entry summary::-webkit-details-marker {
+    display: none;
+}
+
+.entry summary::after {
+    content: "▸";
+    position: absolute;
+    right: 0;
+    font-size: 14px;
+    transition: transform 0.3s ease;
+    color: #36B9CB;
+}
+
+.entry[open] summary::after {
+    transform: rotate(90deg);
+}
+
+.entry[open] > *:not(summary) {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.entry[open] .entry-content {
+    max-height: 500px; /* Enough space for your content */
+    opacity: 1;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.entry p {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #444;
+}
+
+hr {
+    display: none;
+}
+
+.entry-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+}
+
+.entry-table th {
+    text-align: left;
+    width: 150px;
+    color: #555;
+    font-weight: 700;
+    padding: 6px 10px;
+    vertical-align: top;
+    background-color: #f2f2f2;
+    border-radius: 6px 0 0 6px;
+}
+
+.entry-table td {
+    padding: 6px 10px;
+    color: #333;
+    background-color: #fff;
+    border-radius: 0 6px 6px 0;
+}
+
+.entry-table tr:not(:last-child) td,
+.entry-table tr:not(:last-child) th {
+    border-bottom: 1px solid #ddd;
+}

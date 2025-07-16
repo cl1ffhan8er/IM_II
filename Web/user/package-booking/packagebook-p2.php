@@ -61,10 +61,9 @@
         <h1>BOOKING DETAILS FOR: <?= htmlspecialchars($_SESSION['package_name']) ?></h1>
     </div>
 
-    <form action="packageform-p2.php" method="POST" enctype="multipart/form-data" class="booking-form">
+    <form id = "bookingform" action="packageform-p2.php" method="POST" enctype="multipart/form-data" class="booking-form">
         
     <div class="form2">
-
         <div class="name-fields">
             <div>
                 <label for="fname">First Name:</label>
@@ -82,10 +81,16 @@
                 <input type="number" id="pax" name="pax" value="1" min="1" max="100" required>
 
                 <label for="date">Pickup Date:</label>
-                <input type="date" id="date" name="date" value="<?= htmlspecialchars($date) ?>" required>
-
+                <input
+                    type="date"
+                    id="date"
+                    name="date"
+                    min="<?php echo date('Y-m-d'); ?>"
+                    value="<?php echo htmlspecialchars($_SESSION['date'] ?? ''); ?>"
+                    required
+                />
                 <label for="pickuptime">Pickup Time:</label>
-                <input type="time" id="pickuptime" name="pickuptime" value="<?= htmlspecialchars($pickuptime) ?>" required>
+                <input type="time" id="pickuptime" name="pickuptime" value="<?php echo htmlspecialchars($_SESSION['pickuptime'] ?? ''); ?>" required/>
 
                 <label for="pickup">Pickup Address:</label>
                 <input type="text" id="pickup" name="pickup" value="<?= htmlspecialchars($pickup) ?>" required>

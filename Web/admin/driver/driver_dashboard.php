@@ -56,19 +56,23 @@ $orders = $conn->query($sql);
     </div>
 
     <div class="content">
-        <h1>Driver Dashboard</h1>
+        <h1>DRIVER DASHBOARD</h1>
 
-        <form method="POST">
-            <input type="hidden" name="current_availability" value="<?= $availability ?>">
-            <button type="submit" name="toggle_availability">
-                <?= $availability ? 'Set as Unavailable' : 'Set as Available' ?>
-            </button>
-            <p>Status: <span class="<?= $availability ? 'status-available' : 'status-unavailable' ?>">
-                <?= $availability ? 'Available' : 'Unavailable' ?>
-            </span></p>
-        </form>
+    <form method="POST">
+        <p class="status-text">
+            Status:
+            <span class="<?= $availability ? 'status-available' : 'status-unavailable' ?>">
+                <?= $availability ? 'AVAILABLE' : 'UNAVAILABLE' ?>
+            </span>
+        </p>
+        <input type="hidden" name="current_availability" value="<?= $availability ?>">
+        <button type="submit" name="toggle_availability">
+            <?= $availability ? 'Set as Unavailable' : 'Set as Available' ?>
+        </button>
+    </form>
 
-        <h2>Assigned Orders</h2>
+
+        <h2>ASSIGNED ORDERS</h2>
         <table>
             <tr>
                 <th>Order ID</th>

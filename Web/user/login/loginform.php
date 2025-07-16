@@ -54,12 +54,14 @@ if (isset($_POST['login'])) {
             $isManager = "SELECT * FROM Manager WHERE manager_ID = '$personID'";
             $managerResult = $conn->query($isManager);
             if ($managerResult->num_rows > 0) { 
+                $_SESSION['manager_ID'] = $personID;
                 header("Location: ../../admin/manager/home.php");
             } else {
                 $_SESSION['driver_ID'] = $personID;
                 header("Location: ../../admin/driver/driver_dashboard.php");
             }
         } else {
+            $_SESSION['customer_ID'] = $personID;
             header("Location: ../index.php");
         }
         exit();

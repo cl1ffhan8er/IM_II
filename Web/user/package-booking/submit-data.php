@@ -24,6 +24,7 @@ if (!$date_of_travel || !$time_for_pickup) {
 $conn->begin_transaction();
 
 try {
+    // Insert Payment
     $payment_stmt = $conn->prepare("INSERT INTO Payment (payment_method, down_payment, payment_status) VALUES (?, 0, FALSE)");
     if (!$payment_stmt) throw new Exception("Payment prepare failed: " . $conn->error);
     $payment_stmt->bind_param("s", $payment_type);
@@ -31,6 +32,7 @@ try {
     $payment_id = $conn->insert_id; 
     $payment_stmt->close();
 
+    // Get Customer Name
     $person_stmt = $conn->prepare("SELECT name FROM Person WHERE person_ID = ?");
     if (!$person_stmt) throw new Exception("Person prepare failed: " . $conn->error);
     $person_stmt->bind_param("i", $customer_id);
@@ -41,16 +43,23 @@ try {
     $customer_name = $person['name'];
     $person_stmt->close();
 
+    // Insert into Customer
     $customer_insert_stmt = $conn->prepare(
-        "INSERT INTO Customer (customer_ID, payment_ID, itinerary_ID, customer_name, passenger_count, pickup_date, number_of_luggage, pickup_location, pickup_time, ID_Picture) 
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)"
+        "INSERT INTO Customer (
+            customer_ID, 
+            payment_ID, 
+            itinerary_ID, 
+            customer_name, 
+            number_of_PAX, 
+            date_of_travel, 
+            number_of_luggage, 
+            pickup_time, 
+            ID_Picture
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL)"
     );
     if (!$customer_insert_stmt) throw new Exception("Customer insert prepare failed: " . $conn->error);
-    
-    $pickup_location_placeholder = "Standard Package Pickup"; 
-    
     $customer_insert_stmt->bind_param(
-        "iiisisiss", 
+        "iiisisss", 
         $customer_id, 
         $payment_id, 
         $itinerary_id,
@@ -58,25 +67,32 @@ try {
         $pax, 
         $date_of_travel, 
         $luggage, 
-        $pickup_location_placeholder,
         $time_for_pickup
     );
     $customer_insert_stmt->execute();
     $customer_insert_stmt->close();
 
+    // Insert into Order_Details
     $order_stmt = $conn->prepare(
-        "INSERT INTO Order_Details (customer_ID, payment_ID, itinerary_ID, number_of_PAX, date_of_travel, time_for_pickup, time_for_dropoff, status) 
-         VALUES (?, ?, ?, ?, ?, ?, ?, 'PENDING')"
+        "INSERT INTO Order_Details (
+            customer_ID, 
+            payment_ID, 
+            itinerary_ID, 
+            number_of_PAX, 
+            date_of_travel, 
+            time_for_pickup, 
+            time_for_dropoff, 
+            status
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, 'PENDING')"
     );
     if (!$order_stmt) throw new Exception("Order_Details prepare failed: " . $conn->error);
-    
     $order_stmt->bind_param("iiiisss", $customer_id, $payment_id, $itinerary_id, $pax, $date_of_travel, $time_for_pickup, $time_for_dropoff);
     $order_stmt->execute();
     $order_id = $conn->insert_id; 
     $order_stmt->close();
 
     $conn->commit();
- 
+
     unset(
         $_SESSION['package_id'],
         $_SESSION['date'],
@@ -85,7 +101,7 @@ try {
         $_SESSION['pax'],
         $_SESSION['luggage']
     );
-    
+
     header("Location: booking_confirmation.php?order_id=" . $order_id);
     exit();
 

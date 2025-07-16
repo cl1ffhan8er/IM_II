@@ -7,40 +7,46 @@
         $username = $_SESSION['username'];
     endif;
 
-$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+    if (isset($_GET['package_id'])) {
+    $_SESSION['package_id'] = $_GET['package_id'];
+    }
 
-$sql = "SELECT
-            pi.package_id,
-            pi.package_name,
-            pi.description,
-            pi.package_picture,
-            i.price
-        FROM
-            Package_Itinerary pi
-        INNER JOIN
-            Itinerary i ON pi.package_id = i.itinerary_ID
-        WHERE
-            i.type = 'PACKAGE' AND pi.is_available = TRUE";
+    // If there's still no session value, show error
+    if (!isset($_SESSION['package_id'])) {
+        die("Error: No package selected. Please go back and choose a package.");
+    }
 
-if (!empty($search)) {
-    // Escape user input to prevent SQL injection
-    $search = $conn->real_escape_string($search);
-    $sql .= " AND (pi.package_name LIKE '%$search%' OR pi.description LIKE '%$search%')";
-}
+    $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 
-$sql .= " ORDER BY i.price LIMIT 4";
+    $sql = "SELECT
+                pi.package_id,
+                pi.package_name,
+                pi.description,
+                pi.package_picture,
+                i.price
+            FROM
+                Package_Itinerary pi
+            INNER JOIN
+                Itinerary i ON pi.package_id = i.itinerary_ID
+            WHERE
+                i.type = 'PACKAGE' AND pi.is_available = TRUE";
 
+    if (!empty($search)) {
+        // Escape user input to prevent SQL injection
+        $search = $conn->real_escape_string($search);
+        $sql .= " AND (pi.package_name LIKE '%$search%' OR pi.description LIKE '%$search%')";
+    }
 
-        $result = $conn->query($sql);
+    $sql .= " ORDER BY i.price LIMIT 4";
+            $result = $conn->query($sql);
 
-        $packages = [];
-        if ($result) {
-            while ($package = $result->fetch_assoc()) {
-                $packages[] = $package;
+            $packages = [];
+            if ($result) {
+                while ($package = $result->fetch_assoc()) {
+                    $packages[] = $package;
+                }
             }
-        }
-        $conn->close();
-
+            $conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -66,7 +72,7 @@ $sql .= " ORDER BY i.price LIMIT 4";
                 <img src="images/srvanlogo.png" alt="Logo">
             </div>
             <div class="navbar-links">
-                <a href="#" class="nav-item">Home</a>
+                <a href="index.php" class="nav-item">Home</a>
 
                 <?php if ($isLoggedIn): ?>
                     <a href="packages.php" class="nav-item">Book</a>
@@ -97,7 +103,10 @@ $sql .= " ORDER BY i.price LIMIT 4";
 <div class="packages-grid">
 <?php if (!empty($packages)): ?>
     <?php foreach ($packages as $package): ?>
-        <div class="package-card" onclick="location.href='package-booking/packagebook-p1-back.php?package_id=<?= $package['package_id']; ?>'">
+    <div class="package-card" onclick="document.getElementById('package-form-<?= $package['package_id']; ?>').submit();">
+        <form id="package-form-<?= $package['package_id']; ?>" action="package-booking/packagebook-p1-back.php" method="POST" style="display: none;">
+            <input type="hidden" name="package_id" value="<?= $package['package_id']; ?>">
+        </form>
             <img src="../<?= htmlspecialchars($package['package_picture']) ?>" class="package-image" alt="Image of <?= htmlspecialchars($package['package_name']) ?>">
             <div class="package-content">
                 <h2><?= htmlspecialchars($package['package_name']) ?></h2>

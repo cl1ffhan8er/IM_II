@@ -8,7 +8,7 @@ body {
 .sidebar {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     height: 100vh;
     width: 200px;
     background-color: #36B9CB;
@@ -16,12 +16,46 @@ body {
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
     position: fixed;
     font-family: "Roboto Condensed", sans-serif;
+    padding: 16px 20px 20px;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+    padding: 0;
+    line-height: 1;
+}
+
+.sidebar-logo {
+    margin: 0;
+    height: 48px;
+    padding: 0;
+}
+
+.sidebar-divider {
+    padding: 0;
+    border: none;
+    height: 1px;
+    background-color: #ffffff70; /* light white tint */
+    margin: 6px 0 10px 0;
+}
+
+.admin-label {
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
 }
 
 .nav-top {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 4px;
+    margin-top: 6px;
 }
 
 .nav-bottom {
@@ -39,6 +73,7 @@ body {
     transition: all 0.3s ease; 
     white-space: nowrap;
     border-radius: 8px; 
+    margin: 0;
 }
 
 .sidebar a:hover {

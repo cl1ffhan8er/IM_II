@@ -21,7 +21,7 @@
         <p>Your booking is currently marked as **PENDING**.</p>
         <p>A manager will review your booking shortly.</p>
         
-        <a href="http://localhost/IM_II/Web/user/">Return to Home</a>
+        <a href="../index.php">Return to Home</a>
     </div>
 </body>
 </html>

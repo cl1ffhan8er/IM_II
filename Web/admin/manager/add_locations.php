@@ -25,19 +25,23 @@ $locations = $conn->query("SELECT * FROM Locations WHERE is_custom_made = 0");
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="sidebar">
-    <div class="nav-top">
-        <h3>Admin Menu</h3>
-        <a href="home.php">BOOKINGS</a>
-        <a href="add_package.php">PLANS</a>
-        <a href="add_locations.php">LOCATIONS</a>
-        <a href="monthly_summary.php">MONTHLY SUMMARY </a>
-    </div>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img src="../../user/images/srvanlogo.png" alt="Logo" class="sidebar-logo">
+            <span class="admin-label">Admin Menu</span>
+        </div>
 
-    <div class="nav-bottom">
-        <a href="../../user/login/logout.php">Log Out</a>
+        <div class="nav-top">
+            <a href="home.php">BOOKINGS</a>
+            <a href="add_package.php">PLANS</a>
+            <a href="add_locations.php">LOCATIONS</a>
+            <a href="monthly_summary.php">MONTHLY SUMMARY</a>
+        </div>
+
+        <div class="nav-bottom">
+            <a href="../../user/login/logout.php" class="logout">Log Out</a>
+        </div>
     </div>
-</div>
 
 <div class="content">
     <h1>MANAGE LOCATIONS</h1>
@@ -46,7 +50,7 @@ $locations = $conn->query("SELECT * FROM Locations WHERE is_custom_made = 0");
             <h3>Add New Location</h3>
             <label>Name: <input type="text" name="location_name" required></label><br>
             <label>Address: <input type="text" name="location_address" required></label><br>
-            <button type="submit">Add Location</button>
+            <button type="submit">ADD</button>
         </form>
 
     <h3>ALL LOCATIONS</h3>

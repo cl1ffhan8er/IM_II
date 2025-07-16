@@ -43,8 +43,12 @@ $driverCount = $driverCountResult->fetch_assoc()['count'] ?? 0;
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
+        <div class="sidebar-header">
+            <img src="../../user/images/srvanlogo.png" alt="Logo" class="sidebar-logo">
+            <span class="admin-label">Admin Menu</span>
+        </div>
+
         <div class="nav-top">
-            <h3>Admin Menu</h3>
             <a href="home.php">BOOKINGS</a>
             <a href="add_package.php">PLANS</a>
             <a href="add_locations.php">LOCATIONS</a>
@@ -52,7 +56,7 @@ $driverCount = $driverCountResult->fetch_assoc()['count'] ?? 0;
         </div>
 
         <div class="nav-bottom">
-            <a href="../../user/login/logout.php">Log Out</a>
+            <a href="../../user/login/logout.php" class="logout">Log Out</a>
         </div>
     </div>
 

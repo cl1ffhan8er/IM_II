@@ -69,7 +69,7 @@
                 <?php endif; ?>
 
                 <?php if ($isLoggedIn): ?>
-                    <a href="packages.php" class="nav-item">Book Itinerary</a>
+                    <a href="itinerary-booking/custom-booking.php" class="nav-item">Book Itinerary</a>
                 <?php else: ?>
                     <a href="login/login.php" class="nav-item">Book Itinerary</a>
                 <?php endif; ?>

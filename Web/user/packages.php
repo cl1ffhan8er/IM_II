@@ -65,12 +65,18 @@
                 <img src="images/srvanlogo.png" alt="Logo">
             </div>
             <div class="navbar-links">
-                <a href="index.php" class="nav-item">Home</a>
+                <a href="#" class="nav-item">Home</a>
 
                 <?php if ($isLoggedIn): ?>
-                    <a href="packages.php" class="nav-item">Book</a>
+                    <a href="packages.php" class="nav-item">Book Package</a>
                 <?php else: ?>
-                    <a href="login/login.php" class="nav-item">Book</a>
+                    <a href="login/login.php" class="nav-item">Book Package</a>
+                <?php endif; ?>
+
+                <?php if ($isLoggedIn): ?>
+                    <a href="itinerary-booking/custom-booking.php" class="nav-item">Book Itinerary</a>
+                <?php else: ?>
+                    <a href="login/login.php" class="nav-item">Book Itinerary</a>
                 <?php endif; ?>
 
                 <a href="minor/help.php" class="nav-item">Help</a>

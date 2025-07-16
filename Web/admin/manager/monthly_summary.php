@@ -81,11 +81,27 @@ while ($row = $result->fetch_assoc()) {
                     <h2><?= $month ?></h2>
                     <?php foreach ($entries as $entry): ?>
                         <details class="entry">
-                            <summary>• <?= $entry['day'] ?> | Completed</summary>
-                            <p>Customer: <?= htmlspecialchars($entry['customer_name']) ?></p>
-                            <p>Driver Assigned: <?= htmlspecialchars($entry['driver_name']) ?></p>
-                            <p>Payment Status: <?= htmlspecialchars($entry['payment_status']) ?></p>
-                            <p>Order ID: <?= $entry['order_ID'] ?></p>
+                            <summary><?= $entry['day'] ?> | Completed</summary>
+                            <div class="entry-content">
+                                <table class="entry-table">
+                                    <tr>
+                                        <th>Customer</th>
+                                        <td><?= htmlspecialchars($entry['customer_name']) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Driver</th>
+                                        <td><?= htmlspecialchars($entry['driver_name']) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Payment Status</th>
+                                        <td><?= htmlspecialchars($entry['payment_status']) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <td><?= $entry['order_ID'] ?></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </details>
                     <?php endforeach; ?>
                 </div>

@@ -63,7 +63,7 @@ $driverCount = $driverCountResult->fetch_assoc()['count'] ?? 0;
 
     <!-- Main content area -->
     <div class="content">
-        <h1>Manager Dashboard — Pending Submissions</h1>
+        <h1>MANAGER DASHBOARD</h1>
 
         <h2>Pending Requests</h2>
         <div class="summary">

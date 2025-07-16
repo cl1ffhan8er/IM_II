@@ -62,7 +62,7 @@
         </div>
     </nav>
 
-    <h1>BOOKING SUMMARY</h1>
+    <h1 style = "color: white">BOOKING SUMMARY</h1>
 
     <div class="booking-wrapper">
     <div class = "booking-summary">

@@ -7,14 +7,7 @@
         $username = $_SESSION['username'];
     endif;
 
-    if (isset($_GET['package_id'])) {
-    $_SESSION['package_id'] = $_GET['package_id'];
-    }
 
-    // If there's still no session value, show error
-    if (!isset($_SESSION['package_id'])) {
-        die("Error: No package selected. Please go back and choose a package.");
-    }
 
     $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 

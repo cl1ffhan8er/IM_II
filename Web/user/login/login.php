@@ -148,7 +148,6 @@ if (isset($_SESSION['error_message'])) {
     </div>
 
     <script>
-        // ===== FORM & CAROUSEL DISPLAY LOGIC =====
         const loginBtn = document.getElementById('loginBtn');
         const registerBtn = document.getElementById('registerBtn');
         const forgotPasswordBtn = document.getElementById('forgotPasswordBtn');
@@ -187,8 +186,7 @@ if (isset($_SESSION['error_message'])) {
         }
         showSlide(current);
         setInterval(nextSlide, 5000);
-
-        // ===== FORM VALIDATION LOGIC =====
+        
         const showError = (input, message) => {
             const formControl = input.parentElement;
             formControl.classList.add('error');

@@ -156,25 +156,27 @@ $conn->close();
 
                             <p class="booking-date">Travel Date: <?php echo date("F j, Y", strtotime($booking['pickup_date'])); ?></p>
 
-                            <div class="booking-details">
-                                <div class="detail-item"><span>Pickup Time:</span> 
-                                    <?php echo !empty($booking['time_for_pickup']) ? date("g:i A", strtotime($booking['time_for_pickup'])) : 'N/A'; ?>
-                                </div>
-                                <div class="detail-item"><span>Drop-off Time:</span> 
-                                    <?php echo !empty($booking['time_for_dropoff']) ? date("g:i A", strtotime($booking['time_for_dropoff'])) : 'N/A'; ?>
-                                </div>
-                                <div class="detail-item"><span>Passengers:</span> <?php echo htmlspecialchars($booking['number_of_PAX']); ?></div>
-                                <div class="detail-item"><span>Payment Method:</span> <?php echo htmlspecialchars(ucfirst($booking['payment_method'])); ?></div>
-                                <div class="detail-item"><span>Payment Status:</span> <?php echo htmlspecialchars($booking['payment_status']); ?></div>
-                                <div class="detail-item"><span>Booking Status:</span> <?php echo htmlspecialchars(ucfirst(strtolower($booking['order_status']))); ?></div>
-                            </div>
+                                <div class="booking-info-wrapper">
+                                    <div class="booking-details">
+                                        <div class="detail-item"><span>Pickup Time:</span> 
+                                            <?php echo !empty($booking['time_for_pickup']) ? date("g:i A", strtotime($booking['time_for_pickup'])) : 'N/A'; ?>
+                                        </div>
+                                        <div class="detail-item"><span>Drop-off Time:</span> 
+                                            <?php echo !empty($booking['time_for_dropoff']) ? date("g:i A", strtotime($booking['time_for_dropoff'])) : 'N/A'; ?>
+                                        </div>
+                                        <div class="detail-item"><span>Passengers:</span> <?php echo htmlspecialchars($booking['number_of_PAX']); ?></div>
+                                        <div class="detail-item"><span>Payment Method:</span> <?php echo htmlspecialchars(ucfirst($booking['payment_method'])); ?></div>
+                                        <div class="detail-item"><span>Payment Status:</span> <?php echo htmlspecialchars($booking['payment_status']); ?></div>
+                                        <div class="detail-item"><span>Booking Status:</span> <?php echo htmlspecialchars(ucfirst(strtolower($booking['order_status']))); ?></div>
+                                    </div>
 
-                            <?php if ($booking['type'] === 'CUSTOM' && !empty($booking['ID_Picture'])): ?>
-                                <div class="custom-id-section">
-                                    <h4>Uploaded ID for Verification:</h4>
-                                    <img src="data:image/jpeg;base64,<?php echo base64_encode($booking['ID_Picture']); ?>" alt="User Uploaded ID" style="max-width: 200px; border: 1px solid #ccc; padding: 5px;">
+                                    <?php if ($booking['type'] === 'CUSTOM' && !empty($booking['ID_Picture'])): ?>
+                                        <div class="custom-id-section">
+                                            <h4>Uploaded ID for Verification:</h4>
+                                            <img src="data:image/jpeg;base64,<?php echo base64_encode($booking['ID_Picture']); ?>" alt="User Uploaded ID">
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
-                            <?php endif; ?>
 
                             <h4>Itinerary:</h4>
                             <ul class="itinerary-list">

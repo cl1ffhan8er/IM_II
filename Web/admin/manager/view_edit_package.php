@@ -7,6 +7,7 @@ if (!isset($_GET['package_id'])) {
 }
 
 $package_id = $_GET['package_id'];
+$success = false; // Initialize success flag
 
 // Handle update logic
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_package'])) {
@@ -15,39 +16,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_package'])) {
     $passenger_count = $_POST['passenger_count'];
     $desc = $_POST['description'];
     $price = $_POST['price'];
+    $route = $_POST['route']; 
     $is_available = isset($_POST['is_available']) ? 1 : 0;
 
-    // Update Itinerary price
     $stmtPrice = $conn->prepare("UPDATE Itinerary SET price = ? WHERE itinerary_ID = ?");
     $stmtPrice->bind_param("di", $price, $package_id);
     $stmtPrice->execute();
 
     // Handle optional image upload
     $imageQuery = "";
-    $imagePath = null;
+    $imagePath_for_db = null;
+
     if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
+        $uploadDir_server = "../../package-images/";
+        $uploadDir_db = "package-images/";
+
         $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
         $filename = uniqid("pkg_") . "." . $ext;
-        $uploadDir = "uploads/";
-        $targetPath = $uploadDir . $filename;
-        if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
+        $targetPath_server = $uploadDir_server . $filename;
+        
+        if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath_server)) {
             $imageQuery = ", package_picture = ?";
-            $imagePath = $targetPath;
+            $imagePath_for_db = $uploadDir_db . $filename;
         }
     }
 
     if ($imageQuery) {
-        $stmt = $conn->prepare("UPDATE Package_Itinerary SET package_name = ?, inclusions = ?, passenger_count = ?, description = ?, is_available = ? $imageQuery WHERE package_id = ?");
-        $stmt->bind_param("ssisisi", $name, $inclusions, $passenger_count, $desc, $is_available, $imagePath, $package_id);
+        $stmt = $conn->prepare("UPDATE Package_Itinerary SET package_name = ?, inclusions = ?, number_of_PAX = ?, description = ?, route = ?, is_available = ? $imageQuery WHERE package_id = ?");
+        $stmt->bind_param("sssssisi", $name, $inclusions, $passenger_count, $desc, $route, $is_available, $imagePath_for_db, $package_id);
     } else {
-        $stmt = $conn->prepare("UPDATE Package_Itinerary SET package_name = ?, inclusions = ?, passenger_count = ?, description = ?, is_available = ? WHERE package_id = ?");
-        $stmt->bind_param("ssisii", $name, $inclusions, $passenger_count, $desc, $is_available, $package_id);
+        $stmt = $conn->prepare("UPDATE Package_Itinerary SET package_name = ?, inclusions = ?, number_of_PAX = ?, description = ?, route = ?, is_available = ? WHERE package_id = ?");
+        $stmt->bind_param("ssssii", $name, $inclusions, $passenger_count, $desc, $route, $is_available, $package_id);
     }
-    $stmt->execute();
-    $success = true;
+    
+    if ($stmt->execute()) {
+        $success = true;
+    }
 }
 
-// Fetch package details
+// Fetch latest package details to display on the form
 $stmt = $conn->prepare("SELECT pi.*, i.price FROM Package_Itinerary pi JOIN Itinerary i ON pi.package_id = i.itinerary_ID WHERE pi.package_id = ?");
 $stmt->bind_param("i", $package_id);
 $stmt->execute();
@@ -68,7 +75,7 @@ $row = $result->fetch_assoc();
 <body>
     <h1>Edit Package: <?= htmlspecialchars($row['package_name']) ?></h1>
 
-    <?php if (!empty($success)): ?>
+    <?php if ($success): ?>
         <p style="color: green; font-weight: bold;">Package updated successfully!</p>
     <?php endif; ?>
 
@@ -77,25 +84,28 @@ $row = $result->fetch_assoc();
         <input type="text" name="package_name" value="<?= htmlspecialchars($row['package_name']) ?>" required><br><br>
 
         <label>Inclusions:</label><br>
-        <input type="text" name="inclusions" value="<?= htmlspecialchars($row['inclusions']) ?>" required><br><br>
+        <textarea name="inclusions" rows="4" required><?= htmlspecialchars($row['inclusions']) ?></textarea><br><br>
 
-        <label>Passenger Count:</label><br>
-        <input type="number" name="passenger_count" min="1" value="<?= $row['passenger_count'] ?>" required><br><br>
+        <label>Passenger Count (e.g., 1-10):</label><br>
+        <input type="text" name="passenger_count" value="<?= htmlspecialchars($row['number_of_PAX']) ?>" required><br><br>
 
         <label>Description:</label><br>
-        <textarea name="description" rows="3" required><?= htmlspecialchars($row['description']) ?></textarea><br><br>
+        <textarea name="description" rows="4" required><?= htmlspecialchars($row['description']) ?></textarea><br><br>
+        
+        <label>Route:</label><br>
+        <textarea name="route" rows="4" required><?= htmlspecialchars($row['route']) ?></textarea><br><br>
 
         <label>Price (₱):</label><br>
-        <input type="number" step="0.01" name="price" value="<?= $row['price'] ?>" required><br><br>
+        <input type="number" step="0.01" name="price" value="<?= htmlspecialchars($row['price']) ?>" required><br><br>
 
         <label>Current Image:</label><br>
         <?php if (!empty($row['package_picture'])): ?>
-            <img src="<?= $row['package_picture'] ?>" width="150"><br>
+            <img src="../../<?= htmlspecialchars($row['package_picture']) ?>" alt="Package Image" width="150"><br>
         <?php else: ?>
             No Image<br>
         <?php endif; ?>
 
-        <label>Change Image:</label><br>
+        <label>Change Image (Optional):</label><br>
         <input type="file" name="image" accept="image/*"><br><br>
 
         <label><input type="checkbox" name="is_available" <?= $row['is_available'] ? 'checked' : '' ?>> Mark as Available</label><br><br>

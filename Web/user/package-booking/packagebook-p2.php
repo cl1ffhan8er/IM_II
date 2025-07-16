@@ -23,7 +23,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Spectral&display=swap" rel="stylesheet">
-
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="scripts/main.js"></script>
     <title>Step 2: Your Booking Details</title>
 </head>
@@ -103,6 +103,8 @@
 
                 <label for="luggage">Number of Luggage (optional):</label>
                 <input type="number" id="luggage" name="luggage" value="0" min="0">
+
+                <div class="g-recaptcha" data-sitekey="6LcnWncrAAAAAL2LbA0rX9KktD7JuOVPMgtreV4H"></div>
             </div>
 
 <div class="form-right">

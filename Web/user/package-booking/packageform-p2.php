@@ -17,7 +17,9 @@ $_SESSION['luggage'] = htmlspecialchars($_POST['luggage']);
 $_SESSION['comments'] = htmlspecialchars($_POST['comments']);
 
 if (isset($_FILES['id']) && $_FILES['id']['error'] == UPLOAD_ERR_OK) {
-    $destination = 'uploads/' . uniqid('id_', true) . '.' . pathinfo($_FILES['id']['name'], PATHINFO_EXTENSION);
+    $uploadDir = __DIR__ . '/uploads/';
+    $destination = $uploadDir . uniqid('id_', true) . '.' . pathinfo($_FILES['id']['name'], PATHINFO_EXTENSION);
+    
     if (move_uploaded_file($_FILES['id']['tmp_name'], $destination)) {
         $_SESSION['id_filepath'] = $destination;
         $_SESSION['id_filename'] = $_FILES['id']['name'];

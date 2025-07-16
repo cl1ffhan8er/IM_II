@@ -10,7 +10,6 @@
     $pickuptime = $_SESSION['pickuptime'] ?? '';
     $dropofftime = $_SESSION['dropofftime'] ?? '';
     $pickup = $_SESSION['pickup'] ?? '';
-
 ?>
 
 <!DOCTYPE html>
@@ -64,7 +63,7 @@
     
     <form id="bookingform2" action="customform-p2.php" method="post" enctype="multipart/form-data" class="booking-form">
 
-       <div class="form2">
+    <div class="form2">
     
     <div class="name-fields">
         <div>
@@ -124,8 +123,8 @@
     </div>
 
     <div class="form-buttons">
-    <button type="button" class="nav-button action-button cancel-button" onclick="history.back()">CANCEL</button>
-    <button type="submit" class="nav-button action-button submit-button">SUBMIT</button>
+    <button type="button" class="nav-button action-button cancel-button" onclick="history.back()">BACK TO EDITING</button>
+    <button type="submit" class="nav-button action-button submit-button">PROCEED TO SUMMARY</button>
     </div>
   </div>
 </form>

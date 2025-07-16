@@ -12,6 +12,8 @@ $isLoggedIn = isset($_SESSION['person_ID']);
 if (!$isLoggedIn) {
     header("Location: login/login.php");
     exit();
+} else {
+    $username = $_SESSION['username'];
 }
 
 $person_id = $_SESSION['person_ID'];
@@ -49,7 +51,7 @@ JOIN Order_Details od ON c.customer_ID = od.customer_ID AND c.payment_ID = od.pa
 JOIN Itinerary i ON od.itinerary_ID = i.itinerary_ID
 LEFT JOIN Package_Itinerary pi ON i.itinerary_ID = pi.package_id
 WHERE c.customer_ID = ?
-ORDER BY c.date_of_travel DESC";
+ORDER BY c.date_of_travel";
 
 $bookings_stmt = $conn->prepare($sql);
 if (!$bookings_stmt) {
@@ -110,7 +112,7 @@ $conn->close();
     <div class="navbar-inner">
         <div class="navbar-logo"><img src="images/srvanlogo.png" alt="Logo"></div>
         <div class="navbar-links">
-                <a href="#" class="nav-item">Home</a>
+                <a href="index.php" class="nav-item">Home</a>
 
                 <?php if ($isLoggedIn): ?>
                     <a href="packages.php" class="nav-item">Book Package</a>
@@ -168,7 +170,16 @@ $conn->close();
                             <?php else: ?>
                                 <h3>Custom Itinerary</h3>
                             <?php endif; ?>
-                            <p class="booking-date">Travel Date: <?php echo date("F j, Y", strtotime($booking['pickup_date'])); ?></p>
+                           <p class="booking-date">
+                                Travel Date: 
+                                <?php 
+                                    if (!empty($booking['pickup_date'])) {
+                                        echo date("F j, Y", strtotime($booking['pickup_date']));
+                                    } else {
+                                        echo "Not available";
+                                    }
+                                ?>
+                            </p>
                             </div>
                             <hr>
                             <div class="booking-info-wrapper">

@@ -30,7 +30,7 @@
         $sql .= " AND (pi.package_name LIKE '%$search%' OR pi.description LIKE '%$search%')";
     }
 
-    $sql .= " ORDER BY i.price LIMIT 4";
+    $sql .= " ORDER BY i.price";
             $result = $conn->query($sql);
 
             $packages = [];
@@ -65,7 +65,7 @@
                 <img src="images/srvanlogo.png" alt="Logo">
             </div>
             <div class="navbar-links">
-                <a href="#" class="nav-item">Home</a>
+                <a href="index.php" class="nav-item">Home</a>
 
                 <?php if ($isLoggedIn): ?>
                     <a href="packages.php" class="nav-item">Book Package</a>

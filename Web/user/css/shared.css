@@ -78,7 +78,8 @@ body > * {
 }
 
 .nav-item:hover {
-  opacity: 0.85;
+  opacity: 0.55;
+  color:#177e8c;
 }
 
 .site-footer {

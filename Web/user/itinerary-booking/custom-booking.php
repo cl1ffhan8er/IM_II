@@ -37,7 +37,7 @@ $locations_result = $conn->query("SELECT location_name, location_address FROM Lo
               <img src="../images/srvanlogo.png" alt="Logo">
           </div>
           <div class="navbar-links">
-                <a href="#" class="nav-item">Home</a>
+                <a href="../index.php" class="nav-item">Home</a>
 
                 <?php if ($isLoggedIn): ?>
                     <a href="../packages.php" class="nav-item">Book Package</a>

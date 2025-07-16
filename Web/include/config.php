@@ -1,10 +1,10 @@
 <?php
     return [
         'host' => 'localhost',
-        'user' => 's24100314_businessdb',         
-        'password' => 'iloysicliff',
+        /*'user' => 's24100314_businessdb',         
+        'password' => 'iloysicliff',*/
 
-        /*'user' => 'root',
-        'password' => '',*/
+        'user' => 'root',
+        'password' => '',
         'database' => 'srvan2'
     ];

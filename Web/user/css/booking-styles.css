@@ -82,6 +82,12 @@ hr {
   margin-top: 1.5rem;
 }
 
+.price-row span {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fca00a;
+}
+
 .form-right h3 {
     text-align: center;
     margin-top: 1 rem;
@@ -123,25 +129,38 @@ label {
   display: block;
 }
 
+.pit-stops-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
 .pit-stop {
-  background: white;
+  background: #ffffff;
   border: 1px solid #ccc;
-  padding: 1rem;
-  padding-right: 2rem;
+  padding: 0.75rem 1rem;
   border-radius: 10px;
-  margin-bottom: 1rem;
-  position: relative;
-  overflow-wrap: break-word;
+  margin-bottom: 0px;
+  font-family: "Roboto Condensed", sans-serif;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 }
 
 .pit-stop p {
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.4;
+  font-size: 0.95rem;
+  color: #2f2f2f;
+  white-space: normal;
+  word-break: break-word;
 }
 
-.pit-stop p:nth-child(2) {
-  font-size: 0.9rem; 
-  color: #555;
+.pit-stop p:first-child {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .form-buttons {
@@ -320,14 +339,6 @@ label {
   display: block;
   color: #2f2f2f;
   white-space: pre-wrap;
-}
-
-.form-right p:last-child {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #fca00a;
-  border-top: 1px solid #ccc;
-  padding-top: 1rem;
 }
 
 .summary-columns {

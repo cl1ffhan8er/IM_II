@@ -87,9 +87,6 @@
                 <label for="pickuptime">Pickup Time:</label>
                 <input type="time" id="pickuptime" name="pickuptime" value="<?= htmlspecialchars($pickuptime) ?>" required>
 
-                <label for="dropofftime">Dropoff Time:</label>
-                <input type="time" id="dropofftime" name="dropofftime" value="<?= htmlspecialchars($dropofftime) ?>" required>
-
                 <label for="pickup">Pickup Address:</label>
                 <input type="text" id="pickup" name="pickup" value="<?= htmlspecialchars($pickup) ?>" required>
 

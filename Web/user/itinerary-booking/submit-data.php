@@ -45,7 +45,6 @@ if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
     $conn->begin_transaction();
 
     try {
-    
         $down_payment = 500.00;
         $payment_status = "NOT PAID";
 
@@ -76,7 +75,6 @@ if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
         $stmtCustomers = $conn->prepare($sqlCustomers);
         if (!$stmtCustomers) throw new Exception("Customer prepare failed: " . $conn->error);
 
-        // i = int, s = string, b = blob
         $stmtCustomers->bind_param("iiisib", 
             $person_id, 
             $payment_id, 
@@ -87,7 +85,7 @@ if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
         );
 
         // send file data (the blob)
-        $stmtCustomers->send_long_data(7, $fileData); // Index 7 (zero-based) is 8th parameter (ID_Picture)
+        $stmtCustomers->send_long_data(5, $fileData); // Index 7 (zero-based) is 8th parameter (ID_Picture)
 
         if (!$stmtCustomers->execute()) throw new Exception("Customer execute failed: " . $stmtCustomers->error);
         $stmtCustomers->close();
@@ -110,6 +108,7 @@ if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
         $driver_id = null;
         $stmtOrder->bind_param("iiiissss", $person_id, $payment_id, $driver_id, $itinerary_id, $pax, $date, $pickuptime, $dropofftime);
         if (!$stmtOrder->execute()) throw new Exception("Order_Details execute failed: " . $stmtOrder->error);
+        $order_id = $conn->insert_id;
         $stmtOrder->close();
 
         $sqlNewLocation = "INSERT INTO Locations (location_name, location_address, is_custom_made) VALUES (?, ?, TRUE)";

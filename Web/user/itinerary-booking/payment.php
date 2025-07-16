@@ -119,7 +119,7 @@
         <hr>
 
         <form action="submit-data.php" method="post">
-            <p>Before paying the needed downpayment, the itinerary must undergo proper review...</p>
+            <p>Before paying the needed downpayment, the itinerary must undergo proper review. Once this form is submitted, it will undergo a review from the admin.</p>
 
             <input type="hidden" name="payment_type" value="Pending">
 

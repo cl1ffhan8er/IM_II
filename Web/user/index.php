@@ -7,6 +7,11 @@
     include '../include/connect.php';
     $isLoggedIn = isset($_SESSION['person_ID']);
 
+    if (!isset($_SESSION['customer_ID'])) {
+        header("Location: login/login.php");
+        exit();
+    }
+
     if ($isLoggedIn) {
         $username = $_SESSION['username'];
     }

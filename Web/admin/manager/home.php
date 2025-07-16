@@ -1,5 +1,11 @@
 <?php
+session_start();
 require_once '../../include/connect.php';
+
+if (!isset($_SESSION['manager_ID'])) {
+    header("Location: ../../user/login/login.php");
+    exit();
+}
 
 // Get all pending requests
 $orders = $conn->query("

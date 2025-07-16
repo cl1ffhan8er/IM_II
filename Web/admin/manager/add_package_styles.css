@@ -18,6 +18,25 @@ body {
     font-family: "Roboto Condensed", sans-serif;
 }
 
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.sidebar-logo {
+    width: auto;
+    height: 60px;
+    object-fit: contain;
+}
+
+.admin-label {
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+}
+
 .nav-top {
     display: flex;
     flex-direction: column;

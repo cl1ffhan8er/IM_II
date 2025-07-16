@@ -57,6 +57,11 @@ $results = $conn->query("SELECT pi.*, i.price FROM Package_Itinerary pi JOIN Iti
 </head> 
 <body>
     <div class="sidebar">
+        <div class="sidebar-header">
+            <img src="../../user/images/srvanlogo.png" alt="Logo">
+            <span class="admin-label">Admin</span>
+        </div>
+
         <div class="nav-top">
             <h3>Admin Menu</h3>
             <a href="home.php">BOOKINGS</a>

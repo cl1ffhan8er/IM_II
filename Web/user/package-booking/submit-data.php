@@ -10,9 +10,12 @@ $payment_type = $_POST['payment_type'] ?? die("Error: Invalid payment submission
 $customer_id = $_SESSION['person_ID']; 
 $itinerary_id = $_SESSION['package_id'] ?? die("Error: Itinerary ID missing from session.");
 $pax = intval($_SESSION['pax'] ?? 1);
-$date_of_travel = $_SESSION['date'] ?? null;
+$type = $_SESSION['booking_type'] ?? 'PACKAGE'; // default if not set
 $time_for_pickup = $_SESSION['pickuptime'] ?? null;
-$time_for_dropoff = $_SESSION['dropofftime'] ?? null;
+$time_for_dropoff = ($type === 'CUSTOM') 
+    ? ($_SESSION['dropofftime'] ?? null) 
+    : null;
+$date_of_travel = $_SESSION['date'] ?? null;
 $luggage = $_SESSION['luggage'] ?? 0;
 $filePath = $_SESSION['id_filepath'];
 $payment_method = $_POST['payment_type'];
@@ -84,6 +87,8 @@ try {
     $order_stmt->close();
 
     $conn->commit();
+
+    $type = $_SESSION['booking_type'] ?? 'PACKAGE'; // default to PACKAGE
 
     unset(
         $_SESSION['package_id'],

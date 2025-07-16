@@ -114,14 +114,6 @@
     <label for="id">Attach Official ID (jpg / png):</label>
     <input type="file" name="id" accept=".jpg, .jpeg, .png" required>
 
-    <div class="form-field">
-    <label>
-        <input type="checkbox" name="pay_on_pickup" id="pay_on_pickup">
-        Pay on Pick-Up Date?
-        <small class="note">By choosing this, a downpayment is required.</small>
-    </label>
-    </div>
-
     <div class="form-buttons">
     <button type="button" class="nav-button action-button cancel-button" onclick="history.back()">BACK TO EDITING</button>
     <button type="submit" class="nav-button action-button submit-button">PROCEED TO SUMMARY</button>

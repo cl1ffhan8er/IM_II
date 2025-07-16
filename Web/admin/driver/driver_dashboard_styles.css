@@ -59,7 +59,7 @@ body {
 }
 
 .nav-bottom {
-    margin-bottom: 40px; /* lift it up a bit from bottom */
+    margin-top: 400px;
 }
 
 .sidebar a {
@@ -88,44 +88,88 @@ body {
 
 .content {
     margin-left: 250px; /* leave space for sidebar */
-    padding: 20px;
-    width: 100%;
+    padding: 40px 30px;
+    width: calc(100% - 250px);
 }
 
-/* end of sidebar stuff */
+/*End of Sidebar*/
 
-.summary {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 20px;
+h1, h2 {
+    color: #004466;
+    margin-bottom: 15px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+h2 {
+    margin-top: 40px;
+    font-size: 20px;
+}
+
+form {
     margin-top: 20px;
+    margin-bottom: 30px;
 }
 
-.summary div {
-    flex: 1;
-    max-width: 200px;
-    height: 100px;
-    background-color: #f9f9f9;
-    border-radius: 12px;
-    padding: 15px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: relative;
+form button {
+    background-color: #36B9CB;
+    color: white;
     font-weight: bold;
-    font-size: 18px;
-    text-align: center;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.summary p {
-    position: absolute;
-    top: 10px;
-    left: 15px;
-    margin: 0;
-    font-size: 12px;
-    font-weight: normal;
-    color: #555;
+form button:hover {
+    background-color: #2aa5b7;
 }
 
+form p {
+    margin-top: 10px;
+    font-size: 15px;
+}
 
+/* ===== Table Styling ===== */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+    font-size: 14px;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th {
+    padding: 12px 16px;
+    text-align: left;
+    border: 1px solid #ccc;
+    text-transform: uppercase;
+}
+
+td {
+    background-color: #d9d9d9;
+    color: #333;
+    font-weight: 900px;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* ===== Status Styles ===== */
+
+.status-available {
+    color: #2e7d32;
+    font-weight: 700;
+}
+
+.status-unavailable {
+    color: #c62828;
+    font-weight: 700;
+}

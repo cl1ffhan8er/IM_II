@@ -71,8 +71,28 @@ $row = $result->fetch_assoc();
 <head>
     <meta charset="UTF-8">
     <title>View/Edit Package</title>
+    <link rel="stylesheet" href="add_locations_styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img src="../../user/images/srvanlogo.png" alt="Logo" class="sidebar-logo">
+            <span class="admin-label">Admin Menu</span>
+        </div>
+
+        <div class="nav-top">
+            <a href="home.php">BOOKINGS</a>
+            <a href="add_package.php">PLANS</a>
+            <a href="add_locations.php">LOCATIONS</a>
+            <a href="monthly_summary.php">MONTHLY SUMMARY</a>
+        </div>
+
+        <div class="nav-bottom">
+            <a href="../../user/login/logout.php" class="logout">Log Out</a>
+        </div>
+    </div>
+    
     <h1>Edit Package: <?= htmlspecialchars($row['package_name']) ?></h1>
 
     <?php if ($success): ?>

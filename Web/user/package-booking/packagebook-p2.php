@@ -87,9 +87,6 @@
                 <label for="pickuptime">Pickup Time:</label>
                 <input type="time" id="pickuptime" name="pickuptime" value="<?= htmlspecialchars($pickuptime) ?>" required>
 
-                <label for="dropofftime">Dropoff Time:</label>
-                <input type="time" id="dropofftime" name="dropofftime" value="<?= htmlspecialchars($dropofftime) ?>" required>
-
                 <label for="pickup">Pickup Address:</label>
                 <input type="text" id="pickup" name="pickup" value="<?= htmlspecialchars($pickup) ?>" required>
 
@@ -99,18 +96,58 @@
 
 <div class="form-right">
     <h3>Package Summary</h3>
-    <p><strong>Name:</strong> <?= htmlspecialchars($_SESSION['package_name']) ?></p>
-    <p><strong>Description:</strong> <?= nl2br(htmlspecialchars($_SESSION['package_description'])) ?></p>
+    <hr>
+    <div class="summary-line">
+    <strong>Name:</strong>
+    <span><?= htmlspecialchars($_SESSION['package_name']) ?></span>
+    </div>
+    <div class="summary-line">
+    <strong>Description:</strong>
+    <span><?= nl2br(htmlspecialchars($_SESSION['package_description'])) ?></span>
+    </div>
 
-    <?php if (!empty($_SESSION['package_route'])): ?>
-        <p><strong>Route:</strong><br><?= nl2br(htmlspecialchars($_SESSION['package_route'])) ?></p>
-    <?php endif; ?>
+    <div class="summary-columns">
+        <?php if (!empty($_SESSION['package_route'])): ?>
+            <div class="summary-column">
+                <p><strong>Route:</strong></p>
+                <ul>
+                    <?php 
+                        $routes = preg_split("/\s*,\s*|\s+-\s+/", $_SESSION['package_route']);
+                        foreach ($routes as $route):
+                            if (trim($route) !== ''):
+                    ?>
+                        <li><?= htmlspecialchars(trim($route)) ?></li>
+                    <?php 
+                            endif;
+                        endforeach;
+                    ?>
+                </ul>
+            </div>
+        <?php endif; ?>
 
-    <?php if (!empty($_SESSION['package_inclusions'])): ?>
-        <p><strong>Inclusions:</strong><br><?= nl2br(htmlspecialchars($_SESSION['package_inclusions'])) ?></p>
-    <?php endif; ?>
+        <?php if (!empty($_SESSION['package_inclusions'])): ?>
+            <div class="summary-column">
+                <p><strong>Inclusions:</strong></p>
+                <ul>
+                    <?php 
+                        $inclusions = preg_split("/\s*,\s*|\s+-\s+/", $_SESSION['package_inclusions']);
+                        foreach ($inclusions as $inclusion):
+                            if (trim($inclusion) !== ''):
+                    ?>
+                        <li><?= htmlspecialchars(trim($inclusion)) ?></li>
+                    <?php 
+                            endif;
+                        endforeach;
+                    ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+    </div>
 
-    <p><strong>Price per PAX:</strong> ₱<?= number_format($_SESSION['package_price'], 2) ?></p>
+    <div class="price-row">
+        <strong>Price per PAX: </strong>
+        <span>₱<?= number_format($_SESSION['package_price'], 2) ?></span>
+    </div>
 </div>
 
         </div>

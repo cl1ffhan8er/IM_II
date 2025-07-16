@@ -117,17 +117,13 @@
 
         <h2>PAYMENT DETAILS</h2>
         <hr>
-        <div class="qr-wrapper">
-            <img src="../images/200x200.png" alt="GCash QR Code" class="qr-image">
-        </div>
 
         <form action="submit-data.php" method="post">
-            <label for = "payment_type">Payment Type:</label>
-            <select name="payment_type" id="payment_type" required>
-                <option value="gcash">GCash</option>
-                <option value="cash">Pay on Pick-up</option>
-            </select>
-            <input type = "submit" value = "COMPLETE BOOKING" name = "submit">
+            <p>Before paying the needed downpayment, the itinerary must undergo proper review. Once this form is submitted, it will undergo a review from the admin.</p>
+
+            <input type="hidden" name="payment_type" value="Pending">
+
+            <input type="submit" value="COMPLETE BOOKING" name="submit">
             <button type="button" onclick="history.back()">EDIT BOOKING</button>
         </form>
     </div>

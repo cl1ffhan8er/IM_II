@@ -97,10 +97,22 @@
                 <input type="number" id="luggage" name="luggage" value="0" min="0">
             </div>
 
-            <div class="form-right">
-                <h3>Package Summary</h3>
-                <p>This package includes your selected pre-made itinerary. You may confirm your details and proceed to submit your booking.</p>
-            </div>
+<div class="form-right">
+    <h3>Package Summary</h3>
+    <p><strong>Name:</strong> <?= htmlspecialchars($_SESSION['package_name']) ?></p>
+    <p><strong>Description:</strong> <?= nl2br(htmlspecialchars($_SESSION['package_description'])) ?></p>
+
+    <?php if (!empty($_SESSION['package_route'])): ?>
+        <p><strong>Route:</strong><br><?= nl2br(htmlspecialchars($_SESSION['package_route'])) ?></p>
+    <?php endif; ?>
+
+    <?php if (!empty($_SESSION['package_inclusions'])): ?>
+        <p><strong>Inclusions:</strong><br><?= nl2br(htmlspecialchars($_SESSION['package_inclusions'])) ?></p>
+    <?php endif; ?>
+
+    <p><strong>Price per PAX:</strong> ₱<?= number_format($_SESSION['package_price'], 2) ?></p>
+</div>
+
         </div>
 
             <label for="id">Attach Official ID (jpg / png):</label>

@@ -47,7 +47,6 @@
                 }
             }
             $conn->close();
-
 ?>
 
 <!DOCTYPE html>
@@ -104,7 +103,10 @@
 <div class="packages-grid">
 <?php if (!empty($packages)): ?>
     <?php foreach ($packages as $package): ?>
-        <div class="package-card" onclick="location.href='package-booking/packagebook-p1-back.php?package_id=<?= $package['package_id']; ?>'">
+    <div class="package-card" onclick="document.getElementById('package-form-<?= $package['package_id']; ?>').submit();">
+        <form id="package-form-<?= $package['package_id']; ?>" action="package-booking/packagebook-p1-back.php" method="POST" style="display: none;">
+            <input type="hidden" name="package_id" value="<?= $package['package_id']; ?>">
+        </form>
             <img src="../<?= htmlspecialchars($package['package_picture']) ?>" class="package-image" alt="Image of <?= htmlspecialchars($package['package_name']) ?>">
             <div class="package-content">
                 <h2><?= htmlspecialchars($package['package_name']) ?></h2>

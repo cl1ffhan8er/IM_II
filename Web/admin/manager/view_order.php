@@ -127,7 +127,7 @@ if (isset($_POST['assign_driver'])) {
     </div>
 
     <div class="main-content">
-        <h1>Order Details</h1>
+        <h1>ORDER DETAILS</h1>
 
         <a href="home.php" class="button-link">Back to Home</a>
 

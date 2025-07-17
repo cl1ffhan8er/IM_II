@@ -23,16 +23,33 @@ if (isset($_POST['toggle_availability'])) {
 $availabilityResult = $conn->query("SELECT Availability FROM Driver WHERE driver_ID = $driverID");
 $availability = $availabilityResult->fetch_assoc()['Availability'];
 
-// Fetch assigned orders
-$sql = "SELECT od.*, c.name AS customer_name, i.type AS itinerary_type
-        FROM Order_Details od
-        JOIN Customer cust ON od.customer_ID = cust.customer_ID
-        JOIN Person c ON cust.customer_ID = c.person_ID
-        JOIN Itinerary i ON od.itinerary_ID = i.itinerary_ID
-        WHERE od.driver_ID = $driverID
-        ORDER BY od.date_of_travel ASC";
+$limit = 5; // Orders per page
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
 
-$orders = $conn->query($sql);
+// Get total number of assigned orders
+$totalResult = $conn->query("SELECT COUNT(*) AS total 
+    FROM Order_Details 
+    WHERE driver_ID = $driverID");
+$totalRows = $totalResult->fetch_assoc()['total'];
+$totalPages = ceil($totalRows / $limit);
+
+
+// Fetch assigned orders
+$stmt = $conn->prepare("
+    SELECT od.*, c.name AS customer_name, i.type AS itinerary_type
+    FROM Order_Details od
+    JOIN Customer cust ON od.customer_ID = cust.customer_ID
+    JOIN Person c ON cust.customer_ID = c.person_ID
+    JOIN Itinerary i ON od.itinerary_ID = i.itinerary_ID
+    WHERE od.driver_ID = ?
+    ORDER BY od.date_of_travel ASC
+    LIMIT ? OFFSET ?
+");
+$stmt->bind_param("iii", $driverID, $limit, $offset);
+$stmt->execute();
+$orders = $stmt->get_result();
+
 ?>
 
 <!DOCTYPE html>
@@ -101,6 +118,17 @@ $orders = $conn->query($sql);
                 <tr><td colspan="8">No orders assigned.</td></tr>
             <?php endif; ?>
         </table>
+        <div class="pagination">
+            <?php if ($page > 1): ?>
+                <a href="?page=<?= $page - 1 ?>">&laquo; Prev</a>
+            <?php endif; ?>
+
+            <span>Page <?= $page ?> of <?= $totalPages ?></span>
+
+            <?php if ($page < $totalPages): ?>
+                <a href="?page=<?= $page + 1 ?>">Next &raquo;</a>
+            <?php endif; ?>
+        </div>
     </div>
 </body>
 </html>

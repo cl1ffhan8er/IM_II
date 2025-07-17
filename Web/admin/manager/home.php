@@ -7,13 +7,31 @@ if (!isset($_SESSION['manager_ID'])) {
     exit();
 }
 
+$limit = 5; // bookings per page
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
+
+$totalResult = $conn->query("
+    SELECT COUNT(*) AS total 
+    FROM order_details 
+    WHERE status = 'pending' OR status = 'IN MODIFICATION'
+");
+$totalRows = $totalResult->fetch_assoc()['total'];
+$totalPages = ceil($totalRows / $limit);
+
+
 // Get all pending requests
-$orders = $conn->query("
+$stmt = $conn->prepare("
     SELECT od.order_ID, od.date_of_transaction, od.status, i.type 
     FROM order_details od
     JOIN Itinerary i ON od.itinerary_ID = i.itinerary_ID
-    WHERE od.status = 'pending' or od.status = 'IN MODIFICATION'
+    WHERE od.status = 'pending' OR od.status = 'IN MODIFICATION'
+    LIMIT ? OFFSET ?
 ");
+$stmt->bind_param("ii", $limit, $offset);
+$stmt->execute();
+$orders = $stmt->get_result();
+
 
 // If a specific order is clicked
 $orderDetails = null;
@@ -114,6 +132,17 @@ $driverCount = $driverCountResult->fetch_assoc()['count'] ?? 0;
             </tr>
             <?php endwhile; ?>
         </table>
+        <div class="pagination">
+            <?php if ($page > 1): ?>
+                <a href="?page=<?= $page - 1 ?>">&laquo; Prev</a>
+            <?php endif; ?>
+
+            <span>Page <?= $page ?> of <?= $totalPages ?></span>
+
+            <?php if ($page < $totalPages): ?>
+                <a href="?page=<?= $page + 1 ?>">Next &raquo;</a>
+            <?php endif; ?>
+        </div>
     </div>
 </body>
 </html>

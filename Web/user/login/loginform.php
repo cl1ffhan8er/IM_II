@@ -39,7 +39,7 @@ if (isset($_POST['login'])) {
     $username = $conn->real_escape_string($_POST['username']);
     $password = md5($_POST['password']);
 
-    $sql = "SELECT * FROM Person WHERE name = '$username' AND password = '$password'";
+    $sql = "SELECT * FROM person WHERE name = '$username' AND password = '$password'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {

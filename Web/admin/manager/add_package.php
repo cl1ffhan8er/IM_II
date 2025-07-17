@@ -151,7 +151,7 @@ $results = $conn->query("SELECT pi.*, i.price FROM Package_Itinerary pi JOIN Iti
                         <div class="package-card">
                             <div class="card-image">
                                 <?php if (!empty($row['package_picture'])): ?>
-                                    <img src="<?= $row['package_picture'] ?>" alt="Package Image">
+                                    <img src="../../<?php echo htmlspecialchars($row['package_picture']); ?>" alt="<?php echo htmlspecialchars($row['package_name']); ?>">
                                 <?php else: ?>
                                     <div class="no-image">No Image</div>
                                 <?php endif; ?>

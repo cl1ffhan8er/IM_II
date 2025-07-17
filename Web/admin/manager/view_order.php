@@ -10,9 +10,9 @@ $orderID = $_GET['order_ID'];
 
 // Get order info along with customer email and name
 $stmt = $conn->prepare("SELECT od.*, p.name AS customer_name, p.email AS customer_email,  pi.package_ID, pi.package_name
-                        FROM order_details od
-                        JOIN customer c ON od.customer_ID = c.customer_ID
-                        JOIN person p ON c.customer_ID = p.person_ID
+                        FROM Order_Details od
+                        JOIN Customer c ON od.customer_ID = c.customer_ID
+                        JOIN Person p ON c.customer_ID = p.person_ID
                         LEFT JOIN Package_Itinerary pi ON od.itinerary_ID = pi.package_ID
                         WHERE od.order_ID = ?");
 $stmt->bind_param("i", $orderID);
@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $orderDetails = $stmt->get_result()->fetch_assoc();
 }
 
-$driverQuery = $conn->query("SELECT d.driver_ID, p.name FROM driver d JOIN person p ON d.driver_ID = p.person_ID WHERE d.Availability = TRUE");
+$driverQuery = $conn->query("SELECT d.driver_ID, p.name FROM Driver d JOIN Person p ON d.driver_ID = p.person_ID WHERE d.Availability = TRUE");
 
 if (isset($_POST['assign_driver'])) {
     $driverID = $_POST['driver_ID'];

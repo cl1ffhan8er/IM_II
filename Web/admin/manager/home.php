@@ -28,7 +28,7 @@ if (isset($_GET['order_ID'])) {
 $today = date("Y-m-d");
 
 // Count pending bookings
-$pendingCountResult = $conn->query("SELECT COUNT(*) AS count FROM Order_Details WHERE status = 'pending'");
+$pendingCountResult = $conn->query("SELECT COUNT(*) AS count FROM Order_Details WHERE status = 'PENDING'");
 $pendingCount = $pendingCountResult->fetch_assoc()['count'] ?? 0;
 
 // Count available drivers

@@ -155,7 +155,6 @@ if (isset($_POST['assign_driver'])) {
                 <p><strong>Package ID:</strong> <?= $orderDetails['package_ID'] ?? 'N/A' ?></p>
                 <p><strong>Package:</strong> <?= $orderDetails['package_name'] ?? 'N/A' ?></p>
                 <p><strong>Status:</strong> <?= $orderDetails['status'] ?></p>
-                <p><strong>Submitted On:</strong> <?= $orderDetails['submission_date'] ?? '—' ?></p>
 
                 <hr>
 

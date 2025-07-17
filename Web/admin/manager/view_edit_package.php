@@ -71,7 +71,7 @@ $row = $result->fetch_assoc();
 <head>
     <meta charset="UTF-8">
     <title>View/Edit Package</title>
-    <link rel="stylesheet" href="add_locations_styles.css">
+    <link rel="stylesheet" href="view_edit_package_styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -92,47 +92,86 @@ $row = $result->fetch_assoc();
             <a href="../../user/login/logout.php" class="logout">Log Out</a>
         </div>
     </div>
-    
-    <h1>Edit Package: <?= htmlspecialchars($row['package_name']) ?></h1>
+    <div class="content">
+        <a href="add_package.php" class="button-link">Back to Package List</a>
 
-    <?php if ($success): ?>
-        <p style="color: green; font-weight: bold;">Package updated successfully!</p>
-    <?php endif; ?>
+        <h1>EDIT PACKAGE: <?= htmlspecialchars($row['package_name']) ?></h1>
 
-    <form method="POST" enctype="multipart/form-data">
-        <label>Package Name:</label><br>
-        <input type="text" name="package_name" value="<?= htmlspecialchars($row['package_name']) ?>" required><br><br>
-
-        <label>Inclusions:</label><br>
-        <textarea name="inclusions" rows="4" required><?= htmlspecialchars($row['inclusions']) ?></textarea><br><br>
-
-        <label>Passenger Count (e.g., 1-10):</label><br>
-        <input type="text" name="passenger_count" value="<?= htmlspecialchars($row['number_of_PAX']) ?>" required><br><br>
-
-        <label>Description:</label><br>
-        <textarea name="description" rows="4" required><?= htmlspecialchars($row['description']) ?></textarea><br><br>
-        
-        <label>Route:</label><br>
-        <textarea name="route" rows="4" required><?= htmlspecialchars($row['route']) ?></textarea><br><br>
-
-        <label>Price (₱):</label><br>
-        <input type="number" step="0.01" name="price" value="<?= htmlspecialchars($row['price']) ?>" required><br><br>
-
-        <label>Current Image:</label><br>
-        <?php if (!empty($row['package_picture'])): ?>
-            <img src="../../<?= htmlspecialchars($row['package_picture']) ?>" alt="Package Image" width="150"><br>
-        <?php else: ?>
-            No Image<br>
+        <?php if ($success): ?>
+            <p style="color: green; font-weight: bold;">Package updated successfully!</p>
         <?php endif; ?>
 
-        <label>Change Image (Optional):</label><br>
-        <input type="file" name="image" accept="image/*"><br><br>
+        <form method="POST" enctype="multipart/form-data" class="package-form">
 
-        <label><input type="checkbox" name="is_available" <?= $row['is_available'] ? 'checked' : '' ?>> Mark as Available</label><br><br>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Package Name:</label>
+                    <input type="text" name="package_name" value="<?= htmlspecialchars($row['package_name']) ?>" required>
+                </div>
 
-        <button type="submit" name="update_package">Update Package</button>
-    </form>
-    <br>
-    <a href="add_package.php">← Back to Package List</a>
+                <div class="form-group">
+                    <label>Inclusions:</label>
+                    <textarea name="inclusions" rows="3" required><?= htmlspecialchars($row['inclusions']) ?></textarea>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Passenger Count:</label>
+                    <?php 
+                        $minmax = explode('-', $row['number_of_PAX']);
+                        $min = $minmax[0] ?? '';
+                        $max = $minmax[1] ?? '';
+                    ?>
+                    <div class="passenger-range">
+                        <input type="number" name="passenger_min" min="1" value="<?= htmlspecialchars($min) ?>" required>
+                        <span>TO</span>
+                        <input type="number" name="passenger_max" min="1" value="<?= htmlspecialchars($max) ?>" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Description:</label>
+                    <textarea name="description" rows="3" required><?= htmlspecialchars($row['description']) ?></textarea>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Route:</label>
+                    <textarea name="route" rows="3" required><?= htmlspecialchars($row['route']) ?></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Current Image:</label><br>
+                    <?php if (!empty($row['package_picture'])): ?>
+                        <img src="../../<?= htmlspecialchars($row['package_picture']) ?>" alt="Package Image" width="150"><br>
+                    <?php else: ?>
+                        <div class="no-image">No Image</div>
+                    <?php endif; ?>
+
+                    <label>Change Image (Optional):</label>
+                    <input type="file" name="image" accept="image/*">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Price per PAX (₱):</label>
+                    <input type="number" step="0.01" name="price" value="<?= htmlspecialchars($row['price']) ?>" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label><input type="checkbox" name="is_available" <?= $row['is_available'] ? 'checked' : '' ?>> Mark as Available</label>
+                </div>
+            </div>
+
+            <div class="form-button-container">
+                <button type="submit" name="update_package">UPDATE</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

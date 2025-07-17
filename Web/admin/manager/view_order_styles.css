@@ -232,6 +232,7 @@ p {
     flex: 0 0 auto;
     width: 280px;
     box-sizing: border-box;
+    border: 1.5px solid black;
 }
 
 .order-layout {
@@ -249,6 +250,7 @@ p {
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 12px;
+    border: 1.5px solid black;
     box-shadow: 0 3px 6px rgba(0,0,0,0.1);
 }
 

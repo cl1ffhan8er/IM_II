@@ -74,15 +74,15 @@ $driverCount = $driverCountResult->fetch_assoc()['count'] ?? 0;
         <h2>Pending Requests</h2>
         <div class="summary">
             <div class="date">
-                <p>Date Today</p>
+                <p>DATE TODAY</p>
                 <?= $today ?>
             </div>
             <div class="pending">
-                <p>Pending Bookings</p>
+                <p>PENDING BOOKINGS</p>
                 <?= $pendingCount ?>
             </div>
             <div class="drivers">
-                <p>Drivers Available</p>
+                <p>DRIVERS AVAILABLE</p>
                 <?= $driverCount ?>
             </div>
         </div>
@@ -101,12 +101,16 @@ $driverCount = $driverCountResult->fetch_assoc()['count'] ?? 0;
                 <td><?= $row['type'] ?></td>
                 <td>
                     <?php
-                        if ($row['status'] === 'returned') echo "📨 Returned";
-                        elseif ($row['status'] === 'inquiry') echo "❓ Inquiry";
-                        else echo "🕓 Pending";
+                        if ($row['status'] === 'returned') echo "Returned";
+                        elseif ($row['status'] === 'inquiry') echo "Inquiry";
+                        else echo "Pending";
                     ?>
                 </td>
-                <td><a href="view_order.php?order_ID=<?= $row['order_ID'] ?>">👁️</a></td>
+                <td>
+                    <a href="view_order.php?order_ID=<?= $row['order_ID'] ?>">
+                        <img src="../../user/svg-icons/eye.svg" alt="View" class="eye-icon">
+                    </a>
+                </td>
             </tr>
             <?php endwhile; ?>
         </table>

@@ -10,9 +10,9 @@ $orderID = $_GET['order_ID'];
 
 // Get order info along with customer email and name
 $stmt = $conn->prepare("SELECT od.*, p.name AS customer_name, p.email AS customer_email,  pi.package_ID, pi.package_name
-                        FROM order_details od
-                        JOIN customer c ON od.customer_ID = c.customer_ID
-                        JOIN person p ON c.customer_ID = p.person_ID
+                        FROM Order_Details od
+                        JOIN Customer c ON od.customer_ID = c.customer_ID
+                        JOIN Person p ON c.customer_ID = p.person_ID
                         LEFT JOIN Package_Itinerary pi ON od.itinerary_ID = pi.package_ID
                         WHERE od.order_ID = ?");
 $stmt->bind_param("i", $orderID);
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $customerEmail = $orderDetails['customer_email'];
 
     if (isset($_POST['approve'])) {
-        $stmt = $conn->prepare("UPDATE order_details SET status = 'ACCEPTED' WHERE order_ID = ?");
+        $stmt = $conn->prepare("UPDATE Order_Details SET status = 'ACCEPTED' WHERE order_ID = ?");
         $stmt->bind_param("i", $orderID);
         $stmt->execute();
 
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (isset($_POST['reject'])) {
-        $stmt = $conn->prepare("UPDATE order_details SET status = 'REJECTED' WHERE order_ID = ?");
+        $stmt = $conn->prepare("UPDATE Order_Details SET status = 'REJECTED' WHERE order_ID = ?");
         $stmt->bind_param("i", $orderID);
         $stmt->execute();
 
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['modification_message'])) {
         $msg = $_POST['modification_message'];
 
-        $stmt = $conn->prepare("UPDATE order_details SET status = 'IN MODIFICATION' WHERE order_ID = ?");
+        $stmt = $conn->prepare("UPDATE Order_Details SET status = 'IN MODIFICATION' WHERE order_ID = ?");
         $stmt->bind_param("i", $orderID);
         $stmt->execute();
 
@@ -57,27 +57,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Refresh order data
     $stmt = $conn->prepare("SELECT od.*, p.name AS customer_name, p.email AS customer_email 
-                            FROM order_details od
-                            JOIN customer c ON od.customer_ID = c.customer_ID
-                            JOIN person p ON c.customer_ID = p.person_ID
+                            FROM Order_Details od
+                            JOIN Customer c ON od.customer_ID = c.customer_ID
+                            JOIN Person p ON c.customer_ID = p.person_ID
                             WHERE od.order_ID = ?");
     $stmt->bind_param("i", $orderID);
     $stmt->execute();
     $orderDetails = $stmt->get_result()->fetch_assoc();
 }
 
-$driverQuery = $conn->query("SELECT d.driver_ID, p.name FROM driver d JOIN person p ON d.driver_ID = p.person_ID WHERE d.Availability = TRUE");
+$driverQuery = $conn->query("SELECT d.driver_ID, p.name FROM Driver d JOIN Person p ON d.driver_ID = p.person_ID WHERE d.Availability = TRUE");
 
 if (isset($_POST['assign_driver'])) {
     $driverID = $_POST['driver_ID'];
 
     // Update the order with assigned driver
-    $stmt = $conn->prepare("UPDATE order_details SET driver_ID = ? WHERE order_ID = ?");
+    $stmt = $conn->prepare("UPDATE Order_Details SET driver_ID = ? WHERE order_ID = ?");
     $stmt->bind_param("ii", $driverID, $orderID);
     $stmt->execute();
 
     // Mark driver as unavailable
-    $stmt = $conn->prepare("UPDATE driver SET Availability = 0 WHERE driver_ID = ?");
+    $stmt = $conn->prepare("UPDATE Driver SET Availability = 0 WHERE driver_ID = ?");
     $stmt->bind_param("i", $driverID);
     $stmt->execute();
 
@@ -155,7 +155,6 @@ if (isset($_POST['assign_driver'])) {
                 <p><strong>Package ID:</strong> <?= $orderDetails['package_ID'] ?? 'N/A' ?></p>
                 <p><strong>Package:</strong> <?= $orderDetails['package_name'] ?? 'N/A' ?></p>
                 <p><strong>Status:</strong> <?= $orderDetails['status'] ?></p>
-                <p><strong>Submitted On:</strong> <?= $orderDetails['submission_date'] ?? '—' ?></p>
 
                 <hr>
 

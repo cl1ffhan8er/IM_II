@@ -91,7 +91,7 @@ if (isset($_SESSION['error_message'])) {
             </div>
 
             <div id="login">
-                <h1>WELCOME TO SR TRAVEL VANS!</h1>
+                <h1>WELCOME TO SR VAN TRAVELS!</h1>
                 <hr>
                 <h1>LOGIN TO YOUR ACCOUNT</h1>
                 <form id="loginForm" method="post" action="loginform.php" novalidate>

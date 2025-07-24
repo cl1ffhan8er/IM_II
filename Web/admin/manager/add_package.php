@@ -1,12 +1,9 @@
 <?php
 require_once '../../include/connect.php';
 
-// Path for the server to find the folder (to save the file)
 $uploadDir_server = "../../package-images/";
-// Path to store in the database for the browser
 $uploadDir_db = "package-images/";
 
-// Create the directory if it doesn't exist, using the server path
 if (!is_dir($uploadDir_server)) {
     mkdir($uploadDir_server, 0755, true);
 }
@@ -18,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['add_package'])) {
     $desc = $_POST['description'];
     $price = $_POST['price'];
     $route = $_POST['route']; 
-    $manager_id = 1; // Replace with session value
+    $manager_id = 1; 
 
     $stmt1 = $conn->prepare("INSERT INTO Itinerary (price, type) VALUES (?, 'PACKAGE')");
     $stmt1->bind_param("d", $price);
@@ -154,7 +151,7 @@ $results = $conn->query("SELECT pi.*, i.price FROM Package_Itinerary pi JOIN Iti
                         <div class="package-card">
                             <div class="card-image">
                                 <?php if (!empty($row['package_picture'])): ?>
-                                    <img src="<?= $row['package_picture'] ?>" alt="Package Image">
+                                    <img src="../../<?php echo htmlspecialchars($row['package_picture']); ?>" alt="<?php echo htmlspecialchars($row['package_name']); ?>">
                                 <?php else: ?>
                                     <div class="no-image">No Image</div>
                                 <?php endif; ?>

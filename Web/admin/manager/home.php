@@ -23,7 +23,7 @@ $totalPages = ceil($totalRows / $limit);
 // Get all pending requests
 $stmt = $conn->prepare("
     SELECT od.order_ID, od.date_of_transaction, od.status, i.type 
-    FROM order_details od
+    FROM Order_Details od
     JOIN Itinerary i ON od.itinerary_ID = i.itinerary_ID
     WHERE od.status = 'pending' OR od.status = 'IN MODIFICATION'
     LIMIT ? OFFSET ?
@@ -36,7 +36,7 @@ $orders = $stmt->get_result();
 // If a specific order is clicked
 $orderDetails = null;
 if (isset($_GET['order_ID'])) {
-    $stmt = $conn->prepare("SELECT * FROM order_details WHERE order_ID = ?");
+    $stmt = $conn->prepare("SELECT * FROM Order_Details WHERE order_ID = ?");
     $stmt->bind_param("i", $_GET['order_ID']);
     $stmt->execute();
     $orderDetails = $stmt->get_result()->fetch_assoc();
@@ -46,11 +46,11 @@ if (isset($_GET['order_ID'])) {
 $today = date("Y-m-d");
 
 // Count pending bookings
-$pendingCountResult = $conn->query("SELECT COUNT(*) AS count FROM order_details WHERE status = 'pending'");
+$pendingCountResult = $conn->query("SELECT COUNT(*) AS count FROM Order_Details WHERE status = 'PENDING'");
 $pendingCount = $pendingCountResult->fetch_assoc()['count'] ?? 0;
 
 // Count available drivers
-$driverCountResult = $conn->query("SELECT COUNT(*) AS count FROM driver WHERE availability = TRUE");
+$driverCountResult = $conn->query("SELECT COUNT(*) AS count FROM Driver WHERE availability = TRUE");
 $driverCount = $driverCountResult->fetch_assoc()['count'] ?? 0;
 
 ?>

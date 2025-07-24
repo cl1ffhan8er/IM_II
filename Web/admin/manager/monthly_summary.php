@@ -11,13 +11,13 @@ $query = "
         d.driver_ID,
         d2.name AS driver_name,
         pay.payment_status
-    FROM order_details od
-    JOIN customer c ON od.customer_ID = c.customer_ID
-    JOIN person p ON c.customer_ID = p.person_ID
-    LEFT JOIN driver d ON od.driver_ID = d.driver_ID
-    LEFT JOIN employee e ON d.driver_ID = e.employee_ID
-    LEFT JOIN person d2 ON d.driver_ID = d2.person_ID
-    JOIN payment pay ON c.payment_ID = pay.payment_ID
+    FROM Order_Details od
+    JOIN Customer c ON od.customer_ID = c.customer_ID
+    JOIN Person p ON c.customer_ID = p.person_ID
+    LEFT JOIN Driver d ON od.driver_ID = d.driver_ID
+    LEFT JOIN Employee e ON d.driver_ID = e.employee_ID
+    LEFT JOIN Person d2 ON d.driver_ID = d2.person_ID
+    JOIN Payment pay ON c.payment_ID = pay.payment_ID
     WHERE od.status = 'ACCEPTED'
     ORDER BY od.date_of_travel DESC
 ";

@@ -63,7 +63,7 @@ try {
         $customer_id, 
         $payment_id, 
         $pax, 
-        $date, 
+        $date_of_travel, 
         $luggage, 
         $fileData
     );

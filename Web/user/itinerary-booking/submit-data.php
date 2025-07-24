@@ -48,7 +48,10 @@ if (isset($_POST['submit']) && isset($_POST['payment_type'])) {
         $down_payment = 500.00;
         $payment_status = "NOT PAID";
 
-        $sqlPayment = "INSERT INTO Payment (payment_method, down_payment, payment_status) VALUES (?, ?, ?)";
+        $sqlPayment = "
+            INSERT INTO Payment (payment_method, down_payment, payment_status)
+            VALUES (?, ?, ?)
+        ";
         $stmtPayment = $conn->prepare($sqlPayment);
         if (!$stmtPayment) throw new Exception("Payment prepare failed: " . $conn->error);
 

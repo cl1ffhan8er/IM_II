@@ -23,7 +23,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Spectral&display=swap" rel="stylesheet">
-
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="scripts/main.js"></script>
     <title>Step 2: Your Booking Details</title>
 </head>
@@ -35,24 +35,30 @@
             <img src="../images/srvanlogo.png" alt="Logo">
         </div>
         <div class="navbar-links">
-            <a href="../index.php" class="nav-item">Home</a>
+                <a href="../index.php" class="nav-item">Home</a>
 
-            <?php if ($isLoggedIn): ?>
-                <a href="../packages.php" class="nav-item">Book</a>
-            <?php else: ?>
-                <a href="login/login.php" class="nav-item">Book</a>
-            <?php endif; ?>
+                <?php if ($isLoggedIn): ?>
+                    <a href="../packages.php" class="nav-item">Book Package</a>
+                <?php else: ?>
+                    <a href="../login/login.php" class="nav-item">Book Package</a>
+                <?php endif; ?>
 
-            <a href="/IM_II-2/Web/user/minor/help.php" class="nav-item">Help</a>
-            <a href="/IM_II-2/Web/user/minor/about-us.php" class="nav-item">About Us</a>
+                <?php if ($isLoggedIn): ?>
+                    <a href="../itinerary-booking/custom-booking.php" class="nav-item">Book Itinerary</a>
+                <?php else: ?>
+                    <a href="../login/login.php" class="nav-item">Book Itinerary</a>
+                <?php endif; ?>
 
-            <?php if ($isLoggedIn): ?>
-                <a href="login/logout.php" class="nav-item">Log Out</a>
-                <a href="../profile.php" class="nav-item"><?= htmlspecialchars($username) ?></a>
-            <?php else: ?>
-                <a href="login/login.php" class="nav-item">Log In</a>
-            <?php endif; ?>
-        </div>
+                <a href="../minor/help.php" class="nav-item">Help</a>
+                <a href="../minor/about-us.php" class="nav-item">About Us</a>
+
+                <?php if ($isLoggedIn): ?>
+                    <a href="../login/logout.php" class="nav-item">Log Out</a>
+                    <a href="../profile.php" class="nav-item"><?php echo htmlspecialchars($username); ?></a>
+                <?php else: ?>
+                    <a href="../login/login.php" class="nav-item">Log In</a>
+                <?php endif; ?>
+            </div>
     </div>
 </nav>
 
@@ -61,10 +67,9 @@
         <h1>BOOKING DETAILS FOR: <?= htmlspecialchars($_SESSION['package_name']) ?></h1>
     </div>
 
-    <form action="packageform-p2.php" method="POST" enctype="multipart/form-data" class="booking-form">
+    <form id = "bookingform" action="packageform-p2.php" method="POST" enctype="multipart/form-data" class="booking-form">
         
     <div class="form2">
-
         <div class="name-fields">
             <div>
                 <label for="fname">First Name:</label>
@@ -82,16 +87,24 @@
                 <input type="number" id="pax" name="pax" value="1" min="1" max="100" required>
 
                 <label for="date">Pickup Date:</label>
-                <input type="date" id="date" name="date" value="<?= htmlspecialchars($date) ?>" required>
-
+                <input
+                    type="date"
+                    id="date"
+                    name="date"
+                    min="<?php echo date('Y-m-d'); ?>"
+                    value="<?php echo htmlspecialchars($_SESSION['date'] ?? ''); ?>"
+                    required
+                />
                 <label for="pickuptime">Pickup Time:</label>
-                <input type="time" id="pickuptime" name="pickuptime" value="<?= htmlspecialchars($pickuptime) ?>" required>
+                <input type="time" id="pickuptime" name="pickuptime" value="<?php echo htmlspecialchars($_SESSION['pickuptime'] ?? ''); ?>" required/>
 
                 <label for="pickup">Pickup Address:</label>
                 <input type="text" id="pickup" name="pickup" value="<?= htmlspecialchars($pickup) ?>" required>
 
                 <label for="luggage">Number of Luggage (optional):</label>
                 <input type="number" id="luggage" name="luggage" value="0" min="0">
+
+                <div class="g-recaptcha" data-sitekey="6LcnWncrAAAAAL2LbA0rX9KktD7JuOVPMgtreV4H"></div>
             </div>
 
 <div class="form-right">

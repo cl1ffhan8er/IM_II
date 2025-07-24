@@ -23,7 +23,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
-
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src = "scripts/main.js"></script>
     <title>CUSTOM BOOKING - STEP 2</title>
 </head>
@@ -38,19 +38,25 @@
                 <a href="../index.php" class="nav-item">Home</a>
 
                 <?php if ($isLoggedIn): ?>
-                    <a href="../packages.php" class="nav-item">Book</a>
+                    <a href="../packages.php" class="nav-item">Book Package</a>
                 <?php else: ?>
-                    <a href="login/login.php" class="nav-item">Book</a>
+                    <a href="../login/login.php" class="nav-item">Book Package</a>
                 <?php endif; ?>
 
-                <a href="/IM_II-2/Web/user/minor/help.php" class="nav-item">Help</a>
-                <a href="/IM_II-2/Web/user/minor/about-us.php" class="nav-item">About Us</a>
+                <?php if ($isLoggedIn): ?>
+                    <a href="custom-booking.php" class="nav-item">Book Itinerary</a>
+                <?php else: ?>
+                    <a href="../login/login.php" class="nav-item">Book Itinerary</a>
+                <?php endif; ?>
+
+                <a href="../minor/help.php" class="nav-item">Help</a>
+                <a href="../minor/about-us.php" class="nav-item">About Us</a>
 
                 <?php if ($isLoggedIn): ?>
-                    <a href="login/logout.php" class="nav-item">Log Out</a>
+                    <a href="../login/logout.php" class="nav-item">Log Out</a>
                     <a href="../profile.php" class="nav-item"><?php echo htmlspecialchars($username); ?></a>
                 <?php else: ?>
-                    <a href="login/login.php" class="nav-item">Log In</a>
+                    <a href="../login/login.php" class="nav-item">Log In</a>
                 <?php endif; ?>
             </div>
         </div>
@@ -113,6 +119,8 @@
 
     <label for="id">Attach Official ID (jpg / png):</label>
     <input type="file" name="id" accept=".jpg, .jpeg, .png" required>
+
+    <div class="g-recaptcha" data-sitekey="6LcnWncrAAAAAL2LbA0rX9KktD7JuOVPMgtreV4H"></div>
 
     <div class="form-buttons">
     <button type="button" class="nav-button action-button cancel-button" onclick="history.back()">BACK TO EDITING</button>

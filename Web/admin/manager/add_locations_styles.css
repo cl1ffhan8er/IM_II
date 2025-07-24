@@ -195,3 +195,27 @@ table th {
 table tr:last-child td {
     border-bottom: none;
 }
+
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    padding: 8px 14px;
+    margin: 0 5px;
+    text-decoration: none;
+    background-color: #ccc;
+    color: #333;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.pagination a:hover {
+    background-color: #aaa;
+}
+
+.pagination span {
+    padding: 8px 14px;
+    font-weight: bold;
+}

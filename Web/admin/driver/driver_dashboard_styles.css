@@ -179,3 +179,27 @@ table tr:last-child td {
     font-weight: 700;
     margin-left: 5px;
 }
+
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    padding: 8px 14px;
+    margin: 0 5px;
+    background-color: #ddd;
+    color: #333;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.pagination a:hover {
+    background-color: #bbb;
+}
+
+.pagination span {
+    font-weight: bold;
+    padding: 8px 14px;
+}

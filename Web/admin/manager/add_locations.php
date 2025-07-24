@@ -1,6 +1,14 @@
 <?php
 require_once '../../include/connect.php';
 
+$limit = 5;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
+
+$totalResult = $conn->query("SELECT COUNT(*) AS total FROM Locations WHERE is_custom_made = 0");
+$totalRows = $totalResult->fetch_assoc()['total'];
+$totalPages = ceil($totalRows / $limit);
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $name = $_POST['location_name'];
     $address = $_POST['location_address'];
@@ -13,7 +21,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     exit;
 }
 
-$locations = $conn->query("SELECT * FROM Locations WHERE is_custom_made = 0");
+$stmt = $conn->prepare("SELECT * FROM Locations WHERE is_custom_made = 0 LIMIT ? OFFSET ?");
+$stmt->bind_param("ii", $limit, $offset);
+$stmt->execute();
+$locations = $stmt->get_result();
+
 ?>
 
 <!DOCTYPE html>
@@ -68,6 +80,18 @@ $locations = $conn->query("SELECT * FROM Locations WHERE is_custom_made = 0");
             </tr>
         <?php endwhile; ?>
     </table>
+    <div class="pagination">
+        <?php if ($page > 1): ?>
+            <a href="?page=<?= $page - 1 ?>">&laquo; Prev</a>
+        <?php endif; ?>
+
+        <span>Page <?= $page ?> of <?= $totalPages ?></span>
+
+        <?php if ($page < $totalPages): ?>
+            <a href="?page=<?= $page + 1 ?>">Next &raquo;</a>
+        <?php endif; ?>
+    </div>
+
 </div>
 </body>
 </html>

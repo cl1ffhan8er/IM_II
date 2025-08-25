@@ -2,11 +2,6 @@
 ACCESSING THE WEBSITE
 The website should be available via the DCISM server, access with https://srvantravels.dcism.org/
 
-EDITING DATABASE
-Open dbadmin.dcism.org
-username: s24100314_businessdb
-password: iloysicliff
-
 TESTING USERS
 Passwords are
 MANAGER
